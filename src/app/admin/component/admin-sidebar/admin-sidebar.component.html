@@ -1,0 +1,316 @@
+ 
+<div  *ngIf="menu_visible == 'Admin'">
+
+<mat-drawer-container class="example-container" [ngClass]="{'menuslider' : menu_slider}">
+  <mat-drawer class="side" mode="side" opened>
+      <mat-nav-list>
+          <mat-list-item (click)="menuslide()">
+              <mat-icon class="menuBar"> notes</mat-icon>
+          </mat-list-item>
+          <mat-list-item routerLink="dashboard" routerLinkActive="active">
+              <mat-icon  mat-list-icon><i class="fab fa-slideshare" aria-hidden="true"
+                      ></i></mat-icon>
+              <div fxFlex="10"></div>
+              <div class="sidenav-item">
+                  <h5 class="lead">Dashboard</h5>
+              </div>
+          </mat-list-item>
+
+            <mat-list-item style="padding-left: 5px;" routerLink="groupdetail" routerLinkActive="active">
+              <mat-icon  mat-list-icon><i class="fas fa-arrow-circle-right"
+                      aria-hidden="true"
+                      ></i>
+              </mat-icon>
+              <div fxFlex="10"></div>
+              <div class="sidenav-item">
+                  <h5 class="lead">Group Detail</h5>
+              </div>
+          </mat-list-item>
+
+
+          <mat-list-item style="padding-left: 5px;" routerLink="subgroupdetail" routerLinkActive="active">
+            <mat-icon  mat-list-icon><i class="fas fa-arrow-circle-right"
+                    aria-hidden="true"
+                    ></i>
+            </mat-icon>
+            <div fxFlex="10"></div>
+            <div class="sidenav-item">
+                <h5 class="lead">Sub Group Detail</h5>
+            </div>
+        </mat-list-item>
+
+        <mat-list-item style="padding-left: 5px;" routerLink="joininspection_job_list" routerLinkActive="active">
+          <mat-icon  mat-list-icon><i class="fas fa-arrow-circle-right"
+                  aria-hidden="true"
+                  ></i>
+          </mat-icon>
+          <div fxFlex="10"></div>
+          <div class="sidenav-item">
+              <h5 class="lead">Joint Inspection</h5>
+          </div>
+       </mat-list-item>
+
+
+            <!-- <mat-list-item style="padding-left: 5px;" routerLink="field_management" routerLinkActive="active">
+              <mat-icon  mat-list-icon><i class="fas fa-arrow-circle-right"
+                      aria-hidden="true"
+                      ></i>
+              </mat-icon>
+              <div fxFlex="10"></div>
+              <div class="sidenav-item">
+                  <h5 class="lead">Field Management</h5>
+              </div>
+          </mat-list-item> -->
+
+
+
+
+
+         <mat-list-item style="padding-left: 5px;" routerLink="user_managment" routerLinkActive="active">
+          <mat-icon  mat-list-icon><i class="fas fa-arrow-circle-right"
+                  aria-hidden="true"
+                  ></i>
+          </mat-icon>
+          <div fxFlex="10"></div>
+          <div class="sidenav-item">
+              <h5 class="lead">User Detail</h5>
+          </div>
+       </mat-list-item>
+
+       <mat-list-item style="padding-left: 5px;" routerLink="dataentry_detail" routerLinkActive="active">
+        <mat-icon  mat-list-icon><i class="fas fa-arrow-circle-right"
+                aria-hidden="true"
+                ></i>
+        </mat-icon>
+        <div fxFlex="10"></div>
+        <div class="sidenav-item">
+            <h5 class="lead">Data Entry</h5>
+        </div>
+     </mat-list-item>
+
+       <mat-list-item style="padding-left: 5px;" routerLink="attendance" routerLinkActive="active">
+        <mat-icon  mat-list-icon><i class="fas fa-arrow-circle-right"
+                aria-hidden="true"
+                ></i>
+        </mat-icon>
+        <div fxFlex="10"></div>
+        <div class="sidenav-item">
+            <h5 class="lead">Attendance Detail</h5>
+        </div>
+     </mat-list-item>
+
+     <mat-list-item style="padding-left: 5px;" routerLink="time_sheet" routerLinkActive="active">
+        <mat-icon  mat-list-icon><i class="fas fa-arrow-circle-right"
+                aria-hidden="true"
+                ></i>
+        </mat-icon>
+        <div fxFlex="10"></div>
+        <div class="sidenav-item">
+            <h5 class="lead">Time Sheet</h5>
+        </div>
+     </mat-list-item>
+
+     <mat-list-item style="padding-left: 5px;" routerLink="tab_chqcollection_list" routerLinkActive="active">
+      <mat-icon  mat-list-icon><i class="fas fa-arrow-circle-right"
+              aria-hidden="true"
+              ></i>
+      </mat-icon>
+      <div fxFlex="10"></div>
+      <div class="sidenav-item">
+          <h5 class="lead">Collection ChQ</h5>
+      </div>
+   </mat-list-item>
+
+
+   <mat-list-item style="padding-left: 5px;" routerLink="tab_usermanagement" routerLinkActive="active">
+    <mat-icon  mat-list-icon><i class="fas fa-arrow-circle-right"
+            aria-hidden="true"
+            ></i>
+    </mat-icon>
+    <div fxFlex="10"></div>
+    <div class="sidenav-item">
+        <h5 class="lead">Tab User Detail</h5>
+    </div>
+ </mat-list-item>
+
+ <mat-list-item style="padding-left: 5px;" routerLink="audit_user" routerLinkActive="active">
+    <mat-icon  mat-list-icon><i class="fas fa-arrow-circle-right"
+            aria-hidden="true"
+            ></i>
+    </mat-icon>
+    <div fxFlex="10"></div>
+    <div class="sidenav-item">
+        <h5 class="lead">Admin user</h5>
+    </div>
+ </mat-list-item>
+
+ <mat-list-item style="padding-left: 5px;" routerLink="error_list" routerLinkActive="active">
+    <mat-icon  mat-list-icon><i class="fas fa-arrow-circle-right"
+            aria-hidden="true"
+            ></i>
+    </mat-icon>
+    <div fxFlex="10"></div>
+    <div class="sidenav-item">
+        <h5 class="lead">Error Log</h5>
+    </div>
+ </mat-list-item>
+ <mat-list-item style="padding-left: 5px;" routerLink="notification" routerLinkActive="active">
+    <mat-icon  mat-list-icon><i class="fas fa-arrow-circle-right"
+            aria-hidden="true"
+            ></i>
+    </mat-icon>
+    <div fxFlex="10"></div>
+    <div class="sidenav-item">
+        <h5 class="lead">Flash Message</h5>
+    </div>
+ </mat-list-item>
+
+
+
+
+      </mat-nav-list>
+  </mat-drawer>
+  <mat-drawer-content>
+      <section class="container-fluid">
+          <router-outlet></router-outlet>
+      </section>
+
+  </mat-drawer-content>
+</mat-drawer-container>
+</div>
+
+
+<div  *ngIf="menu_visible == 'Cheqcollection'">
+
+    <mat-drawer-container class="example-container" [ngClass]="{'menuslider' : menu_slider}">
+      <mat-drawer class="side" mode="side" opened>
+          <mat-nav-list>
+              <mat-list-item (click)="menuslide()">
+                  <mat-icon class="menuBar"> notes</mat-icon>
+              </mat-list-item>
+              <mat-list-item routerLink="dashboard" routerLinkActive="active">
+                  <mat-icon  mat-list-icon><i class="fab fa-slideshare" aria-hidden="true"
+                          ></i></mat-icon>
+                  <div fxFlex="10"></div>
+                  <div class="sidenav-item">
+                      <h5 class="lead">Dashboard</h5>
+                  </div>
+              </mat-list-item>
+         <mat-list-item style="padding-left: 5px;" routerLink="tab_chqcollection_list" routerLinkActive="active">
+          <mat-icon  mat-list-icon><i class="fas fa-arrow-circle-right"
+                  aria-hidden="true"
+                  ></i>
+          </mat-icon>
+          <div fxFlex="10"></div>
+          <div class="sidenav-item">
+              <h5 class="lead">Collection ChQ</h5>
+          </div>
+       </mat-list-item>
+
+
+      
+    
+    
+       
+    
+    
+    
+    
+    
+
+          </mat-nav-list>
+      </mat-drawer>
+      <mat-drawer-content>
+          <section class="container-fluid">
+              <router-outlet></router-outlet>
+          </section>
+    
+      </mat-drawer-content>
+    </mat-drawer-container>
+    </div>
+
+
+
+    <div  *ngIf="menu_visible == 'audit'">
+        <mat-drawer-container class="example-container" [ngClass]="{'menuslider' : menu_slider}">
+          <mat-drawer class="side" mode="side" opened>
+              <mat-nav-list>
+                  <mat-list-item (click)="menuslide()">
+                      <mat-icon class="menuBar"> notes</mat-icon>
+                  </mat-list-item>
+                  <mat-list-item routerLink="dashboard" routerLinkActive="active">
+                      <mat-icon  mat-list-icon><i class="fab fa-slideshare" aria-hidden="true"
+                              ></i></mat-icon>
+                      <div fxFlex="10"></div>
+                      <div class="sidenav-item">
+                          <h5 class="lead">Dashboard</h5>
+                      </div>
+                  </mat-list-item>
+             <mat-list-item style="padding-left: 5px;" routerLink="audi_view_activity" routerLinkActive="active">
+              <mat-icon  mat-list-icon><i class="fas fa-arrow-circle-right"
+                      aria-hidden="true"
+                      ></i>
+              </mat-icon>
+              <div fxFlex="10"></div>
+              <div class="sidenav-item">
+                  <h5 class="lead">Job Report</h5>
+              </div>
+           </mat-list-item>
+
+           <mat-list-item style="padding-left: 5px;" routerLink="joininspection_job_list" *ngIf="joint_inspe" routerLinkActive="active">
+            <mat-icon  mat-list-icon><i class="fas fa-arrow-circle-right"
+                    aria-hidden="true"
+                    ></i>
+            </mat-icon>
+            <div fxFlex="10"></div>
+            <div class="sidenav-item">
+                <h5 class="lead">Joint Inspection</h5>
+            </div>
+         </mat-list-item>
+         <mat-list-item style="padding-left: 5px;" routerLink="attendance" routerLinkActive="active">
+            <mat-icon  mat-list-icon><i class="fas fa-arrow-circle-right"
+                    aria-hidden="true"
+                    ></i>
+            </mat-icon>
+            <div fxFlex="10"></div>
+            <div class="sidenav-item">
+                <h5 class="lead">Attendance Detail</h5>
+            </div>
+         </mat-list-item>
+
+         
+
+         <!-- <mat-list-item style="padding-left: 5px;" routerLink="user_managment" routerLinkActive="active">
+          <mat-icon  mat-list-icon><i class="fas fa-arrow-circle-right"
+                  aria-hidden="true"
+                  ></i>
+          </mat-icon>
+          <div fxFlex="10"></div>
+          <div class="sidenav-item">
+              <h5 class="lead">User Detail</h5>
+          </div>
+       </mat-list-item> -->
+
+       <mat-list-item style="padding-left: 5px;" routerLink="time_sheet" routerLinkActive="active">
+        <mat-icon  mat-list-icon><i class="fas fa-arrow-circle-right"
+                aria-hidden="true"
+                ></i>
+        </mat-icon>
+        <div fxFlex="10"></div>
+        <div class="sidenav-item">
+            <h5 class="lead">Time Sheet</h5>
+        </div>
+     </mat-list-item>
+
+
+
+              </mat-nav-list>
+          </mat-drawer>
+          <mat-drawer-content>
+              <section class="container-fluid">
+                  <router-outlet></router-outlet>
+              </section>
+        
+          </mat-drawer-content>
+        </mat-drawer-container>
+        </div>

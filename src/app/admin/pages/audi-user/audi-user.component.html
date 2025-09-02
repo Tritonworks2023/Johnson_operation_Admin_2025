@@ -1,0 +1,167 @@
+
+<section>
+    <div class="page-header">
+        <div>
+            <h2 class="main-content-title tx-24 mb-1">Admin User Management</h2>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a routerLink="dashboard">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Admin User Management</li>
+            </ol>
+        </div>
+  
+    </div>
+  
+    <div class="row row-sm">
+  
+        <div class="col-lg-12">
+  <div class="card custom-card">
+        <div class="card-body">
+            <div class="card-item">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h5 class="form-lable">USER ID / MOBILE NO</h5>
+                        <input type="text" pInputText name="user_id" [(ngModel)]="user_id" placeholder="User Id">
+                    </div>
+                    <div class="col-md-4">
+                      <h5 class="form-lable">NAME</h5>
+                      <input type="text" pInputText name="user_name" [(ngModel)]="user_name" placeholder="Name">
+                  </div>
+                  <div class="col-md-4">
+                    <h5 class="form-lable">EMAIL</h5>
+                    <input type="text" pInputText name="user_email_id" [(ngModel)]="user_email_id" placeholder="Email Id">
+                </div>
+                <div class="col-md-4">
+                    <h5 class="form-lable">EMP ID</h5>
+                    <input type="text" pInputText name="emp_id" [(ngModel)]="emp_id" placeholder="EMP ID">
+                </div>
+                <div class="col-md-4">
+                    <h5 class="form-lable">Branch Code</h5>
+                    <input type="text" pInputText name="branch_code" [(ngModel)]="branch_code" placeholder="Branch Code">
+                </div>
+                <div class="col-md-4">
+                  <h5 class="form-lable">PASSWORD</h5>
+                  <input type="text" pInputText name="user_password" [(ngModel)]="user_password" placeholder="Password">
+              </div>
+            <!-- <div class="col-md-4">
+              <h5 class="form-lable">DESIGNATION</h5>
+              <p-dropdown [options]="user_designation_list" [(ngModel)]="user_designation"  placeholder="Designation" optionLabel="status" [showClear]="true"></p-dropdown>
+            </div> -->
+
+            <div class="col-md-12">
+                <h5 class="form-lable">Access Activity</h5>
+                <div style="height:250px; overflow:auto;">
+                <table>
+                    <tr>
+                      <th>S.No</th>
+                      <th>Activity</th>
+                      <th>Form Name</th>
+                      <th>Action</th>
+                    </tr>
+                    <ng-container *ngFor="let item of activity_list; let i = index">
+                        <tr>
+                            <td>{{i+1}}</td>
+                            <td>{{item.SMU_UKEY}}</td>
+                            <td>{{item.SMU_UKEY_DESCRIPTION}}</td>
+                            <td>
+                                <button *ngIf="!item.select_status" (click)="click_action(i,true)" class="btn btn-primary"> Show </button>
+                                <button  *ngIf="item.select_status"  (click)="click_action(i,false)" class="btn btn-danger" > Hide </button>
+                            </td>
+                          </tr>
+                    </ng-container>
+                   
+                  </table>
+                  </div>
+                
+              </div>
+
+  
+         
+               <div class="col-md-12">
+                        <button *ngIf="update_button == true" type="button" class="btn btn-primary mt-4" (click)="Insert_pet_type_details()"><i class="fas fa-plus-circle"></i> Add</button>
+                        <button *ngIf="update_button == false" type="button" class="btn btn-primary mt-4" (click)="Edit_pet_type_details()"> <i class="fas fa-edit"></i> Update</button>
+                        <button *ngIf="update_button == false" type="button" class="btn btn-danger mt-4" (click)="cancel()">
+                            Cancel</button>
+                    </div>
+                </div>
+  
+            </div>
+        </div>
+    </div>
+  </div>
+    </div>
+  
+  
+    <div class="row row-sm">
+  
+        <div class="col-lg-12">
+  <div class="card custom-card">
+        <div class="card-body">
+            <div class="card-item">
+  
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="search-hero">
+                            <div class="input-group mb-3">
+                               <div class="input-group-prepend">
+                                 <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
+                               </div>
+                               <input class="form-control" type="text" name="search2"
+                           [(ngModel)]="searchQR" autocomplete="off" placeholder="Search...">
+                             </div>
+                          </div>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <button type="button" class="btn btn-secondary" (click)="refersh()"><i class="fas fa-sync-alt"></i> Refresh</button>
+                    </div>
+                </div>
+  
+  
+                <div class="table-responsive">
+                    <p-table [value]="rows | filter:searchQR" styleClass="ui-table-customers" #tt [paginator]="true" [rows]="15"
+    [rowHover]="true" [rowsPerPageOptions]="[5,10,25,50]" [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [globalFilterFields]="['type']">
+    <ng-template pTemplate="header">
+        <tr class="thhead">
+            <th class="th-1">
+                S.No
+            </th>
+            <th>User Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>EMP ID</th>
+            <th>Branch Code</th>
+            <th>Password</th>
+            <th>Designation</th>
+            <th>Created at</th>
+            <th style="width: 163px;text-align:center">
+                Action
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item  let-i="rowIndex">
+      <tr class="tdrow">
+            <td>{{i+1}}</td>
+            <td>{{item.user_id}}</td>
+            <td>{{item.user_name}}</td>
+            <td>{{item.user_email_id}}</td>
+            <td>{{item.emp_id}}</td>
+            <td>{{item.branch_code}}</td>
+            <td>{{item.user_password}}</td>
+            <td>{{item.user_designation}}</td>
+            <td>{{item.reg_date_time}}</td>
+            <td class="act">
+                <i style="color: #2196f3;" class="fas fa-edit" aria-hidden="true" (click)="Editcompanydetailsdata(item)" pTooltip="Edit"></i>
+                <i style="color: #fd2c3a;" class="fa fa-trash" aria-hidden="true" pTooltip="Delete" (click)="Deletecompanydetails(item._id)"></i>
+                <!-- <i style="color: #4CAF50;" class="fa fa-info-circle" aria-hidden="true" pTooltip="View"></i> -->
+            </td>
+        </tr>
+    </ng-template>
+  </p-table>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+    </div>
+  </section>
+  

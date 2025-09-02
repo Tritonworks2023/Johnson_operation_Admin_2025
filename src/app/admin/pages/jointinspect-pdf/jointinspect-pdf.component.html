@@ -1,0 +1,290 @@
+<div class="page-header">
+  <div>
+      <h2 class="main-content-title tx-24 mb-1">Joint Inspection Data entry Details</h2>
+      <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a routerLink="dashboard">Home</a></li>
+          <li class="breadcrumb-item active" aria-current="page"> Details</li>
+      </ol>
+  </div>
+  <div class="rows">
+    <h2 class="main-content-title tx-24 mb-1">Job No : {{job_detail.job_id}}</h2>
+    <h2 class="main-content-title tx-24 mb-1">No of Count : {{job_count}}</h2>
+    <button class="btn btn-secondary mt-2" (click)="goBack()"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
+  </div>
+</div>
+ <div class="row">
+ </div>
+<!-- <div class="loader"></div> -->
+<div class="row">
+<button type="button" style="float:right" class="btn btn-primary mt-4" (click)="printComponent('component1')">Print Now</button>
+</div>
+
+<div class="container" id="component1">
+<div class="card custom-card">
+
+  
+  <div class="title_card" style="text-align: left !important;">SERV / 08 / QR / 01</div>
+  <div class="title_card">Joint Inspection Data entry Details</div>
+  <div class="title_card">Job No : {{job_detail.job_id}} </div>
+  <div class="title_card">No of Count : {{job_count}} </div>
+
+  <div class="main-content-title tx-24 mb-1">Submitted Detail</div><br>
+  <div class="col-md-6" *ngFor="let itemsData of final_datas; let i = index">
+    <ng-container *ngIf="itemsData.user_id">
+      <ng-container *ngIf="itemsData.user_id.user_designation === 'JIC Tech' || itemsData.user_id.emp_type === 'Engineer'">
+          <b>Completed By</b>: {{ itemsData.user_id.user_name }}<br>
+          <b>Completed On</b>: {{ itemsData.start_time }}<br>
+      </ng-container>
+      <ng-container *ngIf="itemsData.user_id.user_designation !== 'JIC Tech' && itemsData.user_id.emp_type !== 'Engineer'">
+          <b>Submitted by</b>: {{ itemsData.user_id.user_name }}<br>
+          <b>Submitted On</b>: {{ itemsData.start_time }}<br>
+      </ng-container>
+  </ng-container>
+  </div>
+  <div class="card-body" *ngIf="specInfoVisible">
+    <h2 class="main-content-title tx-14 mb-1">Specification</h2>
+    <div class="card-item" >
+        <table style="width:100%; color:black;">
+          <tr>
+            <th>Job ID</th>
+            <td>{{eachSpecData?.jobId ? eachSpecData?.jobId : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Customer Name</th>
+            <td>{{eachSpecData?.customerName ? eachSpecData?.customerName : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Vertical Rise</th>
+            <td>{{eachSpecData?.verticalRise ? eachSpecData?.verticalRise : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Capacity</th>
+            <td>{{eachSpecData?.capacity ? eachSpecData?.capacity : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Angle Of Inclination</th>
+            <td>{{eachSpecData?.angleOfInclination ? eachSpecData?.angleOfInclination : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Rated Speed</th>
+            <td>{{eachSpecData?.ratedSpeed ? eachSpecData?.ratedSpeed : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Step Width</th>
+            <td>{{eachSpecData?.stepWidth ? eachSpecData?.stepWidth : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Flat Step</th>
+            <td>{{eachSpecData?.flatSteps ? eachSpecData?.flatSteps : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Installed By</th>
+            <td>{{eachSpecData?.installedBy ? eachSpecData?.installedBy : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Tested By</th>
+            <td>{{eachSpecData?.routeEngineer ? eachSpecData?.routeEngineer : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Route Engineer</th>
+            <td>{{eachSpecData?.zonalEngineer ? eachSpecData?.zonalEngineer : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Zonal Engineer</th>
+            <td>{{eachSpecData?.operationHead ? eachSpecData?.operationHead : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Operation Head</th>
+            <td>{{eachSpecData?.operationHead ? eachSpecData?.operationHead : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Service Head</th>
+            <td>{{eachSpecData?.serviceHead ? eachSpecData?.serviceHead : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Service Record Date</th>
+            <td>{{eachSpecData?.serviceRecordDate ? eachSpecData?.serviceRecordDate : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Motor Make Type</th>
+            <td>{{eachSpecData?.motorMakeType ? eachSpecData?.motorMakeType : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Motor S.No</th>
+            <td>{{eachSpecData?.motorSlNo ? eachSpecData?.motorSlNo : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Motor KW</th>
+            <td>{{eachSpecData?.motorKW ? eachSpecData?.motorKW : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Motor Voltage</th>
+            <td>{{eachSpecData?.motorVoltage ? eachSpecData?.motorVoltage : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Motor Current</th>
+            <td>{{eachSpecData?.motorCurrent ? eachSpecData?.motorCurrent : '-'}}</td>
+          </tr>
+
+          <tr>
+            <th>Motor RPM</th>
+            <td>{{eachSpecData?.motorRPM ? eachSpecData?.motorRPM : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Gear Box Make Type</th>
+            <td>{{eachSpecData?.gearBoxMakeType ? eachSpecData?.gearBoxMakeType : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Gear Box S.No</th>
+            <td>{{eachSpecData?.gearBoxSlNo ? eachSpecData?.gearBoxSlNo : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Gear Box Oil Grade</th>
+            <td>{{eachSpecData?.gearBoxOilGrade ? eachSpecData?.gearBoxOilGrade : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Gear Box Oil Capacity</th>
+            <td>{{eachSpecData?.gearBoxOilCapacity ? eachSpecData?.gearBoxOilCapacity : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Brake Make Type</th>
+            <td>{{eachSpecData?.brakeMakeType ? eachSpecData?.brakeMakeType : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Brake S.No</th>
+            <td>{{eachSpecData?.brakeSlNo ? eachSpecData?.brakeSlNo : '-'}}</td>
+          </tr>
+
+          <!--  -->
+          <tr>
+            <th>Brake Travel</th>
+            <td>{{eachSpecData?.brakeTravel ? eachSpecData?.brakeTravel : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Brake Voltage</th>
+            <td>{{eachSpecData?.brakeVoltage ? eachSpecData?.brakeVoltage : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Brake Current</th>
+            <td>{{eachSpecData?.brakeCurrent ? eachSpecData?.brakeCurrent : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Control Type</th>
+            <td>{{eachSpecData?.controllerType ? eachSpecData?.controllerType : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Controller S.No</th>
+            <td>{{eachSpecData?.controllerSlNo ? eachSpecData?.controllerSlNo : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Star Delta</th>
+            <td>{{eachSpecData?.starDelta ? eachSpecData?.starDelta : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Make S.No</th>
+            <td>{{eachSpecData?.makeSlNo ? eachSpecData?.makeSlNo : '-'}}</td>
+          </tr>
+
+          <tr>
+            <th>V3F Capacity</th>
+            <td>{{eachSpecData?.v3fCapacity ? eachSpecData?.v3fCapacity : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Contractor Make</th>
+            <td>{{eachSpecData?.contactorsMake ? eachSpecData?.contactorsMake : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Contractor Rating</th>
+            <td>{{eachSpecData?.contactorsRating ? eachSpecData?.contactorsRating : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Amps</th>
+            <td>{{eachSpecData?.amps ? eachSpecData?.amps : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Wiring Diagram Number</th>
+            <td>{{eachSpecData?.wiringDiagramNo ? eachSpecData?.wiringDiagramNo : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Brake Make Type</th>
+            <td>{{eachSpecData?.brakeMakeType ? eachSpecData?.brakeMakeType : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Place Micro Processor</th>
+            <td>{{eachSpecData?.plcMicroProcesser ? eachSpecData?.plcMicroProcesser : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Place Make Type</th>
+            <td>{{eachSpecData?.plcMakeType ? eachSpecData?.plcMakeType : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Transform Make Type</th>
+            <td>{{eachSpecData?.transformerMakeType ? eachSpecData?.transformerMakeType : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Voltage IP</th>
+            <td>{{eachSpecData?.voltageIP ? eachSpecData?.voltageIP : '-'}}</td>
+          </tr>
+          <tr>
+            <th>Voltage OP</th>
+            <td>{{eachSpecData?.voltageOP ? eachSpecData?.voltageOP : '-'}}</td>
+          </tr>
+        </table>
+
+        </div>
+        </div>
+  <div class="card-body">
+    <h2 class="main-content-title tx-14 mb-1">Check-list</h2>
+      <div class="card-item">
+          <table style="width:100%; color:black;">
+            <tr>
+              <th class="th-1">
+                S.No
+            </th>
+            <!-- <th>
+              Sub Group name
+            </th> -->
+            <th>
+              Field Name
+            </th>
+              <th>
+             Field Descr
+              </th>
+              <th>
+                Field Remarks
+                 </th>
+             <ng-container  *ngFor="let items of job_list_detail; let i = index">
+              <th> 
+                <ng-container *ngIf="items.user_id">
+                  Name : {{items.user_id.user_name}} ({{items.user_id?.emp_type == 'Engineer' || items.user_id?.emp_type == 'Repair Engineer'?'JIC Eng':'OPR Eng'}})
+                  <!-- Name: {{ items.user_id.user_name }}
+                  <span *ngIf="items.user_id.user_designation === 'JIC Tech'">(JIC Eng)</span>
+                  <span *ngIf="items.user_id.user_designation !== 'JIC Tech'">(OPR Eng)</span> -->
+                </ng-container>
+                 
+              </th>
+             </ng-container>
+            </tr>
+            <ng-container *ngFor="let item of table_data; let i = index">
+              <tr>
+                <td>{{i+1}}</td>
+                <th>{{item.field_name}}</th>
+                <th>{{item.field_comments}}</th>
+                <th>{{item.remarks}}</th>
+                <ng-container  *ngFor="let items of job_list_detail; let j = index">
+                  <td> 
+                    {{items.data_store[i].field_value}}
+                   </td>
+                 </ng-container>
+              </tr>
+            </ng-container>
+
+
+
+
+          </table>
+
+          </div>
+          </div>
+</div>
+</div>

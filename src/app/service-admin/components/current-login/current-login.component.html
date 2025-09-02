@@ -1,0 +1,30 @@
+<div class="modal-header" style="position: relative;
+bottom: 21px;">
+        <h5 class="modal-title" id="exampleModalLongTitle" style="font-size:21px; font-weight:400">Current Login Status:Logout</h5>
+        <button type="button" class="close"  mat-dialog-close aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+<p-table  styleClass="ui-table-customers"
+>
+
+<ng-template pTemplate="header">
+        <tr class="thhead" >
+            <th>Login Time</th>
+            <th>Logout Time</th>
+            <th>No oF Hrs</th>
+            <th>Logout Reason</th>
+            </tr>
+            <ng-container *ngFor="let item of datas.attendance_data">
+            <tr class="tdrow">
+                    <td>{{item.att_start_time}}</td>
+                    <td>{{item.att_end_time}}</td>
+                    <td>{{item.att_no_of_hrs}}</td>
+                    <td>{{item.att_reason}}</td>
+                    </tr>
+                </ng-container>
+</ng-template>
+
+
+
+</p-table>

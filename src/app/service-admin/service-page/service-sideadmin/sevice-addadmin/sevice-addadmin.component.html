@@ -1,0 +1,102 @@
+<section>
+        <div class="page-header">
+                <div>
+                    <h2 class="main-content-title tx-24 mb-1">Add Admin </h2>
+                    <!-- <h2 class="main-content-title tx-24 mb-1">Edit Agent </h2> -->
+            
+                </div>
+             
+            </div>
+            <div class="row row-sm">
+
+                    <div class="col-lg-12">
+              <div class="card custom-card">
+                    <div class="card-body">
+                        <div class="card-item">
+                            <div class="row">
+                                    <form [formGroup]="adminForm" style="display: contents;">
+                                          <div class="col-md-4 bd">
+                                              <div class="col-md-12">
+                                    <h5 class="form-lable">First Name</h5>
+                                    <input type="text" pInputText name="first_Name" formControlName="first_Name"  placeholder="First Name">
+                              
+                                </div>
+                                <div class="col-md-12">
+                                  <h5 class="form-lable">Last Name</h5>
+                                  <input type="text" pInputText name="last_name" formControlName="last_name" placeholder="Last Name">
+                              </div>
+                              <div class="col-md-12">
+                                    <h5 class="form-lable">Status</h5>
+                                    <p-dropdown [options]="user"  placeholder="Status" optionLabel="name" formControlName="status" [showClear]="true"></p-dropdown>
+                                </div>
+                             
+
+                              <div class="col-md-12">
+                                <h5 class="form-lable">Email Id</h5>
+                                <input type="text" pInputText name="email_id"  formControlName="email_id" placeholder="Email Id">
+                            </div>
+                            <div class="col-md-12">
+                                    <h5 class="form-lable">Mobile Number</h5>
+                                    <input type="text" pInputText name="mobile_phone"  formControlName="mobile_phone" placeholder="Mobile Number">
+                                </div>
+                            <div class="col-md-12">
+                              <h5 class="form-lable">User Name</h5>
+                              <input type="text" pInputText name="user_name" formControlName="user_name"  placeholder="User Name">
+                          </div>
+                          <div class="col-md-12">
+                                <h5 class="form-lable">Password</h5>
+                                <input type="text" pInputText name="password" formControlName="password"  placeholder="Password">
+                            </div>
+                            <div class="col-md-12">
+                                    <h5 class="form-lable">Confirm Password</h5>
+                                    <input type="text" pInputText name="confirm_password" formControlName="confirm_password"  placeholder="Confirm Password">
+                                </div>  
+                                </div>
+                                <div class="col-md-4 bd">
+                                        <h1 >Has Access To</h1>
+                                        <hr>
+                                        <div class="col-md-12" *ngFor="let item of setAccess">
+                                                <h5 class="form-lable">
+                                                <label class="switch">
+                                                        <input type="checkbox" >
+                                                        <span class="slider round"></span>
+                                                      </label>&nbsp;&nbsp;<sapn>{{item.access}}</sapn></h5>
+                                                      </div>
+                                      
+                                  
+                                    </div>
+                                    <div class="col-md-4">
+                                            <h1 >Employee</h1>
+                                            <div class="row">
+                                                    <div class="col-md-6" *ngFor="let item of setagent">
+                                                            <h5 class="form-lable">
+                                                           
+                                                                    <input type="checkbox" >
+                                                                   
+                                                                  &nbsp;&nbsp;<sapn>{{item.access}}</sapn></h5>
+                                                                  </div>
+                                            </div>
+
+                                        </div>
+
+                               
+
+                  </form>
+
+                                <div class="col-md-12 text-center ">
+                                        <button  type="button" class="btn btn-primary mt-4" (click)="Insert_Agent()" ><i class="fas fa-plus-circle"></i> Add</button>
+                                        <button  type="button" class="btn btn-danger mt-4" (click)="Insert_Agent()"> 
+                                                Cancel</button> 
+                                    <!-- <button *ngIf="update_button == true" type="button" class="btn btn-primary mt-4" (click)="Insert_pet_type_details()"><i class="fas fa-plus-circle"></i> Add</button> -->
+                                    <!-- <button *ngIf="update_button == false" type="button" class="btn btn-primary mt-4" (click)="Edit_pet_type_details()"> <i class="fas fa-edit"></i> Update</button>
+                                    <button *ngIf="update_button == false" type="button" class="btn btn-danger mt-4" (click)="cancel()"> -->
+                                        <!-- Cancel</button> -->
+                                </div>
+                            </div>
+              
+                        </div>
+                    </div>
+                </div>
+              </div>
+                </div>
+</section>

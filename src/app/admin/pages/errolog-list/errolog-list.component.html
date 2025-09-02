@@ -1,0 +1,100 @@
+
+<section>
+    <div class="page-header">
+        <div>
+            <h2 class="main-content-title tx-24 mb-1">ERROR LOG  OPERATION</h2>
+        </div>
+    </div>
+   
+<div class="row row-sm">
+<div class="col-lg-12">
+  <div class="card custom-card">
+        <div class="card-body">
+            <div class="card-item">
+  
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="search-hero">
+                            <div class="input-group mb-3">
+                               <div class="input-group-prepend">
+                                 <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
+                               </div>
+                               <input class="form-control" type="text" name="search2"
+                           [(ngModel)]="searchQR" autocomplete="off" placeholder="Enter Job No & Search............">
+                           <button style="height: 40px !important;" type="button" class="btn btn-primary" (click)="search_job_no()">Search</button>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+            <div class="row">
+            <ng-container *ngFor="let item of response_data">
+                <div class="row">
+                   <div class="col-md-3">
+                    <p>Job No</p>
+                    </div>
+                    <div class="col-md-9">
+                    : {{item.job_no}}
+                    </div>
+
+                    <div class="col-md-3">
+                    <p>Service Type</p>
+                    </div>
+                    <div class="col-md-9">
+                    : {{item.service_type}}
+                    </div>
+
+                    <div class="col-md-3">
+                    <p>Activity</p>
+                    </div>
+                    <div class="col-md-9">
+                    : {{item.activity}}
+                    </div>
+
+                    <div class="col-md-3">
+                    <p>Date Time</p>
+                    </div>
+                    <div class="col-md-9">
+                    : {{item.date_time}}
+                    </div>
+
+                    <div class="col-md-3">
+                    <p>User No </p>
+                    </div>
+                    <div class="col-md-9">
+                    : {{item.user_no}}
+                    </div>
+
+                    <div class="col-md-3">
+                    <p>Error Detail</p>
+                    </div>
+                    <div class="col-md-9">
+                    : {{item.error_detail}}
+                    </div>
+
+                    <div class="col-md-3">
+                    <p>Data</p>
+                    </div>
+                    <div class="col-md-9">
+                    : {{item.data[0].Data}}
+                    </div>
+                    <div class="col-md-3">
+                        <p>Delete</p>
+                        </div>
+                        <div class="col-md-9">
+                        <button *ngIf="item.activity == 'ESPD-ACT1'" (click)="delete_espd_act1(item.job_no,item._id)">Delete</button>
+                        </div>
+                </div>
+               ********************************************************************************************************************************************************************************************************************
+                <hr>
+            </ng-container>
+            </div>
+  
+  
+                
+            </div>
+        </div>
+    </div>
+  </div>
+    </div>
+  </section>
+  
