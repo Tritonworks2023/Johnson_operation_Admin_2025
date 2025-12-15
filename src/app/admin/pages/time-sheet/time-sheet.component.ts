@@ -23,6 +23,7 @@ export class TimeSheetComponent implements OnInit {
   isLoading: boolean = true;
   branchList: any[] = [];
   job_location: any = " ";
+  selectedBranch: string = '';
   constructor(
     private _api: ApiService,
     private router: Router,
@@ -143,4 +144,12 @@ export class TimeSheetComponent implements OnInit {
       error: (error: any) => {},
     });
   }
+
+  /** BRANCH CHANGE EVENT */
+onBranchChange() {
+  console.log('Selected Branch:', this.selectedBranch);
+
+}
+
+  
 }

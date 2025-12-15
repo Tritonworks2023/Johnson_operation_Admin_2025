@@ -148,7 +148,7 @@
           <div class="card-item">
 
               <div class="row">
-                  <div class="col-md-6">
+                  <div class="col-md-4">
                       <div class="search-hero">
                           <div class="input-group mb-3">
                              <div class="input-group-prepend">
@@ -159,8 +159,20 @@
                            </div>
                         </div>
                   </div>
-
-                  <div class="col-md-6 text-right">
+  <!-- BRANCH DROPDOWN -->
+  <div class="col-md-3">
+    <select
+      class="form-control mb-3"
+      [(ngModel)]="selectedBranch"
+      (change)="onBranchChange()"
+    >
+      <option value="">All Branches</option>
+      <option *ngFor="let b of branchList" [value]="b.BRCODE">
+        {{ b.BRNAME }} ({{ b.BRCODE }})
+      </option>
+    </select>
+  </div>
+                  <div class="col-md-5 text-right">
                     <button type="button" class="btn btn-secondary" (click)="clearDeviceId()"><i class="fas fa-sync-alt"></i> Clear All Device Id</button>
                     <button type="button" class="btn btn-secondary" (click)="refersh()"><i class="fas fa-sync-alt"></i> Refresh</button>
                     <button type="button" class="btn btn-primary" (click)="excelDownload()"><i class="fas fa-file-excel"></i> Excel</button>

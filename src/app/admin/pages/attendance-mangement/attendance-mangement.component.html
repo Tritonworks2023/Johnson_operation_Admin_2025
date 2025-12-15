@@ -45,7 +45,19 @@
                       <button type="button" class="btn btn-primary" (click)="getAttendanceList()"><i class="fas fa-search"></i> Search</button>
                   </div>
               </div>
-
+  <!-- BRANCH DROPDOWN -->
+  <div class="col-md-3 mt-2">
+    <select
+      class="form-control mb-3"
+      [(ngModel)]="selectedBranch"
+      (change)="onBranchChange()"
+    >
+      <option value="">All Branches</option>
+      <option *ngFor="let b of branchList" [value]="b.BRCODE">
+        {{ b.BRNAME }} ({{ b.BRCODE }})
+      </option>
+    </select>
+  </div>
 
               <div class="table-responsive">
                   <p-table [value]="rows | filter:searchQR" styleClass="ui-table-customers" #tt [paginator]="true" [rows]="15"

@@ -328,7 +328,7 @@ export class ApiService {
   attendance_list(data: any) {
     return this.http.get(
       this.apiUrl +
-        `attendance/getlist?fromDate=${data.fromDate}&toDate=${data.toDate}`
+        `attendance/getlist?fromDate=${data.fromDate}&toDate=${data.toDate}&BRCODE=${data.BRCODE}`
     );
   }
   attendance_insert(data) {

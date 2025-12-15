@@ -41,11 +41,11 @@ export class AttendanceMangementComponent implements OnInit {
 
   update_button: boolean;
   selectedimgae: any;
-
+selectedBranch: string = '';
   rows1: any;
   activity_name: any;
   userType:any;
-
+branchList = [];
   @ViewChild("imgType", { static: false }) imgType: ElementRef;
 
   constructor(
@@ -67,6 +67,7 @@ export class AttendanceMangementComponent implements OnInit {
     this.pet_type_id = "";
     this.update_button = true;
     this.getAttendanceList();
+    this.getBranchList();
   }
 
   cancel() {
@@ -160,6 +161,7 @@ export class AttendanceMangementComponent implements OnInit {
       let a = {
         fromDate: this.datePipe.transform(new Date(this.S_Date), "yyyy-MM-dd"),
         toDate: this.datePipe.transform(new Date(this.E_Date), "yyyy-MM-dd"),
+        BRCODE : this.selectedBranch || ''
       };
       this._api.attendance_list(a).subscribe((response: any) => {
         console.log("response.Data");
@@ -174,5 +176,24 @@ export class AttendanceMangementComponent implements OnInit {
 
   getGoogleMapsLink(startLat: number, startLong: number): string {
     return `https://www.google.com/maps/place/${startLat},${startLong}`;
+  }
+
+
+    /** BRANCH CHANGE EVENT */
+onBranchChange() {
+  console.log('Selected Branch:', this.selectedBranch);
+  this.getAttendanceList();
+
+}
+
+  getBranchList() {
+    this._api.getBranchList().subscribe({
+      next: (res: any) => {
+        if (res.Status == "Success") {
+          this.branchList = res.Data;
+        }
+      },
+      error: (error: any) => {},
+    });
   }
 }

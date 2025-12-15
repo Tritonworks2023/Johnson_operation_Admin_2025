@@ -80,6 +80,8 @@ export class UsermanagementComponent implements OnInit {
     // {status : "JIC Tech"}
   ];
 
+selectedBranch: string = '';
+
   user_role_list = [{ status: "ESPD" }, { status: "OP" }];
 
   @ViewChild("imgType", { static: false }) imgType: ElementRef;
@@ -330,4 +332,13 @@ export class UsermanagementComponent implements OnInit {
       this.job_location = this.job_location.filter((loc: string) => loc !== id);
     }
   }
+
+
+  /** BRANCH CHANGE EVENT */
+onBranchChange() {
+  console.log('Selected Branch:', this.selectedBranch);
+
+  // Example: filter API / table data
+  this.refersh();
+}
 }
