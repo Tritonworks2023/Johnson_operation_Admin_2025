@@ -44,9 +44,9 @@
                       <label for="start date" class="form-label">End Date</label>
                       <p-calendar [(ngModel)]="E_Date" [showIcon]="true" inputId="icon" placeholder="End Date" class="mr-3"></p-calendar>
                       <div class="col-md-4">
-  <h5 class="form-lable">Job Location</h5> 
+  <h5 class="form-lable">Select Branch Code</h5> 
   <select class="form-control" name="" id="" [(ngModel)]="job_location">
-    <option value=" " selected disabled style="display: none;" >Select Job Location</option>
+    <option value=" " selected disabled style="display: none;" >Select Branch Code</option>
     <option [value]="item.BRCODE"  *ngFor="let item of branchList">
       {{item.BRCODE}}
     </option>
@@ -59,7 +59,7 @@
                   </div>
 
   <!-- BRANCH DROPDOWN -->
-  <div class="col-md-3">
+  <!-- <div class="col-md-3">
     <select
       class="form-control mb-3"
       [(ngModel)]="selectedBranch"
@@ -70,7 +70,7 @@
         {{ b.BRNAME }} ({{ b.BRCODE }})
       </option>
     </select>
-  </div>
+  </div> -->
               </div>
 
 

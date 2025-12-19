@@ -340,6 +340,10 @@ export class ApiService {
   attendance_delete(data) {
     return this.http.post(this.apiUrl + "attendance/admin_delete", data);
   }
+
+    note_delete(data) {
+    return this.http.post(this.apiUrl + "flashmessage/delete", data);
+  }
   attendance_filter_date(data) {
     return this.http.post(this.apiUrl + "attendance/filter_date", data);
   }
@@ -526,6 +530,11 @@ export class ApiService {
   //break down
   getbreak_down() {
     return this.http.get(this.apiUrl + "breakdown_data_management/getlist");
+  }
+
+
+  getmessage(data) {
+    return this.http.post(this.apiUrl + "flashmessage/list", data);
   }
 
   flashMessageCreate(data) {

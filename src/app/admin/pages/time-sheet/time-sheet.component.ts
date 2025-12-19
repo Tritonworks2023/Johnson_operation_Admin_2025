@@ -148,7 +148,7 @@ export class TimeSheetComponent implements OnInit {
   /** BRANCH CHANGE EVENT */
 onBranchChange() {
   console.log('Selected Branch:', this.selectedBranch);
-
+  this.list_data();
 }
 
   
