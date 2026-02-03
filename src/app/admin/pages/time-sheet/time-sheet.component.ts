@@ -7,6 +7,7 @@ import { ToastrManager } from "ng6-toastr-notifications";
 import { DatePipe } from "@angular/common";
 import { ExcelService } from "src/app/excel.service";
 import { SESSION_STORAGE, StorageService } from "ngx-webstorage-service";
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: "app-time-sheet",
@@ -20,9 +21,9 @@ export class TimeSheetComponent implements OnInit {
   userType: any;
   S_Date: any;
   E_Date: any;
-  isLoading: boolean = true;
+  isLoading: boolean = false;
   branchList: any[] = [];
-  job_location: any = " ";
+  job_location: any = "";
   selectedBranch: string = '';
   constructor(
     private _api: ApiService,
@@ -51,10 +52,13 @@ export class TimeSheetComponent implements OnInit {
         todate: this.datePipe.transform(new Date(this.E_Date), "yyyy-MM-dd"),
       };
       console.log(a);
-      this._api.jobdetail_filter_date(a).subscribe((response: any) => {
+      this._api.jobdetail_filter_date(a).pipe(
+        finalize(()=>{
+          this.isLoading = false;
+        })
+      ).subscribe((response: any) => {
         console.log(response.Data);
         this.rows = response.Data;
-        this.isLoading = false;
       });
     } else {
       this.showWarning("Please select the startdate and enddate");
@@ -75,11 +79,14 @@ export class TimeSheetComponent implements OnInit {
         to_date: this.datePipe.transform(new Date(this.E_Date), "yyyy-MM-dd"),
         brno: this.job_location || "TN01",
       };
-      this._api.time_sheet(a).subscribe((response: any) => {
+      this._api.time_sheet(a).pipe(
+        finalize(()=>{
+          this.isLoading = false;
+        })
+      ).subscribe((response: any) => {
         console.log("response.Data");
         console.log(response.Data);
         this.rows = response.Data;
-        this.isLoading = false;
       });
     } else {
       this.toastr.warningToastr("Please provide a valid date.");
@@ -110,7 +117,8 @@ export class TimeSheetComponent implements OnInit {
         "Activity": d.JLS_EWD_ACTIVITY,
         "Work Hours": d.JLS_EWD_WRKHOUR,
         "Submitted By": d.JLS_EWD_PREPBY,
-        "Submitted Date": d.JLS_EWD_PREPDATE
+        "Submitted Date": d.JLS_EWD_CREATEDDATE,
+        "Approved Date": d.APPROVED_DATE
       });
     });
     this.excelService.exportAsExcelFile(excelData, "User Details");
