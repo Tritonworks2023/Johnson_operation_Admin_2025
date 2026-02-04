@@ -11,6 +11,8 @@ import { SESSION_STORAGE, StorageService } from 'ngx-webstorage-service';
 })
 export class AdminHeaderComponent implements OnInit {
   displayBasic: boolean;
+  // userRole = this.storage.get('user_typess');
+
   constructor(
 
     private router: Router,

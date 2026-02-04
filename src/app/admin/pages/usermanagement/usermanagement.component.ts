@@ -87,7 +87,7 @@ selectedBranch: string = '';
 
   @ViewChild("imgType", { static: false }) imgType: ElementRef;
 
-  userRole = sessionStorage.getItem('user_typess');
+  userRole = '';
   isLoading:boolean = false;
 
   constructor(
@@ -102,6 +102,7 @@ selectedBranch: string = '';
   ) {}
 
   ngOnInit(): void {
+    this.userRole = this.storage.get('user_typess');
     this.activedetail_name = "";
     this.user_type_value = "0";
     // this.job_location = ' '

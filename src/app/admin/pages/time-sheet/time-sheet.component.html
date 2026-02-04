@@ -100,16 +100,16 @@
                     <td>{{item.JLS_EWD_BRCODE}}</td>
                     <td>{{item.JLS_EWD_EMPNO}}</td>
                     <td>{{item.JLS_EWD_JOBNO}}</td>
-                    <td>{{item.JLS_EWD_WKDATE | date:'medium'}}</td>
+                    <td>{{item.JLS_EWD_WKDATE | date:'mediumDate'}}</td>
                     <td>{{item.JLS_EWD_ACTIVITY}}</td>
                     <td>{{item.JLS_EWD_WRKHOUR}}</td>
                     <td>{{item.JLS_EWD_PREPBY}}</td>
                     <td>{{item.JLS_EWD_CREATEDDATE | date:'medium' }}</td>
                     <td>{{item.APPROVED_DATE | date:'medium' }}</td>
                     <td>{{item.JLS_EWD_STATUS}}</td>
-                    <td class="act" *ngIf="userType == 'Admin'">
+                    <td class="act text-center" *ngIf="userType == 'Admin'">
                       <i style="color: #fd2c3a;" class="fa fa-trash" aria-hidden="true" pTooltip="Delete"
-                        (click)="Deletecompanydetails(item._id)"></i>
+                        (click)="deleteConfirm(item._id)"></i>
                     </td>
                   </tr>
                 </ng-template>
@@ -137,3 +137,5 @@
     </div>
   </div>
 </section>
+
+<p-confirmDialog></p-confirmDialog>

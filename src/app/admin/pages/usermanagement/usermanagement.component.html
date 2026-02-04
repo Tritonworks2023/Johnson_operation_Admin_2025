@@ -223,7 +223,7 @@
           <td>{{item.job_location.join(', ')}}</td>
           <td>{{item.reg_date_time}}</td>
 
-          <td class="act">
+          <td class="act text-center">
               <i style="color: #2196f3;" class="fas fa-edit" aria-hidden="true" (click)="Editcompanydetailsdata(item)" pTooltip="Edit"></i>
               <i *ngIf="userRole == 'Admin'" style="color: #fd2c3a;" class="fa fa-trash" aria-hidden="true" pTooltip="Delete" (click)="Deletecompanydetails(item._id)"></i>
               <!-- <i style="color: #4CAF50;" class="fa fa-info-circle" aria-hidden="true" pTooltip="View"></i> -->

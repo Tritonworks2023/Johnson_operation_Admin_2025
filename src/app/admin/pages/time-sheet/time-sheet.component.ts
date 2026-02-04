@@ -8,6 +8,7 @@ import { DatePipe } from "@angular/common";
 import { ExcelService } from "src/app/excel.service";
 import { SESSION_STORAGE, StorageService } from "ngx-webstorage-service";
 import { finalize } from 'rxjs/operators';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: "app-time-sheet",
@@ -31,7 +32,8 @@ export class TimeSheetComponent implements OnInit {
     private toastr: ToastrManager,
     private datePipe: DatePipe,
     private excelService: ExcelService,
-    @Inject(SESSION_STORAGE) private storage: StorageService
+    @Inject(SESSION_STORAGE) private storage: StorageService,
+    private confirmationService: ConfirmationService
   ) {}
   user_list = [];
   activity_list = [];
@@ -57,7 +59,6 @@ export class TimeSheetComponent implements OnInit {
           this.isLoading = false;
         })
       ).subscribe((response: any) => {
-        console.log(response.Data);
         this.rows = response.Data;
       });
     } else {
@@ -84,8 +85,6 @@ export class TimeSheetComponent implements OnInit {
           this.isLoading = false;
         })
       ).subscribe((response: any) => {
-        console.log("response.Data");
-        console.log(response.Data);
         this.rows = response.Data;
       });
     } else {
@@ -107,7 +106,6 @@ export class TimeSheetComponent implements OnInit {
   excelDownload() {
     const excelData = [];
     const value = this.rows;
-    console.log(value);
     value.map((d) => {
       excelData.push({
         "Branch Code": d.JLS_EWD_BRCODE,
@@ -125,7 +123,6 @@ export class TimeSheetComponent implements OnInit {
   }
 
   move_to_next(data) {
-    console.log(data);
     this.router.navigate(["/admin/singledataentry_detail/" + data._id]);
   }
 
@@ -133,10 +130,7 @@ export class TimeSheetComponent implements OnInit {
     let a = {
       _id: data,
     };
-    console.log(a);
     this._api.entry_detail_delete(a).subscribe((response: any) => {
-      console.log(response.Data);
-      //alert('Deleted Successfully');
       this.showSuccess("Deleted Successfully");
       this.ngOnInit();
     });
@@ -155,9 +149,21 @@ export class TimeSheetComponent implements OnInit {
 
   /** BRANCH CHANGE EVENT */
 onBranchChange() {
-  console.log('Selected Branch:', this.selectedBranch);
   this.list_data();
 }
 
+  deleteConfirm(item: any) {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete this record?',
+      header: 'Confirm Delete',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Delete',
+      rejectLabel: 'Cancel',
+      acceptButtonStyleClass: 'p-button-danger',
+      accept: () => {
+        this.Deletecompanydetails(item)
+      }
+    });
+  }
   
 }

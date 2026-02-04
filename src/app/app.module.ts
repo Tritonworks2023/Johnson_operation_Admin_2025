@@ -42,15 +42,8 @@ import { AuditLoginComponent } from './audit-login/audit-login.component';
 // import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { NgSelectModule } from "@ng-select/ng-select";
-
-
-
-
-
-
-
-
-
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -95,10 +88,11 @@ import { NgSelectModule } from "@ng-select/ng-select";
     DialogModule,
     ButtonModule,
     NgMultiSelectDropDownModule.forRoot(),
-    NgSelectModule
+    NgSelectModule,
+    ConfirmDialogModule
     // ProgressSpinnerModule
   ],
-  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
+  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}, ConfirmationService],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA,
     NO_ERRORS_SCHEMA
