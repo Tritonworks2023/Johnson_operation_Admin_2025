@@ -11,6 +11,7 @@ import { SESSION_STORAGE, StorageService } from 'ngx-webstorage-service';
 })
 export class AdminHeaderComponent implements OnInit {
   displayBasic: boolean;
+  userRole = '';
   constructor(
 
     private router: Router,
@@ -23,6 +24,7 @@ export class AdminHeaderComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.userRole = this.storage.get('user_typess');
   }
   showBasicDialog() {
     this.displayBasic = true;

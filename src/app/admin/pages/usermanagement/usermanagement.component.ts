@@ -15,6 +15,7 @@ import { DatePipe } from "@angular/common";
 import { environment } from "../../../../environments/environment";
 import { ToastrManager } from "ng6-toastr-notifications";
 import { ExcelService } from "src/app/excel.service";
+import { finalize } from "rxjs/operators";
 
 @Component({
   selector: "app-usermanagement",
@@ -86,6 +87,9 @@ selectedBranch: string = '';
 
   @ViewChild("imgType", { static: false }) imgType: ElementRef;
 
+  userRole = '';
+  isLoading:boolean = false;
+
   constructor(
     private toastr: ToastrManager,
     private router: Router,
@@ -98,6 +102,7 @@ selectedBranch: string = '';
   ) {}
 
   ngOnInit(): void {
+    this.userRole = this.storage.get('user_typess');
     this.activedetail_name = "";
     this.user_type_value = "0";
     // this.job_location = ' '
@@ -109,7 +114,12 @@ selectedBranch: string = '';
   }
 
   listpettype() {
-    this._api.getlist_userdetail().subscribe((response: any) => {
+    this.isLoading = true;
+    this._api.getlist_userdetail().pipe(
+      finalize(()=>{
+        this.isLoading = false;
+      })
+    ).subscribe((response: any) => {
       console.log(response.Data);
       this.rows = response.Data;
       console.log(this.pet_type_list);
@@ -217,7 +227,7 @@ selectedBranch: string = '';
     this.location = data.location;
     this.delete_status = data?.delete_status;
     this.remarks = data?.remarks;
-    this.model = data?.remarks;
+    this.model = data?.model;
     this.user_email_id = data.user_email_id;
     this.user_password = data.user_password;
     this.user_designation = { status: data.user_designation };
@@ -277,6 +287,12 @@ selectedBranch: string = '';
     this.location = "";
     this.user_designation = {};
     this.job_location = [];
+    this.remarks = '';
+    this.model = '';
+    this.user_type = {};
+    this.user_status = {};
+    this.user_role = {};
+    this.delete_status = true;
   }
 
   clear_device_id_by_number(data) {

@@ -7,7 +7,8 @@ import { ToastrManager } from "ng6-toastr-notifications";
 import { DatePipe } from "@angular/common";
 import { ExcelService } from "src/app/excel.service";
 import { SESSION_STORAGE, StorageService } from "ngx-webstorage-service";
-
+import { finalize } from 'rxjs/operators';
+import { ConfirmationService } from "primeng/api";
 @Component({
   selector: "app-time-sheet",
   templateUrl: "./time-sheet.component.html",
@@ -18,11 +19,11 @@ export class TimeSheetComponent implements OnInit {
   searchQR: any;
   rows = [];
   userType: any;
-  S_Date: any;
-  E_Date: any;
-  isLoading: boolean = true;
+  S_Date: any = new Date();
+  E_Date: any = new Date();
+  isLoading: boolean = false;
   branchList: any[] = [];
-  job_location: any = " ";
+  job_location: any = "TN01";
   selectedBranch: string = '';
   constructor(
     private _api: ApiService,
@@ -30,13 +31,15 @@ export class TimeSheetComponent implements OnInit {
     private toastr: ToastrManager,
     private datePipe: DatePipe,
     private excelService: ExcelService,
-    @Inject(SESSION_STORAGE) private storage: StorageService
+    @Inject(SESSION_STORAGE) private storage: StorageService,
+    private confirmationService: ConfirmationService
   ) {}
   user_list = [];
   activity_list = [];
   ngOnInit(): void {
     this.userType = this.storage.get("user_typess");
     this.getBranchList();
+    this.list_data();
   }
 
   filter_date() {
@@ -50,11 +53,12 @@ export class TimeSheetComponent implements OnInit {
         fromdate: this.datePipe.transform(new Date(this.S_Date), "yyyy-MM-dd"),
         todate: this.datePipe.transform(new Date(this.E_Date), "yyyy-MM-dd"),
       };
-      console.log(a);
-      this._api.jobdetail_filter_date(a).subscribe((response: any) => {
-        console.log(response.Data);
+      this._api.jobdetail_filter_date(a).pipe(
+        finalize(()=>{
+          this.isLoading = false;
+        })
+      ).subscribe((response: any) => {
         this.rows = response.Data;
-        this.isLoading = false;
       });
     } else {
       this.showWarning("Please select the startdate and enddate");
@@ -73,13 +77,14 @@ export class TimeSheetComponent implements OnInit {
       let a = {
         from_date: this.datePipe.transform(new Date(this.S_Date), "yyyy-MM-dd"),
         to_date: this.datePipe.transform(new Date(this.E_Date), "yyyy-MM-dd"),
-        brno: this.job_location || "TN01",
+        brno: this.job_location,
       };
-      this._api.time_sheet(a).subscribe((response: any) => {
-        console.log("response.Data");
-        console.log(response.Data);
+      this._api.time_sheet(a).pipe(
+        finalize(()=>{
+          this.isLoading = false;
+        })
+      ).subscribe((response: any) => {
         this.rows = response.Data;
-        this.isLoading = false;
       });
     } else {
       this.toastr.warningToastr("Please provide a valid date.");
@@ -100,7 +105,6 @@ export class TimeSheetComponent implements OnInit {
   excelDownload() {
     const excelData = [];
     const value = this.rows;
-    console.log(value);
     value.map((d) => {
       excelData.push({
         "Branch Code": d.JLS_EWD_BRCODE,
@@ -110,14 +114,14 @@ export class TimeSheetComponent implements OnInit {
         "Activity": d.JLS_EWD_ACTIVITY,
         "Work Hours": d.JLS_EWD_WRKHOUR,
         "Submitted By": d.JLS_EWD_PREPBY,
-        "Submitted Date": d.JLS_EWD_PREPDATE
+        "Submitted Date": d.JLS_EWD_CREATEDDATE,
+        "Approved Date": d.APPROVED_DATE
       });
     });
     this.excelService.exportAsExcelFile(excelData, "User Details");
   }
 
   move_to_next(data) {
-    console.log(data);
     this.router.navigate(["/admin/singledataentry_detail/" + data._id]);
   }
 
@@ -125,10 +129,7 @@ export class TimeSheetComponent implements OnInit {
     let a = {
       _id: data,
     };
-    console.log(a);
     this._api.entry_detail_delete(a).subscribe((response: any) => {
-      console.log(response.Data);
-      //alert('Deleted Successfully');
       this.showSuccess("Deleted Successfully");
       this.ngOnInit();
     });
@@ -147,9 +148,81 @@ export class TimeSheetComponent implements OnInit {
 
   /** BRANCH CHANGE EVENT */
 onBranchChange() {
-  console.log('Selected Branch:', this.selectedBranch);
   this.list_data();
 }
 
-  
+  deleteConfirm(item: any) {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete this record?',
+      header: 'Confirm Delete',
+      icon: 'pi pi-exclamation-triangle text-danger',
+      acceptLabel: 'Delete',
+      rejectLabel: 'Cancel',
+      acceptButtonStyleClass: 'p-button-danger',
+      accept: () => {
+        this.Deletecompanydetails(item)
+      }
+    });
+  }
+
+  confirmApprove(item: any) {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to approve this?',
+      header: 'Confirm Approval',
+      icon: 'pi pi-check-circle text-success',
+      acceptLabel: 'Yes',
+      rejectLabel: 'No',
+      accept: () => {
+        this.updateStatus(item, "APPROVED");
+      },
+      reject: () => {
+      }
+    });
+  }
+
+  confirmReject(item: any) {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to reject this?',
+      header: 'Confirm Rejection',
+      icon: 'pi pi-times-circle text-danger',
+      acceptButtonStyleClass: 'p-button-danger',
+      accept: () => {
+        this.updateStatus(item, "REJECTED")
+      }
+    });
+  }
+
+  updateStatus(item:any, status:string) {
+    const data = {
+      JLS_EWD_WKDATE: this.formatDate(item.JLS_EWD_WKDATE),
+      JLS_EWD_BRCODE: item.JLS_EWD_BRCODE,
+      JLS_EWD_PREPBY: item.JLS_EWD_PREPBY,
+      JLS_EWD_EMPNO: item.JLS_EWD_EMPNO,
+      status: status,
+      WorkSheetIds: [item._id],
+      isTrainee: false,
+      SOURCE :"ADMIN"
+    }
+
+    this._api.updateWorkTimeSheetAction(data).subscribe({
+      next: (res: any) => {
+        if (res.Status == "Success") {
+          this.toastr.successToastr(res?.msg);
+          this.list_data();
+        }
+      },
+      error: (error: any) => {
+        this.toastr.errorToastr(error?.msg);
+      },
+    });
+  }
+
+  formatDate(value: string): string {
+    return new Date(value).toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric'
+    }).replace(/ /g, '-');
+  }
+
 }

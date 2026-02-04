@@ -620,4 +620,8 @@ export class ApiService {
   backNavigation() {
     return this.location.back();
   }
+
+  updateWorkTimeSheetAction(data:any){
+     return this.http.post(this.apiUrl + "operation-timesheet/workTimeSheetAction", data);
+  }
 }

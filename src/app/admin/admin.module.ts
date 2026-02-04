@@ -91,6 +91,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { NgSelectModule } from "@ng-select/ng-select";
 import { NotificationComponent } from './pages/notification/notification.component';
 import { TimeSheetComponent } from './pages/time-sheet/time-sheet.component';
+import { ConfirmationService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 
 
@@ -177,14 +179,16 @@ import { TimeSheetComponent } from './pages/time-sheet/time-sheet.component';
     MatSlideToggleModule,
     MatSelectModule,
     MatFormFieldModule,
-    NgSelectModule
+    NgSelectModule,
+    ConfirmDialogModule
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA,
     NO_ERRORS_SCHEMA
   ],
   providers: [
-    DatePipe
+    DatePipe,
+    ConfirmationService
   ],
   exports: [
     AdminHeaderComponent,
