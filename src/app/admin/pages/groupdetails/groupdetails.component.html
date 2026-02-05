@@ -172,10 +172,10 @@
           <!-- <td>
             {{item.delete_status}}
         </td> -->
-          <td class="act">
-            <i style="color: #fd2c3a;" class="fa fa-trash" aria-hidden="true" pTooltip="Delete" (click)="deleteConfirm(item._id)"></i>
+          <td class="act d-flex align-items-center justify-content-around">
             <i style="color: lightskyblue;" class="fa fa-download" aria-hidden="true" pTooltip="pull from oracle" (click)="pull_and_upload_data(item.SMU_SEQNO)"></i>
             <i style="color: #4CAF50;" *ngIf="item.SMU_FORMTYPE == 1 || item.SMU_FORMTYPE == 4" class="fa fa-forward" aria-hidden="true" pTooltip="View" (click)="add_field(item)"></i>
+            <i style="color: #fd2c3a;" class="fa fa-trash" aria-hidden="true" pTooltip="Delete" (click)="deleteConfirm(item._id)"></i>
 
               <!-- <i style="color: #2196f3;" class="fas fa-edit" aria-hidden="true" (click)="Editcompanydetailsdata(item,i)" pTooltip="Edit"></i>
               <i style="color: #4CAF50;" *ngIf="item.delete_status" class="fa fa-toggle-on" aria-hidden="true" pTooltip="Delete" (click)="update_disble(item)"></i>

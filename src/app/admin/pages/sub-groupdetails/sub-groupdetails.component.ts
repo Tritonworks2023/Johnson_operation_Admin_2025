@@ -7,6 +7,7 @@ import { DatePipe } from '@angular/common';
 import { environment } from '../../../../environments/environment';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { ConfirmationService } from 'primeng/api';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sub-groupdetails',
@@ -58,6 +59,7 @@ export class SubGroupdetailsComponent implements OnInit {
   form_type_name : any
 
   @ViewChild('imgType', { static: false }) imgType: ElementRef;
+  isLoading:boolean = false;
 
   constructor(
     private toastr:ToastrManager,
@@ -98,7 +100,12 @@ export class SubGroupdetailsComponent implements OnInit {
 
 
   sub_group_list() {
-    this._api.sub_groupdetail_list().subscribe(
+    this.isLoading = true;
+    this._api.sub_groupdetail_list().pipe(
+      finalize(()=>{
+        this.isLoading = false;
+      })
+    ).subscribe(
       (response: any) => {
         console.log(response.Data);
         this.rows = response.Data;

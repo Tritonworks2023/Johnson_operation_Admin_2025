@@ -6,6 +6,7 @@ import { SESSION_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { DatePipe } from '@angular/common';
 import { environment } from '../../../../../environments/environment';
 import { ToastrManager } from 'ng6-toastr-notifications';
+import { finalize } from 'rxjs/operators';
 
 
 @Component({
@@ -35,6 +36,7 @@ export class TabChqcollectionListComponent implements OnInit {
 
   rows1 : any;
   activity_name : any;
+  isLoading:boolean = false;
 
 
 
@@ -63,11 +65,14 @@ export class TabChqcollectionListComponent implements OnInit {
 
 
   listpettype() {
-    this._api.tab_chqcollection_list().subscribe(
+    this.isLoading = true;
+    this._api.tab_chqcollection_list().pipe(
+      finalize(()=>{
+        this.isLoading = false;
+      })
+    ).subscribe(
       (response: any) => {
-        console.log(response.Data);
         this.rows = response.Data;
-        console.log(this.rows);
       }
     );
   }

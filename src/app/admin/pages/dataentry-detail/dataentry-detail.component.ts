@@ -6,6 +6,8 @@ import { SESSION_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { DatePipe } from '@angular/common';
 import { environment } from '../../../../environments/environment';
 import { ToastrManager } from 'ng6-toastr-notifications';
+import { finalize } from 'rxjs/operators';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-dataentry-detail',
@@ -34,7 +36,7 @@ export class DataentryDetailComponent implements OnInit {
   user_list = [];
   activity_list = [];
   job_list = [];
-
+  isLoading:boolean = false;
 
 
 
@@ -49,6 +51,7 @@ export class DataentryDetailComponent implements OnInit {
     private _api: ApiService,
     private routes: ActivatedRoute,
     private datePipe: DatePipe,
+    private confirmationService: ConfirmationService
   ) { }
 
   ngOnInit(): void {
@@ -98,8 +101,13 @@ export class DataentryDetailComponent implements OnInit {
 
 
   listpettype() {
+    this.isLoading = true;
     var temp = [];
-    this._api.data_entry_detail_list().subscribe(
+    this._api.data_entry_detail_list().pipe(
+      finalize(()=>{
+        this.isLoading = false;
+      })
+    ).subscribe(
       (response: any) => {
 
         response.Data.forEach(element => {
@@ -154,6 +162,19 @@ export class DataentryDetailComponent implements OnInit {
     }
 
 
+  deleteConfirm(item: any) {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete this record?',
+      header: 'Confirm Delete',
+      icon: 'pi pi-exclamation-triangle text-danger',
+      acceptLabel: 'Delete',
+      rejectLabel: 'Cancel',
+      acceptButtonStyleClass: 'p-button-danger',
+      accept: () => {
+        this.Deletecompanydetails(item)
+      }
+    });
+  }
 
     Deletecompanydetails(data) {
       let a = {

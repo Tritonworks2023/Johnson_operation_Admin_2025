@@ -143,11 +143,25 @@
           <td>{{item.user_status}}</td>
           <td>{{item.user_status_us_on_date  | date:'medium'  }}</td>
           <td>{{item.user_imei_no}}</td>
-          <td class="act">
+          <td class="act text-center">
               <i style="color: #2196f3;" class="fas fa-edit" aria-hidden="true" (click)="Editcompanydetailsdata(item)" pTooltip="Edit"></i>
-              <i style="color: #fd2c3a;" class="fa fa-trash" aria-hidden="true" pTooltip="Delete" (click)="Deletecompanydetails(item._id)"></i>
+              <i style="color: #fd2c3a;" class="fa fa-trash" aria-hidden="true" pTooltip="Delete" (click)="deleteConfirm(item._id)"></i>
               <!-- <i style="color: #4CAF50;" class="fa fa-info-circle" aria-hidden="true" pTooltip="View"></i> -->
           </td>
+      </tr>
+  </ng-template>
+    <ng-template pTemplate="footer" >
+    <tr class="full text-center" *ngIf="isLoading" >
+        <td colspan="10" >
+          <div class="d-flex justify-content-center align-items-center">
+                <p-progressSpinner [strokeWidth]="'5'" aria-label="Loading"  [animationDuration]="'0.5s'"></p-progressSpinner>
+             <div class="fs">Loading....</div> </div>
+        </td>   
+      </tr>
+    <tr class="full text-center"  *ngIf="rows?.length==0 && !isLoading">
+        <td colspan="10" >
+          No Records Found
+        </td>
       </tr>
   </ng-template>
 </p-table>
@@ -158,3 +172,4 @@
 </div>
   </div>
 </section>
+<p-confirmDialog></p-confirmDialog>

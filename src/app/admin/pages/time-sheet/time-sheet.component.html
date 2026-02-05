@@ -29,6 +29,17 @@
                 </div>
               </div>
 
+              <!-- Branch Code -->
+              <div class="col-md-3 mb-2 d-flex flex-column">
+                <label class="form-label">Select Branch Code</label>
+                <select class="form-control" [(ngModel)]="job_location">
+                  <option value="" disabled>Select Branch Code</option>
+                  <option *ngFor="let item of branchList" [value]="item.BRCODE">
+                    {{ item.BRCODE }}
+                  </option>
+                </select>
+              </div>
+
               <!-- Start Date -->
               <div class="col-md-2 mb-2 d-flex flex-column">
                 <label for="startDate" class="form-label">Start Date</label>
@@ -42,17 +53,6 @@
                 <label for="endDate" class="form-label">End Date</label>
                 <p-calendar id="endDate" [(ngModel)]="E_Date" [showIcon]="true" placeholder="End Date" class="w-100">
                 </p-calendar>
-              </div>
-
-              <!-- Branch Code -->
-              <div class="col-md-3 mb-2 d-flex flex-column">
-                <label class="form-label">Select Branch Code</label>
-                <select class="form-control" [(ngModel)]="job_location">
-                  <option value="" disabled>Select Branch Code</option>
-                  <option *ngFor="let item of branchList" [value]="item.BRCODE">
-                    {{ item.BRCODE }}
-                  </option>
-                </select>
               </div>
 
               <div class="col-md-2 mb-2 m-auto">
