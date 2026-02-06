@@ -90,6 +90,8 @@ selectedBranch: string = '';
 
   userRole = '';
   isLoading:boolean = false;
+  department: string = "";
+  isSearching: boolean = false;
 
   constructor(
     private toastr: ToastrManager,
@@ -159,6 +161,7 @@ selectedBranch: string = '';
         remarks: this.remarks,
         model: this.model,
         job_location: this.job_location,
+        dept: this.department
       };
       console.log(a);
       this._api.userdetail_insert(a).subscribe((response: any) => {
@@ -194,6 +197,7 @@ selectedBranch: string = '';
       remarks: this.remarks,
       model: this.model,
       job_location: this.job_location,
+      dept: this.department,
     };
     this._api.userdetail_edit(a).subscribe((response: any) => {
       console.log(response.Data);
@@ -250,10 +254,30 @@ selectedBranch: string = '';
     this.user_type = { status: data.user_type };
     this.user_status = { status: data.user_status };
     this.user_role = { status: data.user_role };
-    this.job_location = Array.isArray(data.job_location)
-      ? data.job_location
-      : [];
-    console.log(data.delete_status);
+    this.job_location = Array.isArray(data.job_location) ? data.job_location : [];
+    this.department = data?.dept;
+  }
+
+  getuserDetails() {
+    this.isSearching = true;
+    const payload = {
+      EMPID: this.agent_code
+    }
+    this._api.getuserdetailInOracle(payload).pipe(
+      finalize(()=>{
+        this.isSearching = false;
+      })
+    ).subscribe({
+      next: (res:any)=>{
+        this.user_name = res?.Data?.ENAME;
+        this.delete_status = res?.Data?.STATUS == "A" ? true : false;
+        this.location = res?.Data?.BRCODE;
+        this.department = res?.Data?.DEPT
+      },
+      error: (err:any)=>{
+
+      }
+    });
   }
 
   filter_date() {
@@ -309,6 +333,7 @@ selectedBranch: string = '';
     this.user_status = {};
     this.user_role = {};
     this.delete_status = true;
+    this.department = "";
   }
 
   clear_device_id_by_number(data) {

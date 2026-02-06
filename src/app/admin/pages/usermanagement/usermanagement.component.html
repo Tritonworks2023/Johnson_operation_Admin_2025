@@ -18,6 +18,15 @@
       <div class="card-body">
           <div class="card-item">
               <div class="row">
+                  <div class="col-md-4">
+                    <h5 class="form-lable">AGENT CODE</h5>
+                    <div class="searchInput">
+                      <input type="text" pInputText placeholder="AGENT CODE" class="input" [(ngModel)]="agent_code" [readOnly]="userRole != 'Admin'"/>
+                      <button *ngIf="!isSearching" pButton type="button" class="search-btn" [disabled]="isSearching || !agent_code" icon="pi pi-search" (click)="getuserDetails()"></button>
+                      <button *ngIf="isSearching" pButton type="button" class="search-btn" [disabled]="isSearching || !agent_code" icon="pi pi-spinner pi-spin"></button>
+                    </div>
+                  </div>
+                  
                   <div class="col-md-4" *ngIf="userRole == 'Admin'">
                       <h5 class="form-lable">USER ID / MOBILE NO</h5>
                       <input type="text" pInputText name="user_id" [(ngModel)]="user_id" placeholder="User Id">
@@ -34,6 +43,12 @@
                 <h5 class="form-lable">PASSWORD</h5>
                 <input type="text" pInputText name="user_password" [(ngModel)]="user_password" placeholder="Password">
             </div>
+
+            <div class="col-md-4" *ngIf="userRole == 'Admin'">
+                <h5 class="form-lable">Department</h5>
+                <input type="text" pInputText name="department" [(ngModel)]="department" placeholder="department">
+            </div>
+
           <div class="col-md-4" *ngIf="userRole == 'Admin'">
             <h5 class="form-lable">DESIGNATION</h5>
             <p-dropdown [options]="user_designation_list" [(ngModel)]="user_designation"  placeholder="Designation" optionLabel="status" [showClear]="true"></p-dropdown>
@@ -44,19 +59,14 @@
             <input type="text" pInputText name="imie_code" [(ngModel)]="imie_code" placeholder="IMEI CODE">
         </div>
 
-        <div class="col-md-4">
-          <h5 class="form-lable">AGENT CODE</h5>
-          <input type="text" pInputText name="agent_code" [(ngModel)]="agent_code" placeholder="AGENT CODE" [readOnly]="userRole != 'Admin'">
-      </div>
-
       <div class="col-md-4">
         <h5 class="form-lable">LOCATION</h5>
         <input type="text" pInputText name="location" [(ngModel)]="location" placeholder="LOCATION" [readOnly]="userRole != 'Admin'">
     </div>
     <div class="col-md-4" *ngIf="userRole == 'Admin'">
       <h5 class="form-lable">Status</h5>
-      <mat-slide-toggle (change)="delete_status = !delete_status" [checked]="!delete_status">
-        {{ !delete_status ? 'Slide to deactivate the user' : 'Slide to activate the user' }}
+      <mat-slide-toggle (change)="delete_status = !delete_status" [checked]="delete_status">
+        {{ delete_status ? 'Slide to deactivate the user' : 'Slide to activate the user' }}
       </mat-slide-toggle>
       
   </div>

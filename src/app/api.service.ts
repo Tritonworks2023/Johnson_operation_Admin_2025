@@ -256,6 +256,9 @@ export class ApiService {
   getlist_userdetail() {
     return this.http.get(this.apiUrl + "user_management/getlist");
   }
+  getuserdetailInOracle(data:any) {
+    return this.http.post(this.apiUrl + "user_management/search_opr_employee", data);
+  }
   userdetail_insert(data) {
     return this.http.post(this.apiUrl + "user_management/create", data);
   }
