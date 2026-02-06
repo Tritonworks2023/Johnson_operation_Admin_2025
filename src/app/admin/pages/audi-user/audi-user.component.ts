@@ -6,6 +6,8 @@ import { SESSION_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { DatePipe } from '@angular/common';
 import { environment } from '../../../../environments/environment';
 import { ToastrManager } from 'ng6-toastr-notifications';
+import { ConfirmationService } from 'primeng/api';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-audi-user',
@@ -75,7 +77,7 @@ export class AudiUserComponent implements OnInit {
 
 
    activity_list = [];
-
+   isLoading:boolean = false;
 
 
   @ViewChild('imgType', { static: false }) imgType: ElementRef;
@@ -88,6 +90,7 @@ export class AudiUserComponent implements OnInit {
     private _api: ApiService,
     private routes: ActivatedRoute,
     private datePipe: DatePipe,
+    private confirmationService: ConfirmationService
   ) { }
 
   ngOnInit(): void {
@@ -106,11 +109,14 @@ export class AudiUserComponent implements OnInit {
 
 
   listpettype() {
-    this._api.audit_getlist_userdetail().subscribe(
+    this.isLoading = true;
+    this._api.audit_getlist_userdetail().pipe(
+      finalize(()=>{
+        this.isLoading = false;
+      })
+    ).subscribe(
       (response: any) => {
-        console.log(response.Data);
         this.rows = response.Data;
-        console.log(this.pet_type_list);
       }
     );
   }
@@ -120,7 +126,6 @@ export class AudiUserComponent implements OnInit {
   list_actity_type() {
     this._api.new_groupdetail_list().subscribe(
       (response: any) => {
-        console.log(response.Data);
         this.activity_list = response.Data;
 
 
@@ -226,6 +231,19 @@ export class AudiUserComponent implements OnInit {
   );
   }
 
+  deleteConfirm(item: any) {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete this record?',
+      header: 'Confirm Delete',
+      icon: 'pi pi-exclamation-triangle text-danger',
+      acceptLabel: 'Delete',
+      rejectLabel: 'Cancel',
+      acceptButtonStyleClass: 'p-button-danger',
+      accept: () => {
+        this.Deletecompanydetails(item)
+      }
+    });
+  }
 
 
   Deletecompanydetails(data) {

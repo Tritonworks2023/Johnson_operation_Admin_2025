@@ -19,46 +19,55 @@
 <div class="card custom-card">
       <div class="card-body">
           <div class="card-item">
-              <div class="row">
-                  <div class="col-md-3">
-                      <div class="search-hero">
-                          <div class="input-group mb-3">
-                             <div class="input-group-prepend">
-                               <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
-                             </div>
-                             <input class="form-control" type="text" name="search2"
-                         [(ngModel)]="searchQR" autocomplete="off" placeholder="Search...">
-                         
-                           </div>
-                           
-                        </div>
-                        <div>
-                          <button type="button" class="btn btn-primary" (click)="excelDownload()"><i class="fas fa-file-excel"></i> Excel</button>
-                        </div>
-                   </div>
-                   
-                  <div class="col-md-9 text-center">
-                    <label for="start date" class="form-label">Start Date</label>
-                      <p-calendar [(ngModel)]="S_Date" [showIcon]="true" inputId="icon" placeholder="Start Date" class="mr-3"></p-calendar>
-                      <label for="start date" class="form-label">End Date</label>
-                      <p-calendar [(ngModel)]="E_Date" [showIcon]="true" inputId="icon" placeholder="End Date" class="mr-3"></p-calendar>
-                      <button type="button" class="btn btn-primary" (click)="getAttendanceList()"><i class="fas fa-search"></i> Search</button>
-                  </div>
+            <div class="row d-flex align-items-start">
+
+              <!-- Search -->
+              <div class="col-md-3 mb-2 d-flex flex-column">
+                <label class="form-label">Search</label>
+                <div class="input-group">
+                  <span class="input-group-text" id="search"><i class="fas fa-search"></i></span>
+                  <input type="text" class="form-control" [(ngModel)]="searchQR" placeholder="Search..." aria-label="Username" aria-describedby="search" autocomplete="off">
+                </div>
               </div>
-  <!-- BRANCH DROPDOWN -->
-  <div class="col-md-3 mt-2">
-    <label for="" class="ps-2">Select Branch</label>
-    <select
-      class="form-control mb-3"
-      [(ngModel)]="selectedBranch"
-      (change)="onBranchChange()"
-    >
-      <option value="">All Branches</option>
-      <option *ngFor="let b of branchList" [value]="b.BRCODE">
-        {{ b.BRNAME }} ({{ b.BRCODE }})
-      </option>
-    </select>
-  </div>
+
+              <div class="col-md-3 mb-2 d-flex flex-column">
+                <label for="" class="ps-2">Select Branch</label>
+                <select class="form-control mb-3" [(ngModel)]="selectedBranch" >
+                  <option value="" disabled>Select Branch Code</option>
+                  <option *ngFor="let item of branchList" [value]="item.BRCODE">
+                    {{ item.BRCODE }}
+                  </option>
+                </select>
+              </div>
+
+              <!-- Start Date -->
+              <div class="col-md-2 mb-2 d-flex flex-column">
+                <label for="startDate" class="form-label">Start Date</label>
+                <p-calendar id="startDate" [(ngModel)]="S_Date" [showIcon]="true" placeholder="Start Date"
+                  class="w-100">
+                </p-calendar>
+              </div>
+
+              <!-- End Date -->
+              <div class="col-md-2 mb-2 d-flex flex-column">
+                <label for="endDate" class="form-label">End Date</label>
+                <p-calendar id="endDate" [(ngModel)]="E_Date" [showIcon]="true" placeholder="End Date" class="w-100">
+                </p-calendar>
+              </div>
+
+              <div class="col-md-2 mb-2 m-auto">
+                <button type="button" class="btn btn-primary btn-lg w-100" (click)="getAttendanceList()">
+                  <i class="fas fa-search"></i> Search
+                </button>
+              </div>
+
+            </div>
+
+            <div class="col-md-2 d-flex align-items-center mb-2 p-0">
+              <button type="button" class="btn btn-success w-100" (click)="excelDownload()">
+                <i class="fas fa-file-excel"></i> Excel
+              </button>
+            </div>
 
               <div class="table-responsive">
                   <p-table [value]="rows | filter:searchQR" styleClass="ui-table-customers" #tt [paginator]="true" [rows]="15"
@@ -70,6 +79,7 @@
           <th>Branch Code</th>
           <th>EMP No</th>
           <th>User Name</th>
+          <th>Department</th>
           <th>Date</th>
           <th>Check-in Time</th>
           <th>Check-in  Location</th>
@@ -86,26 +96,27 @@
           <td>{{item.firstRecord.BRCODE}}</td>
           <td>{{item.firstRecord.EMPNO}}</td>
           <td>{{item.firstRecord.EMPNAME}}</td>
+          <td>{{item.firstRecord.DEPT}}</td>
           <td>{{item.firstRecord.ENTRYDT | date:'medium' }}</td>
           <td>{{item.firstRecord.CHECKINTIME}}</td>
           <td>{{item.firstRecord.CHECKINADDRESS}}</td>
           <td>{{item.lastRecord.CHECKOUTTIME?item.lastRecord.CHECKOUTTIME:'-'}}</td>
           <td>{{item.lastRecord.CHECKOUTADDRESS?item.lastRecord.CHECKOUTADDRESS:'-'}}</td>
-          <td class="act" *ngIf="userType == 'Admin'">
-              <i style="color: #fd2c3a;" class="fa fa-trash" aria-hidden="true" pTooltip="Delete" (click)="Deletecompanydetails(item._id)"></i>
+          <td class="act text-center" *ngIf="userType == 'Admin'">
+              <i style="color: #fd2c3a;" class="fa fa-trash" aria-hidden="true" pTooltip="Delete" (click)="deleteConfirm(item._id)"></i>
           </td>
       </tr>
   </ng-template>
   <ng-template pTemplate="footer" >
     <tr class="full text-center" *ngIf="isLoading" >
-        <td [attr.colspan]="userType == 'Admin'?10:9" >
+        <td [attr.colspan]="userType == 'Admin'?11:10" >
           <div class="d-flex justify-content-center align-items-center">
                 <p-progressSpinner [strokeWidth]="'5'" aria-label="Loading"  [animationDuration]="'0.5s'"></p-progressSpinner>
              <div class="fs">Loading....</div> </div>
         </td>   
       </tr>
     <tr class="full text-center"  *ngIf="rows?.length==0 && !isLoading">
-        <td [attr.colspan]="userType == 'Admin'?10:9" >
+        <td [attr.colspan]="userType == 'Admin'?11:10" >
           No Records Found
         </td>
       </tr>
@@ -118,3 +129,6 @@
 </div>
   </div>
 </section>
+
+<p-confirmDialog></p-confirmDialog>
+

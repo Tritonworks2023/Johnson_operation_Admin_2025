@@ -6,6 +6,8 @@ import { SESSION_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { DatePipe } from '@angular/common';
 import { environment } from '../../../../environments/environment';
 import { ToastrManager } from 'ng6-toastr-notifications';
+import { ConfirmationService } from 'primeng/api';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sub-groupdetails',
@@ -57,6 +59,7 @@ export class SubGroupdetailsComponent implements OnInit {
   form_type_name : any
 
   @ViewChild('imgType', { static: false }) imgType: ElementRef;
+  isLoading:boolean = false;
 
   constructor(
     private toastr:ToastrManager,
@@ -66,6 +69,7 @@ export class SubGroupdetailsComponent implements OnInit {
     private _api: ApiService,
     private routes: ActivatedRoute,
     private datePipe: DatePipe,
+    private confirmationService: ConfirmationService
   ) { }
 
   ngOnInit(): void {
@@ -96,7 +100,12 @@ export class SubGroupdetailsComponent implements OnInit {
 
 
   sub_group_list() {
-    this._api.sub_groupdetail_list().subscribe(
+    this.isLoading = true;
+    this._api.sub_groupdetail_list().pipe(
+      finalize(()=>{
+        this.isLoading = false;
+      })
+    ).subscribe(
       (response: any) => {
         console.log(response.Data);
         this.rows = response.Data;
@@ -167,7 +176,19 @@ export class SubGroupdetailsComponent implements OnInit {
     }
   }
 
-
+  deleteConfirm(item: any) {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete this record?',
+      header: 'Confirm Delete',
+      icon: 'pi pi-exclamation-triangle text-danger',
+      acceptLabel: 'Delete',
+      rejectLabel: 'Cancel',
+      acceptButtonStyleClass: 'p-button-danger',
+      accept: () => {
+        this.Deletecompanydetails(item)
+      }
+    });
+  }
 
   Deletecompanydetails(data) {
     let a = {

@@ -19,52 +19,62 @@
           <div class="card-item">
               <div class="row">
                   <div class="col-md-4">
+                    <h5 class="form-lable">AGENT CODE</h5>
+                    <div class="searchInput">
+                      <input type="text" pInputText placeholder="AGENT CODE" class="input" [(ngModel)]="agent_code" [readOnly]="userRole != 'Admin'"/>
+                      <button *ngIf="!isSearching" pButton type="button" class="search-btn" [disabled]="isSearching || !agent_code" icon="pi pi-search" (click)="getuserDetails()"></button>
+                      <button *ngIf="isSearching" pButton type="button" class="search-btn" [disabled]="isSearching || !agent_code" icon="pi pi-spinner pi-spin"></button>
+                    </div>
+                  </div>
+                  
+                  <div class="col-md-4" *ngIf="userRole == 'Admin'">
                       <h5 class="form-lable">USER ID / MOBILE NO</h5>
                       <input type="text" pInputText name="user_id" [(ngModel)]="user_id" placeholder="User Id">
                   </div>
                   <div class="col-md-4">
                     <h5 class="form-lable">NAME</h5>
-                    <input type="text" pInputText name="user_name" [(ngModel)]="user_name" placeholder="Name">
+                    <input type="text" pInputText name="user_name" [(ngModel)]="user_name" placeholder="Name" [readOnly]="userRole != 'Admin'">
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4" *ngIf="userRole == 'Admin'">
                   <h5 class="form-lable">EMAIL</h5>
                   <input type="text" pInputText name="user_email_id" [(ngModel)]="user_email_id" placeholder="Email Id">
               </div>
-              <div class="col-md-4">
+              <div class="col-md-4" *ngIf="userRole == 'Admin'">
                 <h5 class="form-lable">PASSWORD</h5>
                 <input type="text" pInputText name="user_password" [(ngModel)]="user_password" placeholder="Password">
             </div>
-          <div class="col-md-4">
+
+            <div class="col-md-4" *ngIf="userRole == 'Admin'">
+                <h5 class="form-lable">Department</h5>
+                <input type="text" pInputText name="department" [(ngModel)]="department" placeholder="department">
+            </div>
+
+          <div class="col-md-4" *ngIf="userRole == 'Admin'">
             <h5 class="form-lable">DESIGNATION</h5>
             <p-dropdown [options]="user_designation_list" [(ngModel)]="user_designation"  placeholder="Designation" optionLabel="status" [showClear]="true"></p-dropdown>
           </div>
 
-          <div class="col-md-4">
+          <div class="col-md-4" *ngIf="userRole == 'Admin'">
             <h5 class="form-lable">IMEI CODE</h5>
             <input type="text" pInputText name="imie_code" [(ngModel)]="imie_code" placeholder="IMEI CODE">
         </div>
 
-        <div class="col-md-4">
-          <h5 class="form-lable">AGENT CODE</h5>
-          <input type="text" pInputText name="agent_code" [(ngModel)]="agent_code" placeholder="AGENT CODE">
-      </div>
-
       <div class="col-md-4">
         <h5 class="form-lable">LOCATION</h5>
-        <input type="text" pInputText name="location" [(ngModel)]="location" placeholder="LOCATION">
+        <input type="text" pInputText name="location" [(ngModel)]="location" placeholder="LOCATION" [readOnly]="userRole != 'Admin'">
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4" *ngIf="userRole == 'Admin'">
       <h5 class="form-lable">Status</h5>
-      <mat-slide-toggle (change)="delete_status = !delete_status" [checked]="!delete_status">
-        {{ !delete_status ? 'Slide to deactivate the user' : 'Slide to activate the user' }}
+      <mat-slide-toggle (change)="delete_status = !delete_status" [checked]="delete_status">
+        {{ delete_status ? 'Slide to deactivate the user' : 'Slide to activate the user' }}
       </mat-slide-toggle>
       
   </div>
-  <div class="col-md-4">
+  <div class="col-md-4" *ngIf="userRole == 'Admin'">
     <h5 class="form-lable">MODEL</h5>
     <input type="text" pInputText name="model" [(ngModel)]="model" placeholder="MODEL">
 </div>
-<div class="col-md-4">
+<div class="col-md-4" *ngIf="userRole == 'Admin'">
   <h5 class="form-lable">REMARKS</h5>
   <input type="text" pInputText name="remarks" [(ngModel)]="remarks" placeholder="REMARKS">
 </div>
@@ -126,7 +136,7 @@
 
 
                   <div class="col-md-12">
-                      <button *ngIf="update_button == true" type="button" class="btn btn-primary mt-4" (click)="Insert_pet_type_details()"><i class="fas fa-plus-circle"></i> Add</button>
+                      <button *ngIf="update_button == true && userRole == 'Admin'" type="button" class="btn btn-primary mt-4" (click)="Insert_pet_type_details()"><i class="fas fa-plus-circle"></i> Add</button>
                       <button *ngIf="update_button == false" type="button" class="btn btn-primary mt-4" (click)="Edit_pet_type_details()"> <i class="fas fa-edit"></i> Update</button>
                       <button *ngIf="update_button == false" type="button" class="btn btn-danger mt-4" (click)="cancel()">
                           Cancel</button>
@@ -190,13 +200,13 @@
           <th class="th-1">
               S.No
           </th>
-          <th>User Id</th>
+          <th *ngIf="userRole == 'Admin'">User Id</th>
           <th>Name</th>
-          <th>Email</th>
-          <th>Device ID</th>
-          <th>Password</th>
-          <th>Designation</th>
-          <th>Imei Code</th>
+          <th *ngIf="userRole == 'Admin'">Email</th>
+          <th *ngIf="userRole == 'Admin'">Device ID</th>
+          <th *ngIf="userRole == 'Admin'">Password</th>
+          <th *ngIf="userRole == 'Admin'">Designation</th>
+          <th *ngIf="userRole == 'Admin'">Imei Code</th>
           <th>Agent code</th>
           <th>Location</th>
           <th>Job Access Location</th>
@@ -209,25 +219,39 @@
   <ng-template pTemplate="body" let-item  let-i="rowIndex">
     <tr class="tdrow">
           <td>{{i+1}}</td>
-          <td>{{item.user_id}}
+          <td *ngIf="userRole == 'Admin'">{{item.user_id}}
             <i class="fas fa-sync-alt" style="color: #ff002f;" aria-hidden="true" (click)="clear_device_id_by_number(item.user_id)" pTooltip="Clear Device Id"></i>
           </td>
           <td>{{item.user_name}}</td>
-          <td>{{item.user_email_id}}</td>
-          <td>{{item.device_id}}</td>
-          <td>{{item.user_password}}</td>
-          <td>{{item.user_designation}}</td>
-          <td>{{item.imie_code}}</td>
+          <td *ngIf="userRole == 'Admin'">{{item.user_email_id}}</td>
+          <td *ngIf="userRole == 'Admin'">{{item.device_id}}</td>
+          <td *ngIf="userRole == 'Admin'">{{item.user_password}}</td>
+          <td *ngIf="userRole == 'Admin'">{{item.user_designation}}</td>
+          <td *ngIf="userRole == 'Admin'">{{item.imie_code}}</td>
           <td>{{item.agent_code}}</td>
           <td>{{item.location}}</td>
           <td>{{item.job_location.join(', ')}}</td>
           <td>{{item.reg_date_time}}</td>
 
-          <td class="act">
+          <td class="act text-center">
               <i style="color: #2196f3;" class="fas fa-edit" aria-hidden="true" (click)="Editcompanydetailsdata(item)" pTooltip="Edit"></i>
-              <i style="color: #fd2c3a;" class="fa fa-trash" aria-hidden="true" pTooltip="Delete" (click)="Deletecompanydetails(item._id)"></i>
+              <i *ngIf="userRole == 'Admin'" style="color: #fd2c3a;" class="fa fa-trash" aria-hidden="true" pTooltip="Delete" (click)="deleteConfirm(item._id)"></i>
               <!-- <i style="color: #4CAF50;" class="fa fa-info-circle" aria-hidden="true" pTooltip="View"></i> -->
           </td>
+      </tr>
+  </ng-template>
+  <ng-template pTemplate="footer" >
+    <tr class="full text-center" *ngIf="isLoading" >
+        <td colspan="13" >
+          <div class="d-flex justify-content-center align-items-center">
+                <p-progressSpinner [strokeWidth]="'5'" aria-label="Loading"  [animationDuration]="'0.5s'"></p-progressSpinner>
+             <div class="fs">Loading....</div> </div>
+        </td>   
+      </tr>
+    <tr class="full text-center"  *ngIf="rows?.length==0 && !isLoading">
+        <td colspan="13" >
+          No Records Found
+        </td>
       </tr>
   </ng-template>
 </p-table>
@@ -238,3 +262,4 @@
 </div>
   </div>
 </section>
+<p-confirmDialog></p-confirmDialog>

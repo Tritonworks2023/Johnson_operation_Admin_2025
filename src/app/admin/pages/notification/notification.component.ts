@@ -2,6 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ApiService } from "src/app/api.service";
 import { ToastrManager } from "ng6-toastr-notifications";
+import { finalize } from "rxjs/operators";
+import { ConfirmationService } from "primeng/api";
 
 @Component({
   selector: "app-notification",
@@ -18,7 +20,8 @@ designationOptions = [
   constructor(
     private fb: FormBuilder,
     private _api: ApiService,
-    private toastr: ToastrManager
+    private toastr: ToastrManager,
+    private confirmationService: ConfirmationService
   ) {}
   flashMessageForm: FormGroup;
   ngOnInit(): void {
@@ -32,10 +35,13 @@ designationOptions = [
     const data = {
       department : "OPR",
     }
-
-    this._api.getmessage(data).subscribe((res: any) => {
-      this.rows = res.Data;   // 🔴 IMPORTANT
-    this.isLoading = false;
+    this.isLoading = true;
+    this._api.getmessage(data).pipe(
+      finalize(()=>{
+        this.isLoading = false;
+      })
+    ).subscribe((res: any) => {
+      this.rows = res.Data;
     });
   }
 
@@ -76,6 +82,20 @@ designationOptions = [
         },
       });
     }
+  }
+
+  deleteConfirm(item: any) {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete this record?',
+      header: 'Confirm Delete',
+      icon: 'pi pi-exclamation-triangle text-danger',
+      acceptLabel: 'Delete',
+      rejectLabel: 'Cancel',
+      acceptButtonStyleClass: 'p-button-danger',
+      accept: () => {
+        this.Deletecompanydetails(item)
+      }
+    });
   }
 
 

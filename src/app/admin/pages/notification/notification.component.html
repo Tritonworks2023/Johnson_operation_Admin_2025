@@ -108,7 +108,7 @@
       </td>
 
       <td style="width:100px;text-align:center"
-          (click)="Deletecompanydetails(item._id)">
+          (click)="deleteConfirm(item._id)">
         <i
           class="fa fa-trash"
           style="color:#fd2c3a; cursor:pointer"
@@ -117,6 +117,21 @@
       </td>
     </tr>
   </ng-template>
+  <ng-template pTemplate="footer" >
+    <tr class="full text-center" *ngIf="isLoading" >
+        <td colspan="6" >
+        <div class="d-flex justify-content-center align-items-center">
+                <p-progressSpinner [strokeWidth]="'5'" aria-label="Loading"  [animationDuration]="'0.5s'"></p-progressSpinner>
+            <div class="fs">Loading....</div> </div>
+        </td>   
+    </tr>
+    <tr class="full text-center"  *ngIf="rows?.length==0 && !isLoading">
+        <td colspan="6" >
+        No Records Found
+        </td>
+    </tr>
+  </ng-template>
 
 </p-table>
 
+<p-confirmDialog></p-confirmDialog>

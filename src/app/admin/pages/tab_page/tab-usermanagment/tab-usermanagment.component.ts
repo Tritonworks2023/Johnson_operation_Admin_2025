@@ -6,6 +6,8 @@ import { SESSION_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { DatePipe } from '@angular/common';
 import { environment } from '../../../../../environments/environment';
 import { ToastrManager } from 'ng6-toastr-notifications';
+import { finalize } from 'rxjs/operators';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-tab-usermanagment',
@@ -75,6 +77,7 @@ export class TabUsermanagmentComponent implements OnInit {
     {status : "ESPD"},
     {status : "OP"}
    ];
+   isLoading:boolean = false;
 
 
 
@@ -90,6 +93,7 @@ export class TabUsermanagmentComponent implements OnInit {
     private _api: ApiService,
     private routes: ActivatedRoute,
     private datePipe: DatePipe,
+    private confirmationService: ConfirmationService
   ) { }
 
   ngOnInit(): void {
@@ -105,7 +109,12 @@ export class TabUsermanagmentComponent implements OnInit {
 
 
   listpettype() {
-    this._api.tab_getlist_userdetail().subscribe(
+    this.isLoading = true;
+    this._api.tab_getlist_userdetail().pipe(
+      finalize(()=>{
+        this.isLoading = false;
+      })
+    ).subscribe(
       (response: any) => {
         console.log(response.Data);
         this.rows = response.Data;
@@ -179,6 +188,19 @@ export class TabUsermanagmentComponent implements OnInit {
   );
   }
 
+  deleteConfirm(item: any) {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete this record?',
+      header: 'Confirm Delete',
+      icon: 'pi pi-exclamation-triangle text-danger',
+      acceptLabel: 'Delete',
+      rejectLabel: 'Cancel',
+      acceptButtonStyleClass: 'p-button-danger',
+      accept: () => {
+        this.Deletecompanydetails(item)
+      }
+    });
+  }
 
 
   Deletecompanydetails(data) {

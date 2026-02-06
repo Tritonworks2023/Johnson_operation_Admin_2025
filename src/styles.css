@@ -21,3 +21,23 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helve
     font-size: 12px;
     margin-right: 10px;
 }
+
+.searchInput {
+    display: flex;
+    align-items: start;
+    width: 100%;
+}
+
+.input {
+    flex: 1;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.search-btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    min-width: 40px !important;
+    height: 42px !important;
+    padding: 0;
+}

@@ -119,12 +119,28 @@
           <td>
            {{item.sub_group_detail_created_at}}
           </td>
-          <td class="act">
-              <i style="color: #2196f3;" class="fas fa-edit" aria-hidden="true" (click)="Editcompanydetailsdata(item)" pTooltip="Edit"></i>
-              <i style="color: #fd2c3a;" class="fa fa-trash" aria-hidden="true" pTooltip="Delete" (click)="Deletecompanydetails(item._id)"></i>
-              <i style="color: #4CAF50;"  class="fa fa-forward" aria-hidden="true" pTooltip="View" (click)="add_field(item)"></i>
+          <td class="act d-flex align-items-center justify-content-around">
+            <i style="color: #2196f3;" class="fas fa-edit" aria-hidden="true" (click)="Editcompanydetailsdata(item)" pTooltip="Edit"></i>
+            <i style="color: #4CAF50;"  class="fa fa-forward" aria-hidden="true" pTooltip="View" (click)="add_field(item)"></i>
+            <i style="color: #fd2c3a;" class="fa fa-trash" aria-hidden="true" pTooltip="Delete" (click)="deleteConfirm(item._id)"></i>
           </td>
       </tr>
+  </ng-template>
+    <ng-template pTemplate="footer">
+    <tr class="full text-center" *ngIf="isLoading">
+      <td [attr.colspan]="6">
+        <div class="d-flex justify-content-center align-items-center">
+          <p-progressSpinner [strokeWidth]="'5'" aria-label="Loading"
+            [animationDuration]="'0.5s'"></p-progressSpinner>
+          <div class="fs">Loading....</div>
+        </div>
+      </td>
+    </tr>
+    <tr class="full text-center" *ngIf="rows?.length==0 && !isLoading">
+      <td [attr.colspan]="6">
+        No Records Found
+      </td>
+    </tr>
   </ng-template>
 </p-table>
               </div>
@@ -134,3 +150,5 @@
 </div>
   </div>
 </section>
+<p-confirmDialog></p-confirmDialog>
+

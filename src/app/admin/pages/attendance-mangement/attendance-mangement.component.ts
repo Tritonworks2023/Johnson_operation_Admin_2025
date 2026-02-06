@@ -15,6 +15,7 @@ import { DatePipe } from "@angular/common";
 import { environment } from "../../../../environments/environment";
 import { ToastrManager } from "ng6-toastr-notifications";
 import { ExcelService } from "src/app/excel.service";
+import { ConfirmationService } from "primeng/api";
 
 @Component({
   selector: "app-attendance-mangement",
@@ -56,7 +57,8 @@ branchList = [];
     private _api: ApiService,
     private routes: ActivatedRoute,
     private datePipe: DatePipe,
-    private excelService:ExcelService
+    private excelService:ExcelService,
+    private confirmationService: ConfirmationService
   ) {}
 
   ngOnInit(): void {
@@ -75,6 +77,20 @@ branchList = [];
     this.job_detail_no = undefined;
   }
   ////// Inserting Data
+
+  deleteConfirm(item: any) {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete this record?',
+      header: 'Confirm Delete',
+      icon: 'pi pi-exclamation-triangle text-danger',
+      acceptLabel: 'Delete',
+      rejectLabel: 'Cancel',
+      acceptButtonStyleClass: 'p-button-danger',
+      accept: () => {
+        this.Deletecompanydetails(item)
+      }
+    });
+  }
 
   Deletecompanydetails(data) {
     let a = {
