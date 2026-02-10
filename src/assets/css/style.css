@@ -1,26 +1,28 @@
 /* New Johnson CSS */
-
+/* Main ng-select container */
 .custom-ng-select ::ng-deep .ng-select-container {
   border-radius: 4px;
   border: 1px solid #ced4da;
   min-height: 42px;
   font-size: 14px;
   padding: 4px 6px;
-  background-color: #fff;
+  background-color: #ffffff;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
 }
 
+/* Value container (chips area) */
 .custom-ng-select ::ng-deep .ng-value-container {
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
 }
 
+/* Selected value chip */
 .custom-ng-select ::ng-deep .ng-value {
   background-color: #007bff;
-  color: #fff;
+  color: #ffffff;
   padding: 2px 8px;
   border-radius: 12px;
   font-size: 13px;
@@ -28,31 +30,45 @@
   align-items: center;
 }
 
+/* Remove (×) icon */
 .custom-ng-select ::ng-deep .ng-value-icon {
   margin-left: 6px;
   font-size: 14px;
   cursor: pointer;
 }
 
+/* Placeholder */
 .custom-ng-select ::ng-deep .ng-placeholder {
   color: #6c757d;
 }
 
+/* Dropdown panel */
 .custom-ng-select ::ng-deep .ng-dropdown-panel {
-  max-height: 200px;
+  max-height: fit-content;
   overflow-y: auto;
   z-index: 1050;
+  background-color: #ffffff;   /* FIX: no transparency */
+  border: 1px solid #ced4da;
 }
 
+/* Dropdown options */
 .custom-ng-select ::ng-deep .ng-option {
-  padding: 6px 12px;
+  padding: 8px 12px;
   font-size: 14px;
+  background-color: #ffffff;  /* FIX: no transparency */
+  color: #000000;
 }
 
+/* Hover state */
+.custom-ng-select ::ng-deep .ng-option:hover {
+  background-color: #f5f5f5;
+}
+
+/* Selected & keyboard focused option */
 .custom-ng-select ::ng-deep .ng-option-marked,
 .custom-ng-select ::ng-deep .ng-option-selected {
-  background-color: #f0f8ff !important;
-  color: #000;
+  background-color: #e9f3ff !important;
+  color: #000000;
 }
 
 
