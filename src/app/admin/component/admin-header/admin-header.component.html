@@ -8,7 +8,7 @@
   <span class="example-spacer"></span>
   <div class="ad-user mr-4">
     <h5>Johnson</h5>
-    <p>{{userRole}}</p>
+    <p>{{userRole.toLowerCase() != "admin" ? "Sub Admin" : "Admin" }}</p>
 
   </div>
 

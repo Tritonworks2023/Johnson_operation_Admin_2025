@@ -33,7 +33,7 @@
               <div class="col-md-3 mb-2 d-flex flex-column">
                 <label for="" class="ps-2">Select Branch</label>
                 <select class="form-control mb-3" [(ngModel)]="selectedBranch" >
-                  <option value="" disabled>Select Branch Code</option>
+                  <option value="">All Branches</option>
                   <option *ngFor="let item of branchList" [value]="item.BRCODE">
                     {{ item.BRCODE }}
                   </option>

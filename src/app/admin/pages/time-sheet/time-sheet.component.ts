@@ -23,7 +23,7 @@ export class TimeSheetComponent implements OnInit {
   E_Date: any = new Date();
   isLoading: boolean = false;
   branchList: any[] = [];
-  job_location: any = "TN01";
+  job_location: any = "";
   selectedBranch: string = '';
   constructor(
     private _api: ApiService,
@@ -207,12 +207,12 @@ onBranchChange() {
     this._api.updateWorkTimeSheetAction(data).subscribe({
       next: (res: any) => {
         if (res.Status == "Success") {
-          this.toastr.successToastr(res?.msg);
+          this.toastr.successToastr(res?.Message);
           this.list_data();
         }
       },
       error: (error: any) => {
-        this.toastr.errorToastr(error?.msg);
+        this.toastr.errorToastr(error?.Message);
       },
     });
   }
