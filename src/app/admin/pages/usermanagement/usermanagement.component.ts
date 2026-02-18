@@ -124,9 +124,7 @@ selectedBranch: string = '';
         this.isLoading = false;
       })
     ).subscribe((response: any) => {
-      console.log(response.Data);
       this.rows = response.Data;
-      console.log(this.pet_type_list);
     });
   }
 

@@ -38,8 +38,12 @@ export class TimeSheetComponent implements OnInit {
   activity_list = [];
   ngOnInit(): void {
     this.userType = this.storage.get("user_typess");
-    this.getBranchList();
-    this.list_data();
+    this.isLoading = true;
+    if(this.userType == 'Admin'){
+      this.getBranchList();
+    } else{
+      this.getBranchByuser();
+    }
   }
 
   filter_date() {
@@ -79,6 +83,10 @@ export class TimeSheetComponent implements OnInit {
         to_date: this.datePipe.transform(new Date(this.E_Date), "yyyy-MM-dd"),
         brno: this.job_location,
       };
+
+      if(this.userType != 'Admin' && !this.job_location){
+        a.brno = this.branchList.map((res:any)=> res.BRCODE)
+      }
       this._api.time_sheet(a).pipe(
         finalize(()=>{
           this.isLoading = false;
@@ -136,7 +144,26 @@ export class TimeSheetComponent implements OnInit {
   }
 
   getBranchList() {
-    this._api.getBranchList().subscribe({
+    this._api.getBranchList().pipe(
+      finalize(()=>{
+          this.list_data();
+      })
+    ).subscribe({
+      next: (res: any) => {
+        if (res.Status == "Success") {
+          this.branchList = res.Data;
+        }
+      },
+      error: (error: any) => {},
+    });
+  }
+
+  getBranchByuser() {
+    this._api.getBranchListByuserId().pipe(
+      finalize(()=>{
+          this.list_data();
+      })
+    ).subscribe({
       next: (res: any) => {
         if (res.Status == "Success") {
           this.branchList = res.Data;

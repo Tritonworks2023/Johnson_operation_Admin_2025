@@ -1,7 +1,8 @@
-import { Injectable } from "@angular/core";
+import { Inject, Injectable } from "@angular/core";
 import { HttpClient, HttpRequest } from "@angular/common/http";
 import { Location } from "@angular/common";
 import { environment } from "../environments/environment";
+import { SESSION_STORAGE, StorageService } from "ngx-webstorage-service";
 
 @Injectable({
   providedIn: "root",
@@ -10,7 +11,7 @@ export class ApiService {
   [x: string]: any;
   apiUrl = environment.apiUrl;
   imgUrl = environment.imageURL;
-  constructor(private http: HttpClient, private location: Location) {}
+  constructor(private http: HttpClient, private location: Location, @Inject(SESSION_STORAGE) private storage: StorageService) {}
 
   ////User type API//////
   user_type_list() {
@@ -529,6 +530,14 @@ export class ApiService {
   //location mapping
   getBranchList() {
     return this.http.get(this.apiUrl + "mod/kyc/branch_code");
+  }
+
+  getBranchListByuserId() {
+    const user_details = this.storage.get('user_details');
+    const data = {
+      JEMPNO: user_details?.emp_id
+    }
+    return this.http.post(this.apiUrl + "audit_user_management/getbranch", data);
   }
   //break down
   getbreak_down() {

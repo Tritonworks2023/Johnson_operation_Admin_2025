@@ -16,6 +16,7 @@ import { environment } from "../../../../environments/environment";
 import { ToastrManager } from "ng6-toastr-notifications";
 import { ExcelService } from "src/app/excel.service";
 import { ConfirmationService } from "primeng/api";
+import { finalize } from "rxjs/operators";
 
 @Component({
   selector: "app-attendance-mangement",
@@ -42,7 +43,7 @@ export class AttendanceMangementComponent implements OnInit {
 
   update_button: boolean;
   selectedimgae: any;
-selectedBranch: string = '';
+  selectedBranch: any = '';
   rows1: any;
   activity_name: any;
   userType:any;
@@ -68,8 +69,12 @@ branchList = [];
     // this.user_type_img = 'http://18.237.123.253:3000/api/uploads/template.jpg';
     this.pet_type_id = "";
     this.update_button = true;
-    this.getAttendanceList();
-    this.getBranchList();
+    this.isLoading = true;
+    if(this.userType == 'Admin'){
+      this.getBranchList();
+    } else{
+      this.getBranchByuser();
+    }
   }
 
   cancel() {
@@ -177,11 +182,12 @@ branchList = [];
       let a = {
         fromDate: this.datePipe.transform(new Date(this.S_Date), "yyyy-MM-dd"),
         toDate: this.datePipe.transform(new Date(this.E_Date), "yyyy-MM-dd"),
-        BRCODE : this.selectedBranch || ''
+        BRCODE : this.selectedBranch
       };
+      if(this.userType != 'Admin' && !this.selectedBranch){
+        a.BRCODE = this.branchList.map((res:any)=> res.BRCODE)
+      }
       this._api.attendance_list(a).subscribe((response: any) => {
-        console.log("response.Data");
-        console.log(response.Data);
         this.rows = response.Data;
         this.isLoading = false;
       });
@@ -203,7 +209,26 @@ onBranchChange() {
 }
 
   getBranchList() {
-    this._api.getBranchList().subscribe({
+    this._api.getBranchList().pipe(
+      finalize(()=>{
+        this.getAttendanceList();
+      })
+    ).subscribe({
+      next: (res: any) => {
+        if (res.Status == "Success") {
+          this.branchList = res.Data;
+        }
+      },
+      error: (error: any) => {},
+    });
+  }
+
+  getBranchByuser() {
+    this._api.getBranchListByuserId().pipe(
+      finalize(()=>{
+        this.getAttendanceList();
+      })
+    ).subscribe({
       next: (res: any) => {
         if (res.Status == "Success") {
           this.branchList = res.Data;
