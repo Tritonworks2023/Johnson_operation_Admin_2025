@@ -92,6 +92,7 @@ selectedBranch: string = '';
   isLoading:boolean = false;
   department: string = "";
   isSearching: boolean = false;
+  userDetails: any;
 
   constructor(
     private toastr: ToastrManager,
@@ -114,7 +115,11 @@ selectedBranch: string = '';
     this.pet_type_id = "";
     this.update_button = true;
     this.listpettype();
-    this.getBranchList();
+    if(this.userRole == 'Admin'){
+      this.getBranchList();
+    } else{
+      this.getBranchByuser();
+    }
   }
 
   listpettype() {
@@ -124,7 +129,13 @@ selectedBranch: string = '';
         this.isLoading = false;
       })
     ).subscribe((response: any) => {
-      this.rows = response.Data;
+      if(this.userRole != 'Admin'){
+        this.userDetails = response.Data.filter((res:any)=> res.user_designation == 'Oper Tech');
+        this.rows = response.Data.filter((res:any)=> res.user_designation == 'Oper Tech');
+      } else {
+        this.userDetails = response.Data;
+        this.rows = response.Data;
+      }
     });
   }
 
@@ -378,6 +389,17 @@ selectedBranch: string = '';
     });
   }
 
+  getBranchByuser() {
+    this._api.getBranchListByuserId().subscribe({
+      next: (res: any) => {
+        if (res.Status == "Success") {
+          this.branchList = res.Data;
+        }
+      },
+      error: (error: any) => {},
+    });
+  }
+
   onJobLocationChange(event: any, id: string) {
     if (event.target.checked) {
       if (!this.job_location.includes(id)) {
@@ -388,12 +410,26 @@ selectedBranch: string = '';
     }
   }
 
+  onSearch(): void {
+    let filtered = [...this.userDetails];
 
-  /** BRANCH CHANGE EVENT */
-onBranchChange() {
-  console.log('Selected Branch:', this.selectedBranch);
+    // Branch filter
+    if (this.selectedBranch) {
+      filtered = filtered.filter(
+        (res: any) => res.location === this.selectedBranch
+      );
+    }
 
-  // Example: filter API / table data
-  this.refersh();
-}
+    // Search filter
+    if (this.searchQR && this.searchQR.trim()) {
+      const term = this.searchQR.toLowerCase();
+      filtered = filtered.filter((u: any) =>
+        Object.values(u).some(v =>
+          v && v.toString().toLowerCase().includes(term)
+        )
+      );
+    }
+
+    this.rows = filtered;
+  }
 }
