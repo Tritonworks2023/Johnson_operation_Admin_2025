@@ -114,7 +114,7 @@ selectedBranch: string = '';
     // this.user_type_img = 'http://18.237.123.253:3000/api/uploads/template.jpg';
     this.pet_type_id = "";
     this.update_button = true;
-    this.listpettype();
+    this.isLoading = true;
     if(this.userRole == 'Admin'){
       this.getBranchList();
     } else{
@@ -130,8 +130,9 @@ selectedBranch: string = '';
       })
     ).subscribe((response: any) => {
       if(this.userRole != 'Admin'){
-        this.userDetails = response.Data.filter((res:any)=> res.user_designation == 'Oper Tech');
-        this.rows = response.Data.filter((res:any)=> res.user_designation == 'Oper Tech');
+        const branchCode = this.branchList.map((res:any)=> res.BRCODE)
+        this.userDetails = response.Data.filter((res:any)=> res.user_designation == 'Oper Tech' && branchCode.includes(res.location));
+        this.rows = response.Data.filter((res:any)=> res.user_designation == 'Oper Tech' && branchCode.includes(res.location));
       } else {
         this.userDetails = response.Data;
         this.rows = response.Data;
@@ -379,7 +380,11 @@ selectedBranch: string = '';
     this.excelService.exportAsExcelFile(excelData, "User Details");
   }
   getBranchList() {
-    this._api.getBranchList().subscribe({
+    this._api.getBranchList().pipe(
+      finalize(()=>{
+        this.listpettype();
+      })
+    ).subscribe({
       next: (res: any) => {
         if (res.Status == "Success") {
           this.branchList = res.Data;
@@ -390,7 +395,11 @@ selectedBranch: string = '';
   }
 
   getBranchByuser() {
-    this._api.getBranchListByuserId().subscribe({
+    this._api.getBranchListByuserId().pipe(
+      finalize(()=>{
+        this.listpettype();
+      })
+    ).subscribe({
       next: (res: any) => {
         if (res.Status == "Success") {
           this.branchList = res.Data;
