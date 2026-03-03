@@ -93,6 +93,7 @@ selectedBranch: string = '';
   department: string = "";
   isSearching: boolean = false;
   userDetails: any;
+  allBranchList: any[] = [];
 
   constructor(
     private toastr: ToastrManager,
@@ -115,6 +116,7 @@ selectedBranch: string = '';
     this.pet_type_id = "";
     this.update_button = true;
     this.isLoading = true;
+    this.getAllBranchList()
     if(this.userRole == 'Admin'){
       this.getBranchList();
     } else{
@@ -379,6 +381,18 @@ selectedBranch: string = '';
     });
     this.excelService.exportAsExcelFile(excelData, "User Details");
   }
+
+  getAllBranchList() {
+    this._api.getBranchList().subscribe({
+      next: (res: any) => {
+        if (res.Status == "Success") {
+          this.allBranchList = res.Data;
+        }
+      },
+      error: (error: any) => {},
+    });
+  }
+
   getBranchList() {
     this._api.getBranchList().pipe(
       finalize(()=>{
