@@ -60,7 +60,7 @@ export class UsermanagementComponent implements OnInit {
   imie_code = "";
   agent_code = "";
   location = "";
-  delete_status: boolean = true;
+  delete_status: boolean = false;
 
   user_type_list = [
     { status: "Mobile" },
@@ -344,7 +344,7 @@ selectedBranch: string = '';
     this.user_type = {};
     this.user_status = {};
     this.user_role = {};
-    this.delete_status = true;
+    this.delete_status = false;
     this.department = "";
   }
 

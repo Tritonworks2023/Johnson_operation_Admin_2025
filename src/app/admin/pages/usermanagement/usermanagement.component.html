@@ -65,8 +65,8 @@
     </div>
     <div class="col-md-4" *ngIf="userRole == 'Admin'">
       <h5 class="form-lable">Status</h5>
-      <mat-slide-toggle (change)="delete_status = !delete_status" [checked]="delete_status">
-        {{ delete_status ? 'Slide to deactivate the user' : 'Slide to activate the user' }}
+      <mat-slide-toggle (change)="delete_status = $event.checked" [checked]="delete_status">
+        {{ delete_status ? 'Slide to activate the user' : 'Slide to deactivate the user' }}
       </mat-slide-toggle>
       
   </div>
