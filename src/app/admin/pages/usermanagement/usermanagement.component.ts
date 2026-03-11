@@ -282,7 +282,7 @@ selectedBranch: string = '';
     ).subscribe({
       next: (res:any)=>{
         this.user_name = res?.Data?.ENAME;
-        this.delete_status = res?.Data?.STATUS == "A" ? true : false;
+        this.delete_status = res?.Data?.STATUS == "A" ? false : true;
         this.location = res?.Data?.BRCODE;
         this.department = res?.Data?.DEPT
       },
