@@ -37,6 +37,9 @@ export class AudiViewActivityComponent implements OnInit {
   lift_value = false;
   showCustomerDetail: boolean = false;
 
+  isLoading: boolean = false;
+ 
+
   @ViewChild('imgType', { static: false }) imgType: ElementRef;
 
   table_value = '1';
@@ -137,6 +140,8 @@ export class AudiViewActivityComponent implements OnInit {
 
 
   search_value(){
+
+    this.isLoading = true;
     this.lift_value = false;
     this.showCustomerDetail = true;
     console.log(this.job_no);
@@ -160,6 +165,7 @@ export class AudiViewActivityComponent implements OnInit {
               console.log(response.Data);
               if(response.Data == null){
                 alert("No Record Found");
+                  this.isLoading = false;
               }else {
               this.rows = response.Data.data_store;
               this.submitted_date = response.Data.start_time;
@@ -170,6 +176,7 @@ export class AudiViewActivityComponent implements OnInit {
                 (response: any) => {
                   console.log(response.Data);
                   this.entry_user = response.Data.user_name;
+                  this.isLoading = false;
                 }
               );
               if(this.activity.status == ' Lift Well Details Entry(Site details upload)'){
@@ -202,8 +209,24 @@ export class AudiViewActivityComponent implements OnInit {
   }
 
 
-  refresh(){
-    window.location.reload();
+  refresh() {
+    this.isLoading = false;
+        // window.location.reload();
+     this.job_no = '';
+  this.activity = undefined;
+
+  
+  this.lift_value = false;
+  this.showCustomerDetail = false;
+
+
+  this.rows = [];
+  this.rows2 = [];
+  this.submitted_date = null;
+  this.entry_user = '';
+  this.address = null;
+    this.table_value = null;
+    
   }
 
 
