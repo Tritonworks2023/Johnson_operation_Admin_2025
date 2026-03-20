@@ -36,6 +36,7 @@ export class AudiViewActivityComponent implements OnInit {
 
   lift_value = false;
   showCustomerDetail: boolean = false;
+  isLoading: boolean = false;
 
   @ViewChild('imgType', { static: false }) imgType: ElementRef;
 
@@ -68,11 +69,9 @@ export class AudiViewActivityComponent implements OnInit {
 
   ngOnInit(): void {
     this.activity_list = [];
-    console.log(this.storage.get('user_details'));
     this.user_details = this.storage.get('user_details');
     this.user_designation_list = [];
-    this.user_details.activity_access.forEach(element => {
-      console.log(element);
+    this.user_details?.activity_access.forEach(element => {
       if(element.select_status == true){
         this.user_designation_list.push({status:element.SMU_UKEY_DESCRIPTION,value:`${this.fullForm(element?.SMU_DEPT)} -${element.SMU_UKEY_DESCRIPTION}`});
       }
@@ -88,22 +87,15 @@ export class AudiViewActivityComponent implements OnInit {
 
       this._api.new_groupdetail_list().subscribe(
         (response: any) => {
-          console.log(response.Data);
           this.activity_list = response.Data;
         }
       );
-
-
-  
-  
   }
 
 
   fetch_detail(data,title,type){
-    console.log(type);
     this.title = title;
     this.table_value = ""+type;
-    console.log(title+"0000");
     // if(title == "PLUMB CHART READING"){
     //   this.table_value = '2';
     // }else if(title == "Plan of Lift Wall"){
@@ -114,16 +106,12 @@ export class AudiViewActivityComponent implements OnInit {
     // else{
     //   this.table_value = '1';
     // }
-    console.log(this.table_value);
 
     this.grouplist.forEach(elements => {
       console.log(elements._id,data)
       if(elements._id == data){
-        console.log(elements.data_store);
         this.rows = elements.data_store;
-        console.log(this.rows);
         this.count_value = ""+this.rows.length;
-        console.log(this.rows);
       }
     });
 
@@ -137,19 +125,23 @@ export class AudiViewActivityComponent implements OnInit {
 
 
   search_value(){
+
+    this.isLoading = true;
     this.lift_value = false;
     this.showCustomerDetail = true;
-    console.log(this.job_no);
-    console.log(this.activity);
     if(this.job_no == ''){
      alert('Enter Job No');
+     this.isLoading = false;
+     this.showCustomerDetail = false;
+     return;
     }else if (this.activity == undefined){
       alert('Select Any Acitivty');
+      this.isLoading = false;
+      this.showCustomerDetail = false;
+      return;
     }else {
       this.activity_list.forEach(element => {
         if(element.SMU_UKEY_DESCRIPTION == this.activity.status){
-          console.log(element._id);
-          console.log(element.SMU_FORMTYPE);
           this.table_value = element.SMU_FORMTYPE;
           let ac = {
             job_id : this.job_no,
@@ -157,9 +149,9 @@ export class AudiViewActivityComponent implements OnInit {
           }
           this._api.fetch_data_admin(ac).subscribe(
             (response: any) => {
-              console.log(response.Data);
               if(response.Data == null){
                 alert("No Record Found");
+                  this.isLoading = false;
               }else {
               this.rows = response.Data.data_store;
               this.submitted_date = response.Data.start_time;
@@ -168,8 +160,10 @@ export class AudiViewActivityComponent implements OnInit {
               }
               this._api.fetch_userdetail(ct).subscribe(
                 (response: any) => {
-                  console.log(response.Data);
                   this.entry_user = response.Data.user_name;
+                  this.isLoading = false;
+                }, (error: any)=> {
+                  this.isLoading = false;
                 }
               );
               if(this.activity.status == ' Lift Well Details Entry(Site details upload)'){
@@ -185,6 +179,8 @@ export class AudiViewActivityComponent implements OnInit {
                 );
               }
             }
+            }, (error: any)=> {
+              this.isLoading = false;
             }
           );
           let d = {
@@ -192,7 +188,6 @@ export class AudiViewActivityComponent implements OnInit {
           }
           this._api.fetch_address(d).subscribe(
             (response: any) => {
-              console.log(response.Data);
               this.address = response.Data
             }
           );
@@ -202,8 +197,19 @@ export class AudiViewActivityComponent implements OnInit {
   }
 
 
-  refresh(){
-    window.location.reload();
+  refresh() {
+    this.isLoading = false;
+    // window.location.reload();
+    this.job_no = '';
+    this.activity = undefined;
+    this.lift_value = false;
+    this.showCustomerDetail = false;
+    this.rows = [];
+    this.rows2 = [];
+    this.submitted_date = null;
+    this.entry_user = '';
+    this.address = null;
+    this.table_value = '1';
   }
 
 
