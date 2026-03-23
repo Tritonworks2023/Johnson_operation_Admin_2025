@@ -161,7 +161,7 @@ branchList = [];
           'Branch Code':d.firstRecord.BRCODE,
           'EMP No':d.firstRecord.EMPNO,
           'User Name':d.firstRecord.EMPNAME,
-          'Date':this.datePipe.transform(new Date(d.firstRecord.ENTRYDT), "DD-MM-YYYY"),
+          'Date':this.datePipe.transform(new Date(d.firstRecord.ENTRYDT), 'medium'),
           'Check-in Time': d.firstRecord.CHECKINTIME,
           'Check-in  Location':d.firstRecord.CHECKINADDRESS,
           'Check-out Time':d.firstRecord.CHECKOUTTIME,

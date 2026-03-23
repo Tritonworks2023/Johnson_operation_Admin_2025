@@ -24,8 +24,9 @@
         <h5 class="form-lable">Activity</h5>
         <p-dropdown [options]="user_designation_list" [(ngModel)]="activity"  placeholder="Select Activity" optionLabel="value" dataKey="status" optionValue="status" [showClear]="true"></p-dropdown>
       </div>
-      <div class="col-md-4">
-        <button class="btn btn-primary mt-4" style="height: 50%; font-size: 14px;" (click)="search_value()">Search</button>
+      <div class="col-md-4 d-flex gap-2 align-items-center">
+        <button class="btn btn-primary" style="height: 50%; font-size: 14px;" (click)="search_value()" >Search</button>
+        <button type="button" style="height: 50%; font-size: 14px;" class="btn btn-secondary" (click)="refresh()"><i class="fas fa-sync-alt"></i> Clear</button>
       </div>
 
 
@@ -55,7 +56,16 @@
       </div>
       <br>
         <div class="col-md-12" id="component1">
-          <div class="card custom-card">
+        <!----------loader-------->
+        <div class="" *ngIf="isLoading" >
+          <div class="d-flex justify-content-center align-items-center">
+            <p-progressSpinner [strokeWidth]="'5'" aria-label="Loading"  [animationDuration]="'0.5s'"></p-progressSpinner>
+            <div class="fs">Loading....</div> 
+          </div>
+        </div>
+             <!------------------>
+         <div  *ngIf="!isLoading">
+           <div class="card custom-card">
             <div class="card-body">
               <div class="row">
                 <div class="col-md-4 text-left"> <!-- Left-aligned div -->
@@ -66,7 +76,7 @@
                 </div>
           
                 <div class="col-md-4 text-center" *ngIf="showCustomerDetail"> <!-- Center-aligned div -->
-                  <div class="main-content-title tx-24 mb-1">{{this.activity.status}}</div><br>
+                  <div class="main-content-title tx-24 mb-1">{{this.activity?.status}}</div><br>
                 </div>
           
                 <div class="col-md-4 text-right"> <!-- Right-aligned div -->
@@ -250,6 +260,7 @@
             </div>
         </div>
     </div>
+         </div>
         </div>
     </div>
   </section>
