@@ -93,6 +93,7 @@ import { NotificationComponent } from './pages/notification/notification.compone
 import { TimeSheetComponent } from './pages/time-sheet/time-sheet.component';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { QrBarcodeComponent } from './pages/qr-barcode/qr-barcode.component';
 
 
 
@@ -134,7 +135,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     ErrologListComponent,
     ErrologDetailComponent,
     NotificationComponent,
-    TimeSheetComponent
+    TimeSheetComponent,
+    QrBarcodeComponent
 
 
 

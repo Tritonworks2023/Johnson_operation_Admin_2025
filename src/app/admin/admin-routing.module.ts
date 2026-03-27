@@ -33,6 +33,7 @@ import { TabUsermanagmentComponent } from "./pages/tab_page/tab-usermanagment/ta
 import { UsermanagementComponent } from "./pages/usermanagement/usermanagement.component";
 import { NotificationComponent } from "./pages/notification/notification.component";
 import { TimeSheetComponent } from "./pages/time-sheet/time-sheet.component";
+import { QrBarcodeComponent } from "./pages/qr-barcode/qr-barcode.component";
 
 const routes: Routes = [
   { path: "", redirectTo: "dashboard", pathMatch: "full" },
@@ -97,6 +98,7 @@ const routes: Routes = [
   { path: "tab_chqcollection_view", component: TabChqcollectionViewComponent },
   { path: "tab_usermanagement", component: TabUsermanagmentComponent },
   { path: "time_sheet", component: TimeSheetComponent },
+  { path: "qr_barcode", component: QrBarcodeComponent },
 ];
 
 @NgModule({
