@@ -1,0 +1,168 @@
+<section>
+    <div class="page-header">
+        <div>
+            <h2 class="main-content-title tx-24 mb-1">QR/Barcode</h2>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a routerLink="dashboard">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">QR/Barcode</li>
+            </ol>
+        </div>
+
+    </div>
+
+
+
+
+    <div class="row row-sm">
+        <div class="col-lg-12">
+            <div class="card custom-card">
+                <div class="card-body">
+                    <div class="card-item">
+                        <p-tabView>
+
+                            <p-tabPanel header="Material List">
+                                <div class="row pb-3 d-flex justify-content-between">
+                                    <div class="col-md-3">
+                                        <div class="searchInput">
+                                            <input type="text" pInputText placeholder="Search By Job No" class="input"
+                                                [(ngModel)]="searchData" />
+                                            <button *ngIf="!isLoading" pButton type="button" class="search-btn"
+                                                [disabled]="isLoading || !searchData" icon="pi pi-search"
+                                                (click)="getList()"></button>
+                                            <button *ngIf="isLoading" pButton type="button" class="search-btn"
+                                                [disabled]="isLoading || !searchData"
+                                                icon="pi pi-spinner pi-spin"></button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button pButton type="button" label="Remove" (click)="onSubmit()"></button>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <p-table [value]="rows" [(selection)]="selectedItems" dataKey="MATL_ID"
+                                        [tableStyle]="{ 'min-width': '50rem' }" [paginator]="true" [rows]="15" [rowHover]="true"
+                                        [rowsPerPageOptions]="[5,10,25,50]" [showCurrentPageReport]="true"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+
+                                        <!-- HEADER -->
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th style="width: 4rem">
+                                                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                                </th>
+                                                <th>Job No</th>
+                                                <th>Material Id</th>
+                                                <th>Description</th>
+                                            </tr>
+                                        </ng-template>
+
+                                        <!-- BODY -->
+                                        <ng-template pTemplate="body" let-product>
+                                            <tr>
+                                                <td>
+                                                    <p-tableCheckbox [value]="product"></p-tableCheckbox>
+                                                </td>
+                                                <td>{{ product.JOBNO }}</td>
+                                                <td>{{ product.MATL_ID }}</td>
+                                                <td>{{ product.MATL_DESC }}</td>
+                                            </tr>
+                                        </ng-template>
+
+                                        <!-- FOOTER -->
+                                        <ng-template pTemplate="footer">
+                                            <tr class="full text-center" *ngIf="isLoading">
+                                                <td colspan="4">
+                                                    <div class="d-flex justify-content-center align-items-center">
+                                                        <p-progressSpinner [strokeWidth]="'4'" aria-label="Loading"
+                                                            [animationDuration]="'0.5s'">
+                                                        </p-progressSpinner>
+                                                        <div class="fs">Loading....</div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <tr class="full text-center" *ngIf="rows?.length === 0 && !isLoading">
+                                                <td colspan="4">
+                                                    No Records Found
+                                                </td>
+                                            </tr>
+                                        </ng-template>
+
+                                    </p-table>
+                                </div>
+
+                            </p-tabPanel>
+
+                            <p-tabPanel header="Removed Material List">
+                                <div class="table-responsive">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="searchInput">
+                                                <input type="text" pInputText placeholder="Search By Job No" class="input"
+                                                    [(ngModel)]="removedSearchData" />
+                                                <button *ngIf="!isRemoveLoading" pButton type="button" class="search-btn"
+                                                    [disabled]="isRemoveLoading || !removedSearchData" icon="pi pi-search"
+                                                    (click)="getRemovedList()"></button>
+                                                <button *ngIf="isRemoveLoading" pButton type="button" class="search-btn"
+                                                    [disabled]="isRemoveLoading || !removedSearchData"
+                                                    icon="pi pi-spinner pi-spin"></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p-table [value]="removedMaterials[0]?.material_to_hide" styleClass="ui-table-customers" #tt
+                                        [paginator]="true" [rows]="15" [rowHover]="true"
+                                        [rowsPerPageOptions]="[5,10,25,50]" [showCurrentPageReport]="true"
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                        [globalFilterFields]="['type']">
+
+                                        <!-- HEADER -->
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th class="th-1">S.No</th>
+                                                <th>Job No</th>
+                                                <th>Material Id</th>
+                                                <th>Description</th>
+                                            </tr>
+                                        </ng-template>
+
+                                        <!-- BODY -->
+                                        <ng-template pTemplate="body" let-product let-i="rowIndex">
+                                            <tr>
+                                                <td>{{i+1}}</td>
+                                                <td>{{ removedMaterials[0]?.job_no  }}</td>
+                                                <td>{{ product?.MATL_ID }}</td>
+                                                <td>{{ product?.MATL_DESC }}</td>
+                                            </tr>
+                                        </ng-template>
+
+                                        <!-- FOOTER -->
+                                        <ng-template pTemplate="footer">
+                                            <tr class="full text-center" *ngIf="isRemoveLoading">
+                                                <td colspan="4">
+                                                    <div class="d-flex justify-content-center align-items-center">
+                                                        <p-progressSpinner [strokeWidth]="'4'" aria-label="Loading"
+                                                            [animationDuration]="'0.5s'">
+                                                        </p-progressSpinner>
+                                                        <div class="fs">Loading....</div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <tr class="full text-center" *ngIf="removedMaterials?.length === 0 && !isRemoveLoading">
+                                                <td colspan="4">
+                                                    No Records Found
+                                                </td>
+                                            </tr>
+                                        </ng-template>
+
+                                    </p-table>
+                                </div>
+                            </p-tabPanel>
+
+                        </p-tabView>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

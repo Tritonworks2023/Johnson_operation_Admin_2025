@@ -636,4 +636,16 @@ export class ApiService {
   updateWorkTimeSheetAction(data:any){
      return this.http.post(this.apiUrl + "operation-timesheet/workTimeSheetAction", data);
   }
+
+  materialByJobNo(data:any) {
+    return this.http.post(this.apiUrl + "joininspection/fetch_materialid_list",data);
+  }
+
+  removeMaterial(data:any) {
+    return this.http.post(this.apiUrl + "joininspection/create_material_mongo",data);
+  }
+
+  getRemovedMaterial(data:any) {
+    return this.http.post(this.apiUrl + "joininspection/get_created_material_mongo",data);
+  }
 }
