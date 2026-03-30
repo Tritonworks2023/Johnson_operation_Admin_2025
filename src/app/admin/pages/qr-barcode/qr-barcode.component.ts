@@ -19,6 +19,7 @@ export class QrBarcodeComponent implements OnInit {
   removedSearchData = '';
   isRemoveLoading: boolean = false;
   removedMaterials: any[] = [];
+  selectedRevertItems: any[] = [];
 
   constructor(private toastr: ToastrManager, private service: ApiService, private confirmationService: ConfirmationService) { }
 
@@ -43,17 +44,20 @@ export class QrBarcodeComponent implements OnInit {
   }
 
   onSubmit() {
+    this.isLoading = true;
     const data = {
-      job_no: this.searchData,
+      job_no: this.rows[0].JOBNO,
       material_to_hide: this.selectedItems,
       created_by: 'Super Admin',
     }
     this.service.removeMaterial(data).subscribe({
       next: (response: any) => {
         this.toastr.successToastr('Material data removed successfully.');
-        this.getList();  
+        this.getList();
+        this.selectedItems = []
       },
       error: (err) => {
+        this.isLoading = false;
         this.toastr.errorToastr('Failed to remove material data.');
       }
     });
@@ -74,5 +78,25 @@ export class QrBarcodeComponent implements OnInit {
           this.toastr.errorToastr('Failed to get the removed Materials list.');
         }
       });
+  }
+
+  onRevert() {
+    this.isRemoveLoading = true;
+    const revertId = this.selectedRevertItems.map(res=> res.MATL_ID)
+    const data = {
+      job_no: this.removedMaterials[0]?.job_no,
+      material_to_hide: revertId,
+    }
+    this.service.revertMaterial(data).subscribe({
+      next: (response: any) => {
+        this.toastr.successToastr('Material data revert successfully.');
+        this.getRemovedList(); 
+        this.selectedRevertItems = [] 
+      },
+      error: (err) => {
+        this.isRemoveLoading = false;
+        this.toastr.errorToastr('Failed to revert material data.');
+      }
+    });
   }
 }

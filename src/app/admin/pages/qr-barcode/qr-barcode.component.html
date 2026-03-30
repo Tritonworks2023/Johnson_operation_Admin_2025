@@ -35,7 +35,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-2">
-                                        <button pButton type="button" label="Remove" (click)="onSubmit()"></button>
+                                        <button pButton type="button" label="Remove" (click)="onSubmit()" [disabled]="selectedItems.length == 0"></button>
                                     </div>
                                 </div>
                                 <div class="table-responsive">
@@ -58,7 +58,7 @@
 
                                         <!-- BODY -->
                                         <ng-template pTemplate="body" let-product>
-                                            <tr>
+                                            <tr *ngIf="!isLoading">
                                                 <td>
                                                     <p-tableCheckbox [value]="product"></p-tableCheckbox>
                                                 </td>
@@ -95,7 +95,7 @@
 
                             <p-tabPanel header="Removed Material List">
                                 <div class="table-responsive">
-                                    <div class="row">
+                                    <div class="row pb-3 d-flex justify-content-between">
                                         <div class="col-md-3">
                                             <div class="searchInput">
                                                 <input type="text" pInputText placeholder="Search By Job No" class="input"
@@ -108,17 +108,21 @@
                                                     icon="pi pi-spinner pi-spin"></button>
                                             </div>
                                         </div>
+                                        <div class="col-md-2">
+                                            <button pButton type="button" label="Revert" (click)="onRevert()" [disabled]="selectedRevertItems.length == 0"></button>
+                                        </div>
                                     </div>
-                                    <p-table [value]="removedMaterials[0]?.material_to_hide" styleClass="ui-table-customers" #tt
-                                        [paginator]="true" [rows]="15" [rowHover]="true"
+                                    <p-table [value]="removedMaterials[0]?.material_to_hide" [(selection)]="selectedRevertItems" dataKey="MATL_ID"
+                                        [tableStyle]="{ 'min-width': '50rem' }" [paginator]="true" [rows]="15" [rowHover]="true"
                                         [rowsPerPageOptions]="[5,10,25,50]" [showCurrentPageReport]="true"
-                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                                        [globalFilterFields]="['type']">
+                                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
 
                                         <!-- HEADER -->
                                         <ng-template pTemplate="header">
                                             <tr>
-                                                <th class="th-1">S.No</th>
+                                                <th style="width: 4rem">
+                                                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                                </th>
                                                 <th>Job No</th>
                                                 <th>Material Id</th>
                                                 <th>Description</th>
@@ -127,8 +131,10 @@
 
                                         <!-- BODY -->
                                         <ng-template pTemplate="body" let-product let-i="rowIndex">
-                                            <tr>
-                                                <td>{{i+1}}</td>
+                                            <tr *ngIf="!isRemoveLoading">
+                                                <td>
+                                                    <p-tableCheckbox [value]="product"></p-tableCheckbox>
+                                                </td>
                                                 <td>{{ removedMaterials[0]?.job_no  }}</td>
                                                 <td>{{ product?.MATL_ID }}</td>
                                                 <td>{{ product?.MATL_DESC }}</td>
