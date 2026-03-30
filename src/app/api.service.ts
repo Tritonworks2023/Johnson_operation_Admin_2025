@@ -645,6 +645,10 @@ export class ApiService {
     return this.http.post(this.apiUrl + "joininspection/create_material_mongo",data);
   }
 
+  revertMaterial(data:any) {
+    return this.http.post(this.apiUrl + "joininspection/revert_material_mongo",data);
+  }
+
   getRemovedMaterial(data:any) {
     return this.http.post(this.apiUrl + "joininspection/get_created_material_mongo",data);
   }

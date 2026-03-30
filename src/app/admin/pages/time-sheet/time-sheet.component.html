@@ -95,7 +95,7 @@
                   </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-item let-i="rowIndex">
-                  <tr class="tdrow">
+                  <tr class="tdrow" *ngIf="!isLoading">
                     <td>{{i+1}}</td>
                     <td>{{item.JLS_EWD_BRCODE}}</td>
                     <td>{{item.JLS_EWD_EMPNO}}</td>

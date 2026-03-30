@@ -220,6 +220,7 @@ onBranchChange() {
   }
 
   updateStatus(item:any, status:string) {
+    this.isLoading = true
     const data = {
       JLS_EWD_WKDATE: this.formatDate(item.JLS_EWD_WKDATE),
       JLS_EWD_BRCODE: item.JLS_EWD_BRCODE,
@@ -239,7 +240,8 @@ onBranchChange() {
         }
       },
       error: (error: any) => {
-        this.toastr.errorToastr(error?.Message);
+        this.isLoading = false;
+        this.toastr.errorToastr(error?.error?.Message);
       },
     });
   }
