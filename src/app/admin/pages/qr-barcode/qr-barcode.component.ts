@@ -34,7 +34,7 @@ export class QrBarcodeComponent implements OnInit {
       .pipe(finalize(() => this.isLoading = false))
       .subscribe({
         next: (response: any) => {
-          this.rows = response?.Data || [];
+          this.rows = Array.isArray(response?.Data) ? response.Data : [];
         },
         error: (err) => {
           this.rows = [];
