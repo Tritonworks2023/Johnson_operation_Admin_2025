@@ -652,4 +652,12 @@ export class ApiService {
   getRemovedMaterial(data:any) {
     return this.http.post(this.apiUrl + "joininspection/get_created_material_mongo",data);
   }
+
+  getJobsLocationDetails() {
+    return this.http.get(this.apiUrl + "");
+  }
+
+  updateJobsLocation(data:any) {
+    return this.http.post(this.apiUrl + "",data);
+  }
 }
