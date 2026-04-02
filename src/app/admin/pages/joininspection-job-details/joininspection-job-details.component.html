@@ -338,14 +338,15 @@
                <ng-container  *ngFor="let items of job_list_detail; let i = index">
                 <th>
                   <ng-container *ngIf="items.user_id">
-                    <ng-container *ngIf="specInfoVisible; else elseBlock">
+                    Name : {{items.user_id.user_name}} ({{items.user_id?.emp_type == 'Engineer' || items.user_id?.emp_type == 'Repair Engineer'?'JIC Eng':'OPR Eng'}})
+                    <!-- <ng-container *ngIf="specInfoVisible; else elseBlock">
                       Name : {{items.user_id.user_name}} ({{items.user_id?.emp_type == 'Engineer' || items.user_id?.emp_type == 'Repair Engineer'?'JIC Eng':'OPR Eng'}})
                     </ng-container>
                     <ng-template #elseBlock>
                        Name: {{ items.user_id.user_name }}
-                  <span *ngIf="items.user_id.user_designation === 'JIC Tech'">(JIC Eng)</span>
-                  <span *ngIf="items.user_id.user_designation !== 'JIC Tech'">(OPR Eng)</span>
-                    </ng-template>
+                  <span *ngIf="items?.user_id?.user_designation === 'JIC Tech'">(JIC Eng)</span>
+                  <span *ngIf="items?.user_id?.user_designation !== 'JIC Tech'">(OPR Eng)</span>
+                    </ng-template> -->
                     
                     
                   </ng-container>              

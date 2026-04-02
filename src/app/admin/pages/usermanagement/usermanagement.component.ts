@@ -94,6 +94,7 @@ selectedBranch: string = '';
   isSearching: boolean = false;
   userDetails: any;
   allBranchList: any[] = [];
+  isBlock: boolean = false;
 
   constructor(
     private toastr: ToastrManager,
@@ -173,7 +174,8 @@ selectedBranch: string = '';
         remarks: this.remarks,
         model: this.model,
         job_location: this.job_location,
-        dept: this.department
+        dept: this.department,
+        isBlock : this.isBlock
       };
       console.log(a);
       this._api.userdetail_insert(a).subscribe((response: any) => {
@@ -210,6 +212,7 @@ selectedBranch: string = '';
       model: this.model,
       job_location: this.job_location,
       dept: this.department,
+      isBlock : this.isBlock
     };
     this._api.userdetail_edit(a).subscribe((response: any) => {
       console.log(response.Data);
@@ -268,6 +271,7 @@ selectedBranch: string = '';
     this.user_role = { status: data.user_role };
     this.job_location = Array.isArray(data.job_location) ? data.job_location : [];
     this.department = data?.dept;
+    this.isBlock = data?.isBlock;
   }
 
   getuserDetails() {
@@ -345,6 +349,7 @@ selectedBranch: string = '';
     this.user_status = {};
     this.user_role = {};
     this.delete_status = false;
+    this.isBlock = false;
     this.department = "";
   }
 

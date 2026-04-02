@@ -54,12 +54,9 @@ export class JoininspectionJobDetailsComponent implements OnInit {
       group_id : this.job_detail.group_id,
       sub_group_id : this.job_detail.sub_group_id._id
     }
-    console.log(job_id);
     this._api.Joint_inspection_jobdetail_fetch_by_id(job_id).subscribe(
      (response: any) => {
         this.loader_view = true;
-        console.log("response.Data");
-        console.log(response.Data);
         this.job_list_detail = response.Data;
         
         this.job_list_detail.forEach(elements => {
@@ -69,7 +66,6 @@ export class JoininspectionJobDetailsComponent implements OnInit {
           count_value = count_value + 1 ;
         });
       });
-      debugger
         this.job_count = (this.job_list_detail.length / 2) - 1;
         this.table_data = this.job_list_detail[this.job_list_detail.length - 1].data_store;
         // this.getSpecInfo = this.job_list_detail[0].getSpecInfo;
@@ -80,7 +76,6 @@ export class JoininspectionJobDetailsComponent implements OnInit {
         }else {
           this.specInfoVisible = false;
         }
-        console.log('*****Data*********',this.job_list_detail);
         this.startTimer2();
       }
     );
@@ -88,7 +83,6 @@ export class JoininspectionJobDetailsComponent implements OnInit {
 
 
   recall(index,count){
-    console.log("================index,count===",index,count);
     if(index < this.job_list_detail.length){ 
      var check_value_data = this.job_list_detail[0].data_store;
      var value_data = this.job_list_detail[index].data_store; 
@@ -123,7 +117,6 @@ export class JoininspectionJobDetailsComponent implements OnInit {
 
   startTimer2() {
   this.interval = setInterval(() => {
-    console.log(this.timeLeft);
     if(this.timeLeft > 0) {
       this.timeLeft--;
     } else {
