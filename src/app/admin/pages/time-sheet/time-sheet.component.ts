@@ -232,15 +232,17 @@ onBranchChange() {
       SOURCE :"ADMIN"
     }
 
-    this._api.updateWorkTimeSheetAction(data).subscribe({
+    this._api.updateWorkTimeSheetAction(data).pipe(
+      finalize(()=>{
+        this.list_data();
+      })
+    ).subscribe({
       next: (res: any) => {
         if (res.Status == "Success") {
           this.toastr.successToastr(res?.Message);
-          this.list_data();
         }
       },
       error: (error: any) => {
-        this.isLoading = false;
         this.toastr.errorToastr(error?.error?.Message);
       },
     });
