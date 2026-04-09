@@ -1,0 +1,122 @@
+<section>
+    <div class="page-header">
+        <div>
+            <h2 class="main-content-title tx-24 mb-1">Job Location</h2>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a routerLink="dashboard">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Job Location</li>
+            </ol>
+        </div>
+
+    </div>
+
+
+    <div class="row row-sm">
+
+        <div class="col-lg-12">
+            <div class="card custom-card">
+                <div class="card-body">
+                    <div class="card-item">
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="search-hero">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"><i
+                                                    class="fas fa-search"></i></span>
+                                        </div>
+                                        <input class="form-control" type="text" name="search2" [(ngModel)]="searchQR"
+                                            autocomplete="off" placeholder="Search..." (input)="onSearch()">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- BRANCH DROPDOWN -->
+                            <div class="col-md-3">
+                                <select class="form-control mb-3" [(ngModel)]="selectedBranch" (change)="onSearch()">
+                                    <option value="">All Branches</option>
+                                    <option *ngFor="let b of branchList" [value]="b.BRCODE">
+                                        {{ b.BRNAME }} ({{ b.BRCODE }})
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="table-responsive">
+                            <p-table [value]="rows" styleClass="ui-table-customers" #tt [paginator]="true" [rows]="15"
+                                [rowHover]="true" [rowsPerPageOptions]="[5,10,25,50]" [showCurrentPageReport]="true"
+                                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                [globalFilterFields]="['type']">
+                                <ng-template pTemplate="header">
+                                    <tr class="thhead">
+                                        <th class="th-1">
+                                            S.No
+                                        </th>
+                                        <th>Name</th>
+                                        <th>Agent code</th>
+                                        <th>Location</th>
+                                        <th>Job Access Location</th>
+                                        <th>Created at</th>
+                                        <th style="width: 163px;text-align:center">
+                                            Action
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-item let-i="rowIndex">
+                                    <tr class="tdrow">
+                                        <td>{{i+1}}</td>
+                                        <td>{{item.user_name}}</td>
+                                        <td>{{item.agent_code}}</td>
+                                        <td>{{item.location}}</td>
+                                        <td>{{item.job_location.join(', ')}}</td>
+                                        <td>{{item.reg_date_time}}</td>
+
+                                        <td class="act text-center">
+                                            <i *ngIf="userRole == 'Admin'" style="color: #2196f3;" class="fas fa-edit"
+                                                aria-hidden="true" (click)="showDialog(item)" pTooltip="Edit"></i>
+                                            <!-- <i *ngIf="userRole == 'Admin'" style="color: #fd2c3a;" class="fa fa-trash"
+                                                aria-hidden="true" pTooltip="Delete"
+                                                (click)="deleteConfirm(item._id)"></i> -->
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="footer">
+                                    <tr class="full text-center" *ngIf="isLoading">
+                                        <td colspan="7">
+                                            <div class="d-flex justify-content-center align-items-center">
+                                                <p-progressSpinner [strokeWidth]="'5'" aria-label="Loading"
+                                                    [animationDuration]="'0.5s'"></p-progressSpinner>
+                                                <div class="fs">Loading....</div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="full text-center" *ngIf="rows?.length==0 && !isLoading">
+                                        <td colspan="7">
+                                            No Records Found
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <i *ngIf="userRole == 'Admin'" style="color: #2196f3;" class="fas fa-edit" aria-hidden="true"
+        (click)="showDialog('item')" pTooltip="Edit"></i>
+</section>
+
+<p-dialog header="Edit Job Location" [modal]="true" [(visible)]="visible" [style]="{ width: '30rem' }">
+    <form [formGroup]="jobForm">
+    <div class="d-flex items-center mb-2">
+        <label for="email" class="font-semibold w-25">Location</label>
+        <input pInputText id="email" class="form-control" autocomplete="off" formControlName="location" />
+    </div>
+    <div class="d-flex justify-content-end">
+        <p-button label="Cancel" class="mr-2" severity="secondary" (click)="visible = false"></p-button>
+        <p-button label="{{!isSave ? 'Save' : 'Saving...'}}" [disabled]="isSave" (click)="save()"></p-button>
+    </div>
+    </form>
+</p-dialog>

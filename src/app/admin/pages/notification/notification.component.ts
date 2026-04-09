@@ -23,7 +23,7 @@ designationOptions = [
     private toastr: ToastrManager,
     private confirmationService: ConfirmationService
   ) {}
-  flashMessageForm: FormGroup;
+  flashMessageForm!: FormGroup;
   ngOnInit(): void {
     this.flashMessageForm = this.fb.group({
       message: [null, Validators.required],

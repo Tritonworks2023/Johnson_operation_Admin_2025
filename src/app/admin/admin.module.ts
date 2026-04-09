@@ -94,6 +94,7 @@ import { TimeSheetComponent } from './pages/time-sheet/time-sheet.component';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { QrBarcodeComponent } from './pages/qr-barcode/qr-barcode.component';
+import { JobLocationDetailsComponent } from './pages/job-location-details/job-location-details.component';
 
 
 
@@ -136,7 +137,8 @@ import { QrBarcodeComponent } from './pages/qr-barcode/qr-barcode.component';
     ErrologDetailComponent,
     NotificationComponent,
     TimeSheetComponent,
-    QrBarcodeComponent
+    QrBarcodeComponent,
+    JobLocationDetailsComponent
 
 
 

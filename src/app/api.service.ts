@@ -330,10 +330,15 @@ export class ApiService {
 
   ////Attendance Details Management API//////
   attendance_list(data: any) {
-    return this.http.get(
-      this.apiUrl +
-        `attendance/getlist?fromDate=${data.fromDate}&toDate=${data.toDate}&BRCODE=${data.BRCODE}`
-    );
+    let endPoint = this.apiUrl + `attendance/getlist?fromDate=${data.fromDate}&toDate=${data.toDate}`
+    if (Array.isArray(data.BRCODE)) {
+      for (let code of data.BRCODE) {
+        endPoint += `&BRCODE=${code}`;
+      }
+    } else if (data.BRCODE) {
+      endPoint += `&BRCODE=${data.BRCODE}`;
+    }
+    return this.http.get(endPoint);
   }
   attendance_insert(data) {
     return this.http.post(this.apiUrl + "attendance/create", data);
@@ -651,5 +656,13 @@ export class ApiService {
 
   getRemovedMaterial(data:any) {
     return this.http.post(this.apiUrl + "joininspection/get_created_material_mongo",data);
+  }
+
+  getJobsLocationDetails() {
+    return this.http.get(this.apiUrl + "");
+  }
+
+  updateJobsLocation(data:any) {
+    return this.http.post(this.apiUrl + "",data);
   }
 }

@@ -115,6 +115,13 @@
   </ng-select>
 </div>
 
+  <div class="col-md-4" *ngIf="userRole == 'Admin'">
+      <h5 class="form-lable">Unlock</h5>
+      <mat-slide-toggle (change)="isBlock = $event.checked" [checked]="isBlock">
+        {{ isBlock ? 'Slide to unblock the user' : 'Slide to block the user' }}
+      </mat-slide-toggle>
+  </div>
+
 
 
           <!-- <div class="col-md-4">
