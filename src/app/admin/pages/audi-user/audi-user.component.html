@@ -42,6 +42,18 @@
                   <h5 class="form-lable">PASSWORD</h5>
                   <input type="text" pInputText name="user_password" [(ngModel)]="user_password" placeholder="Password">
               </div>
+                <div class="col-md-4">
+                    <h5 class="form-lable">
+                        Timesheet Approve/Reject Access
+                    </h5>
+                
+                    <div class="d-flex align-items-center gap-2">
+                        <p-checkbox name="isTimesheetApprove" [(ngModel)]="isTimesheetApprove" [binary]="true">
+                        </p-checkbox>
+                
+                        <label class="m-0 p-2">Allow Access</label>
+                    </div>
+                </div>
             <!-- <div class="col-md-4">
               <h5 class="form-lable">DESIGNATION</h5>
               <p-dropdown [options]="user_designation_list" [(ngModel)]="user_designation"  placeholder="Designation" optionLabel="status" [showClear]="true"></p-dropdown>

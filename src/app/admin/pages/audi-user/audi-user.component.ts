@@ -81,6 +81,7 @@ export class AudiUserComponent implements OnInit {
 
 
   @ViewChild('imgType', { static: false }) imgType: ElementRef;
+  isTimesheetApprove: boolean = false;
 
   constructor(
     private toastr:ToastrManager,
@@ -180,7 +181,8 @@ export class AudiUserComponent implements OnInit {
       'imie_code' : this.imie_code,
       'agent_code' : this.agent_code,
       'location' : this.location,
-      'activity_access':this.activity_list
+      'activity_access':this.activity_list,
+      isTimesheetApprove: this.isTimesheetApprove
       };
     console.log(a);
     this._api.audit_userdetail_insert(a).subscribe(
@@ -218,7 +220,8 @@ export class AudiUserComponent implements OnInit {
       'imie_code' : this.imie_code,
       'agent_code' : this.agent_code,
       'location' : this.location,
-      'activity_access':this.activity_list
+      'activity_access':this.activity_list,
+      isTimesheetApprove: this.isTimesheetApprove
      };
     this._api.audit_userdetail_edit(a).subscribe(
     (response: any) => {
@@ -280,6 +283,7 @@ export class AudiUserComponent implements OnInit {
     this.user_status =  {status : data.user_status};
     this.user_role =  {status : data.user_role};
     this.activity_list = data.activity_access;
+    this.isTimesheetApprove = data.isTimesheetApprove;
   }
 
     filter_date() {
@@ -329,7 +333,8 @@ export class AudiUserComponent implements OnInit {
       this.imie_code  = "";
       this.agent_code = "";
       this.location = "";
-      this.user_designation = {}
+      this.user_designation = {};
+      this.isTimesheetApprove = false;
     }
 
 }
