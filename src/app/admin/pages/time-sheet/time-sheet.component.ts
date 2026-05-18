@@ -25,6 +25,7 @@ export class TimeSheetComponent implements OnInit {
   branchList: any[] = [];
   job_location: any = "";
   selectedBranch: string = '';
+  userDetails: any;
   constructor(
     private _api: ApiService,
     private router: Router,
@@ -38,6 +39,7 @@ export class TimeSheetComponent implements OnInit {
   activity_list = [];
   ngOnInit(): void {
     this.userType = this.storage.get("user_typess");
+    this.userDetails = this.storage.get("user_details")
     this.isLoading = true;
     if(this.userType == 'Admin'){
       this.getBranchList();
