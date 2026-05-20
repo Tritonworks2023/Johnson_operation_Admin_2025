@@ -28,7 +28,8 @@ export class JoininspectionJobDetailsComponent implements OnInit {
  table_data : any;
 
  timeLeft: number = 2;
- interval;
+ interval:any;
+ scannedMaterials:any = [];
 
   constructor(
     private toastr:ToastrManager,
@@ -68,6 +69,7 @@ export class JoininspectionJobDetailsComponent implements OnInit {
       });
         this.job_count = (this.job_list_detail.length / 2) - 1;
         this.table_data = this.job_list_detail[this.job_list_detail.length - 1].data_store;
+        this.scannedMaterials = this.job_list_detail[this.job_list_detail.length - 1].scannedMaterials;
         // this.getSpecInfo = this.job_list_detail[0].getSpecInfo;
         this.eachSpecData  = this.job_list_detail[0].getSpecInfo[0];
         const specInfo:any[] = this.job_list_detail[0].getSpecInfo;
