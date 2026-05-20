@@ -286,5 +286,54 @@
 
           </div>
           </div>
+  <div class="card-body" *ngIf="scannedMaterials.length">
+    <h2 class="main-content-title tx-14 mb-1">QR/BarCode Scanned Details</h2>
+    <div class="card-item table-responsive">
+      <table style="width:100%; color:black;" class="scannedMaterials table">
+        <tr>
+          <th>
+            S.No
+          </th>
+          <th>
+            Job No
+          </th>
+          <th>
+            BarCode Id
+          </th>
+          <th>
+            QR Code No
+          </th>
+          <th>
+            Materials Id
+          </th>
+          <th>
+            Materials Description
+          </th>
+          <th>
+            Scan Date
+          </th>
+          <th>
+            Scan By Name
+          </th>
+          <th>
+            Scan By Mobile No
+          </th>
+        </tr>
+        <ng-container *ngFor="let item of scannedMaterials; let i = index">
+          <tr>
+            <td>{{i+1}}</td>
+            <td>{{item.JLS_QRD_JOBNO}}</td>
+            <td>{{item.JLS_QRD_BRID}}</td>
+            <td>{{item.JLS_QRD_QRCODENO}}</td>
+            <td>{{item.JLS_QRD_MATLID}}</td>
+            <td>{{item.JLS_QRD_MATLDESC}}</td>
+            <td>{{item.JLS_QRD_SCANDATE | date:'dd-MM-yyyy hh:mm a'}}</td>
+            <td>{{item.JLS_QRD_SCANBY_NAME}}</td>
+            <td>{{item.JLS_QRD_SCANBY_MOBNO}}</td>
+          </tr>
+        </ng-container>
+      </table>
+    </div>
+  </div>
 </div>
 </div>

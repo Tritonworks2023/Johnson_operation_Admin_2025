@@ -20,12 +20,13 @@ export class JointinspectPdfComponent implements OnInit {
  job_list_detail : any;
  table_data : any;
  timeLeft: number = 2;
- interval;
+ interval:any;
  final_datas = [];
 
  eachSpecData:any;
  getSpecInfo:any[] = [];
  public specInfoVisible: boolean = false;
+  scannedMaterials: any = [];
 
   constructor(
     private toastr:ToastrManager,
@@ -61,6 +62,7 @@ export class JointinspectPdfComponent implements OnInit {
 
 
     this.eachSpecData  = this.job_list_detail[0].getSpecInfo[0];
+    this.scannedMaterials = this.job_list_detail[this.job_list_detail.length - 1].scannedMaterials;
     const specInfo:any[] = this.job_list_detail[0].getSpecInfo;
     if(specInfo.length > 0) {
       this.specInfoVisible = true;

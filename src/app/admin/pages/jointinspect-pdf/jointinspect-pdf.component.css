@@ -42,3 +42,8 @@ td, th {
   list-style: none;
   margin-top: 3px;
 }
+
+.scannedMaterials th {
+  white-space: nowrap;
+  width: 1%;
+}

@@ -317,8 +317,8 @@
      </div>
     <div class="card custom-card mt-3" *ngIf="!loader_view" >
       <div class="card-body">
-          <div class="card-item">
-            <table style="width:100%">
+          <div class="card-item table-responsive">
+            <table style="width:100%" class="table">
               <tr>
                 <th class="th-1">
                   S.No
@@ -362,7 +362,7 @@
                   <td>{{item.field_comments}}</td>
                   <td>{{item.remarks}}</td>
                   <ng-container  *ngFor="let items of job_list_detail; let j = index">
-                    <td> {{items.data_store[i].field_value}} </td>
+                    <td> {{items?.data_store[i]?.field_value}} </td>
                    </ng-container>
                 </tr>
               </ng-container>
@@ -376,5 +376,66 @@
               </div>
     </div>
   </p-tabPanel>
+
+  <ng-container *ngIf="scannedMaterials.length">
+    <p-tabPanel header="QR/BarCode Scanned Details">
+      <div class="row">
+        <button type="button" style="float:right" class="btn btn-primary mt-4" (click)="print_pdf()">Print value</button>
+      </div>
+      <div class="d-flex justify-content-center mt-5 mb-5" *ngIf="loader_view">
+        <div class="loader"></div>
+      </div>
+      <div class="card custom-card mt-3" *ngIf="!loader_view">
+        <div class="card-body">
+          <div class="card-item table-responsive">
+            <table style="width:100%" class="scannedMaterials table">
+              <tr>
+                <th class="th-1">
+                  S.No
+                </th>
+                <th>
+                  Job No
+                </th>
+                <th>
+                  BarCode Id
+                </th>
+                <th>
+                  QR Code No
+                </th>
+                <th>
+                  Materials Id
+                </th>
+                <th>
+                  Materials Description
+                </th>
+                <th>
+                  Scan Date
+                </th>
+                <th>
+                  Scan By Name
+                </th>
+                <th>
+                  Scan By Mobile No
+                </th>
+              </tr>
+              <ng-container *ngFor="let item of scannedMaterials; let i = index">
+                <tr>
+                  <td>{{i+1}}</td>
+                  <td>{{item.JLS_QRD_JOBNO}}</td>
+                  <td>{{item.JLS_QRD_BRID}}</td>
+                  <td>{{item.JLS_QRD_QRCODENO}}</td>
+                  <td>{{item.JLS_QRD_MATLID}}</td>
+                  <td>{{item.JLS_QRD_MATLDESC}}</td>
+                  <td>{{item.JLS_QRD_SCANDATE | date:'dd-MM-yyyy hh:mm a'}}</td>
+                  <td>{{item.JLS_QRD_SCANBY_NAME}}</td>
+                  <td>{{item.JLS_QRD_SCANBY_MOBNO}}</td>
+                </tr>
+              </ng-container>
+            </table>
+          </div>
+        </div>
+      </div>
+    </p-tabPanel>
+  </ng-container>
 </p-tabView>
 
