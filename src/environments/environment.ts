@@ -13,6 +13,9 @@ export const environment = {
 apiUrl: 'https://smart.johnsonliftsltd.com:3000/api/',
   imageURL: 'https://smart.johnsonliftsltd.com:3000/upload'
 
+  // New URL
+  // apiUrl: 'http://192.168.1.148:3000/api/',
+  // imageURL: 'http://192.168.1.148:3000/upload'
 
   //Live URL//
 
