@@ -76,7 +76,7 @@ export class AudiUserComponent implements OnInit {
 
 
 
-   activity_list = [];
+   activity_list:any = [];
    isLoading:boolean = false;
 
 
@@ -265,25 +265,38 @@ export class AudiUserComponent implements OnInit {
   }
 
 
-  Editcompanydetailsdata(data) {
-    console.log(data);
+  Editcompanydetailsdata(data: any) {
     this.update_button = false;
     this.pet_type_id = data._id;
-    this.user_id = data.user_id ;
-    this.user_name = data.user_name ;
-    this.imie_code = data.imie_code ;
-    this.agent_code = data.agent_code ;
-    this.location = data.location ;
-    this.user_email_id = data.user_email_id ;
-    this.emp_id = data.emp_id? data.emp_id :'' ;
-    this.branch_code = data.branch_code ? data.branch_code :'' ;
-    this.user_password = data.user_password ;
-    this.user_designation =  {status : data.user_designation};
-    this.user_type = {status : data.user_type};
-    this.user_status =  {status : data.user_status};
-    this.user_role =  {status : data.user_role};
-    this.activity_list = data.activity_access;
+    this.user_id = data.user_id;
+    this.user_name = data.user_name;
+    this.imie_code = data.imie_code;
+    this.agent_code = data.agent_code;
+    this.location = data.location;
+    this.user_email_id = data.user_email_id;
+    this.emp_id = data.emp_id ? data.emp_id : '';
+    this.branch_code = data.branch_code ? data.branch_code : '';
+    this.user_password = data.user_password;
+    this.user_designation = { status: data.user_designation };
+    this.user_type = { status: data.user_type };
+    this.user_status = { status: data.user_status };
+    this.user_role = { status: data.user_role };
     this.isTimesheetApprove = data.isTimesheetApprove;
+
+    const masterList = this.activity_list || []; // master activity list
+    const userActivityAccess = data.activity_access || []; // user activity access list
+    const mergedActivities = [...userActivityAccess]; // merge missing activities from master list into activity_access
+    masterList.forEach((activity: any) => {
+      const exists = mergedActivities.some((item: any) => item.SMU_UKEY === activity.SMU_UKEY);
+      if (!exists) {
+        mergedActivities.push({
+          ...activity,
+          select_status: false
+        });
+      }
+    });
+    mergedActivities.sort((a: any, b: any) =>a.SMU_UKEY > b.SMU_UKEY ? 1 : -1); // sort by SMU_UKEY
+    this.activity_list = mergedActivities;
   }
 
     filter_date() {
