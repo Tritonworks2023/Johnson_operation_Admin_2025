@@ -9,6 +9,7 @@ import { ExcelService } from "src/app/excel.service";
 import { SESSION_STORAGE, StorageService } from "ngx-webstorage-service";
 import { finalize } from 'rxjs/operators';
 import { ConfirmationService } from "primeng/api";
+import { formatDate } from '@angular/common';
 @Component({
   selector: "app-time-sheet",
   templateUrl: "./time-sheet.component.html",
@@ -113,19 +114,19 @@ export class TimeSheetComponent implements OnInit {
     this.toastr.warningToastr(msg);
   }
   excelDownload() {
-    const excelData = [];
+    const excelData:any = [];
     const value = this.rows;
-    value.map((d) => {
+    value.map((d:any) => {
       excelData.push({
         "Branch Code": d.JLS_EWD_BRCODE,
         "EMP No": d.JLS_EWD_EMPNO,
-        "work Date": d.JLS_EWD_WKDATE,
+        "work Date": d.JLS_EWD_WKDATE ? formatDate(d.JLS_EWD_WKDATE, 'mediumDate', 'en-US') : '',
         "Job No": d.JLS_EWD_JOBNO,
         "Activity": d.JLS_EWD_ACTIVITY,
         "Work Hours": d.JLS_EWD_WRKHOUR,
         "Submitted By": d.JLS_EWD_PREPBY,
-        "Submitted Date": d.JLS_EWD_CREATEDDATE,
-        "Approved Date": d.APPROVED_DATE
+        "Submitted Date": d.JLS_EWD_CREATEDDATE ? formatDate(d.JLS_EWD_CREATEDDATE, 'medium', 'en-US') : '',
+        "Approved Date": d.APPROVED_DATE ? formatDate(d.APPROVED_DATE, 'medium', 'en-US') : ''
       });
     });
     this.excelService.exportAsExcelFile(excelData, "User Details");
