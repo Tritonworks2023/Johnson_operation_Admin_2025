@@ -273,7 +273,7 @@
                 <th>{{item.remarks}}</th>
                 <ng-container  *ngFor="let items of job_list_detail; let j = index">
                   <td> 
-                    {{items.data_store[i].field_value}}
+                    {{items?.data_store[i]?.field_value}}
                    </td>
                  </ng-container>
               </tr>
