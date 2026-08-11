@@ -268,9 +268,9 @@
             <ng-container *ngFor="let item of table_data; let i = index">
               <tr>
                 <td>{{i+1}}</td>
-                <th>{{item.field_name}}</th>
-                <th>{{item.field_comments}}</th>
-                <th>{{item.remarks}}</th>
+                <th>{{item?.field_name}}</th>
+                <th>{{item?.field_comments}}</th>
+                <th>{{item?.remarks}}</th>
                 <ng-container  *ngFor="let items of job_list_detail; let j = index">
                   <td> 
                     {{items?.data_store[i]?.field_value}}
