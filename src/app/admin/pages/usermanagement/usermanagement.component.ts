@@ -79,7 +79,9 @@ export class UsermanagementComponent implements OnInit {
     { status: "Oper Tech" },
     { status: "Operation MOD" },
     { status: "Operation Escal" },
-    // {status : "JIC Tech"}
+    // {status : "JIC Tech"},
+    { status: "EREC" },
+    { status: "TRAINEE" }
   ];
 
 selectedBranch: string = '';
