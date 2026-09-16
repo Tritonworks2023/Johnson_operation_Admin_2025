@@ -110,8 +110,8 @@
                     <td class="act text-center" *ngIf="(userType == 'Admin' || userDetails?.isTimesheetApprove)">
                       <!-- <i style="color: #fd2c3a;" class="fa fa-trash" aria-hidden="true" pTooltip="Delete"
                         (click)="deleteConfirm(item._id)"></i> -->
-                        <button [disabled]="item.JLS_EWD_STATUS !== 'PENDING'" pButton icon="pi pi-check" class="text-success mr-2" title="Approve" (click)="confirmApprove(item)"></button>
-                        <button [disabled]="item.JLS_EWD_STATUS !== 'PENDING'" pButton icon="pi pi-times" class="text-danger" title="Reject" (click)="confirmReject(item)"></button>
+                        <button *ngIf="item.JLS_EWD_STATUS == 'PENDING'" pButton icon="pi pi-check" class="text-success mr-2" title="Approve" (click)="confirmApprove(item)"></button>
+                        <button *ngIf="item.JLS_EWD_STATUS == 'PENDING'" pButton icon="pi pi-times" class="text-danger" title="Reject" (click)="confirmReject(item)"></button>
                     </td>
                   </tr>
                 </ng-template>
