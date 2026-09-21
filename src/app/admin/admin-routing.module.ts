@@ -104,7 +104,7 @@ const routes: Routes = [
   { path: "qr_barcode", component: QrBarcodeComponent },
   { path: "job_location", component: JobLocationDetailsComponent },
   { path: "employee-tracking", component: EmployeeTrackingComponent },
-  { path: "branchdetail", component: BranchComponent },
+  // { path: "branchdetail", component: BranchComponent },
 ];
 
 @NgModule({
