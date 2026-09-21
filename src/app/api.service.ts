@@ -665,4 +665,17 @@ export class ApiService {
   updateJobsLocation(data:any) {
     return this.http.post(this.apiUrl + "",data);
   }
+
+  addBranch(data:any){
+    return this.http.post(this.apiUrl+'iot_branch_code/create',data);
+  }
+  editBranch(data:any){
+    return this.http.post(this.apiUrl+'iot_branch_code/edit',data);
+  }
+  getBranch(){
+    return this.http.get(this.apiUrl+'iot_branch_code/getlist');
+  }
+  deleteBranch(data:any){
+    return this.http.post(this.apiUrl+'iot_branch_code/delete',data);
+  }
 }

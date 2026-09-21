@@ -36,6 +36,7 @@ import { TimeSheetComponent } from "./pages/time-sheet/time-sheet.component";
 import { QrBarcodeComponent } from "./pages/qr-barcode/qr-barcode.component";
 import { JobLocationDetailsComponent } from "./pages/job-location-details/job-location-details.component";
 import { EmployeeTrackingComponent } from "./pages/employee-tracking/employee-tracking.component";
+import { BranchComponent } from "./pages/branch/branch.component";
 
 const routes: Routes = [
   { path: "", redirectTo: "dashboard", pathMatch: "full" },
@@ -102,7 +103,8 @@ const routes: Routes = [
   { path: "time_sheet", component: TimeSheetComponent },
   { path: "qr_barcode", component: QrBarcodeComponent },
   { path: "job_location", component: JobLocationDetailsComponent },
-  { path: "employee-tracking", component: EmployeeTrackingComponent }
+  { path: "employee-tracking", component: EmployeeTrackingComponent },
+  { path: "branchdetail", component: BranchComponent },
 ];
 
 @NgModule({

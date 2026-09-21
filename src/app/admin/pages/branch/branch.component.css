@@ -1,0 +1,14 @@
+@import "../../../../assets/css/style.css";
+
+.is-invalid~.invalid-feedback {
+    display: block !important;
+}
+.invalid-feedback {
+    margin-top: -0.75rem !important;
+}
+.invalid-feedback1{
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 87.5%;
+    color: #e23e3d; 
+}
