@@ -101,6 +101,7 @@ const routes: Routes = [
   { path: "tab_chqcollection_view", component: TabChqcollectionViewComponent },
   { path: "tab_usermanagement", component: TabUsermanagmentComponent },
   { path: "time_sheet", component: TimeSheetComponent },
+  { path: "time_sheet_erc_trainee", component: TimeSheetComponent },
   { path: "qr_barcode", component: QrBarcodeComponent },
   { path: "job_location", component: JobLocationDetailsComponent },
   { path: "employee-tracking", component: EmployeeTrackingComponent },
