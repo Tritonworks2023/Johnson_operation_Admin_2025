@@ -650,6 +650,10 @@ export class ApiService {
      return this.http.post(this.apiUrl + "operation-timesheet/workTimeSheetAction", data);
   }
 
+  updateWorkTimeSheetErcTrainee(data:any){
+     return this.http.post(this.apiUrl + "operation-timesheet/ts_erc_workTimeSheetAction", data);
+  }
+
   materialByJobNo(data:any) {
     return this.http.post(this.apiUrl + "joininspection/fetch_materialid_list",data);
   }

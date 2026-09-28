@@ -92,7 +92,7 @@ export class TimeSheetComponent implements OnInit {
     ) {
       this.isLoading = true;
       this.rows = [];
-      let a = {
+      let a:any = {
         from_date: this.datePipe.transform(new Date(this.S_Date), "yyyy-MM-dd"),
         to_date: this.datePipe.transform(new Date(this.E_Date), "yyyy-MM-dd"),
         brno: this.job_location,
@@ -104,13 +104,8 @@ export class TimeSheetComponent implements OnInit {
 
       let timeSheet;
       if(this.isErcTrainee){
-        const ercTraineeFilter = {
-          ...a,
-          // empno: '',
-          // activity: '',
-          status: this.selectedStatus,
-        }
-        timeSheet = this._api.time_sheet_ercTrainee(ercTraineeFilter)
+        a.status = this.selectedStatus;
+        timeSheet = this._api.time_sheet_ercTrainee(a);
       } else {
         timeSheet = this._api.time_sheet(a);
       }
@@ -248,7 +243,7 @@ onBranchChange() {
 
   updateStatus(item:any, status:string) {
     this.isLoading = true
-    const data = {
+    const data:any = {
       JLS_EWD_WKDATE: this.formatDate(item?.JLS_EWD_WKDATE),
       JLS_EWD_BRCODE: item?.JLS_EWD_BRCODE,
       JLS_EWD_PREPBY: item?.JLS_EWD_PREPBY,
@@ -259,7 +254,14 @@ onBranchChange() {
       SOURCE :"ADMIN"
     }
 
-    this._api.updateWorkTimeSheetAction(data).pipe(
+    let updateWorkTimeSheet;
+    if(this.isErcTrainee) {
+      data.EMP_DESIGN = item?.EMP_DESIGN,
+      updateWorkTimeSheet = this._api.updateWorkTimeSheetErcTrainee(data)
+    }else {
+      updateWorkTimeSheet = this._api.updateWorkTimeSheetAction(data)
+    }
+    updateWorkTimeSheet.pipe(
       finalize(()=>{
         this.list_data();
       })

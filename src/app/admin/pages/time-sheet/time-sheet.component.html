@@ -99,7 +99,7 @@
                     <th>SUBMITTED DATE</th>
                     <th>APPROVED DATE</th>
                     <th>STATUS</th>
-                    <th style="width: 163px;text-align:center" *ngIf="((userType == 'Admin' || userDetails?.isTimesheetApprove) && !isErcTrainee)">
+                    <th style="width: 163px;text-align:center" *ngIf="(userType == 'Admin' || userDetails?.isTimesheetApprove)">
                       Action
                     </th>
                   </tr>
@@ -117,7 +117,7 @@
                     <td>{{item?.JLS_EWD_CREATEDDATE | date:'medium' }}</td>
                     <td>{{item?.APPROVED_DATE | date:'medium' }}</td>
                     <td>{{item?.JLS_EWD_STATUS}}</td>
-                    <td class="act text-center" *ngIf="((userType == 'Admin' || userDetails?.isTimesheetApprove) && !isErcTrainee)">
+                    <td class="act text-center" *ngIf="(userType == 'Admin' || userDetails?.isTimesheetApprove)">
                       <!-- <i style="color: #fd2c3a;" class="fa fa-trash" aria-hidden="true" pTooltip="Delete"
                         (click)="deleteConfirm(item._id)"></i> -->
                         <button *ngIf="item?.JLS_EWD_STATUS == 'PENDING'" pButton icon="pi pi-check" class="text-success mr-2" title="Approve" (click)="confirmApprove(item)"></button>
