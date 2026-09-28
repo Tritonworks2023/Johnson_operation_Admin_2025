@@ -632,6 +632,14 @@ export class ApiService {
       data
     );
   }
+
+  time_sheet_ercTrainee(data:any) {
+    return this.http.post(
+      this.apiUrl + "operation-timesheet/get_erec_ts_admin",
+      data
+    );
+  }
+
   // Back Navigation
 
   backNavigation() {

@@ -27,6 +27,9 @@ export class TimeSheetComponent implements OnInit {
   job_location: any = "";
   selectedBranch: string = '';
   userDetails: any;
+  isErcTrainee: boolean = false; 
+  status = ['APPROVED', 'PENDING', 'REJECTED', 'DELETED'];
+  selectedStatus = '';
   constructor(
     private _api: ApiService,
     private router: Router,
@@ -35,7 +38,15 @@ export class TimeSheetComponent implements OnInit {
     private excelService: ExcelService,
     @Inject(SESSION_STORAGE) private storage: StorageService,
     private confirmationService: ConfirmationService
-  ) {}
+  ) {
+    const path = this.router.url.split('/').pop();
+    if(path == 'time_sheet_erc_trainee') {
+      this.isErcTrainee = true;
+    } else {
+      this.isErcTrainee = false;
+    }
+    console.log('path',path,'isErcTrainee', this.isErcTrainee);
+  }
   user_list = [];
   activity_list = [];
   ngOnInit(): void {
@@ -90,7 +101,20 @@ export class TimeSheetComponent implements OnInit {
       if(this.userType != 'Admin' && !this.job_location){
         a.brno = this.branchList.map((res:any)=> res.BRCODE)
       }
-      this._api.time_sheet(a).pipe(
+
+      let timeSheet;
+      if(this.isErcTrainee){
+        const ercTraineeFilter = {
+          ...a,
+          // empno: '',
+          // activity: '',
+          status: this.selectedStatus,
+        }
+        timeSheet = this._api.time_sheet_ercTrainee(ercTraineeFilter)
+      } else {
+        timeSheet = this._api.time_sheet(a);
+      }
+      timeSheet.pipe(
         finalize(()=>{
           this.isLoading = false;
         })
@@ -225,12 +249,12 @@ onBranchChange() {
   updateStatus(item:any, status:string) {
     this.isLoading = true
     const data = {
-      JLS_EWD_WKDATE: this.formatDate(item.JLS_EWD_WKDATE),
-      JLS_EWD_BRCODE: item.JLS_EWD_BRCODE,
-      JLS_EWD_PREPBY: item.JLS_EWD_PREPBY,
-      JLS_EWD_EMPNO: item.JLS_EWD_EMPNO,
+      JLS_EWD_WKDATE: this.formatDate(item?.JLS_EWD_WKDATE),
+      JLS_EWD_BRCODE: item?.JLS_EWD_BRCODE,
+      JLS_EWD_PREPBY: item?.JLS_EWD_PREPBY,
+      JLS_EWD_EMPNO: item?.JLS_EWD_EMPNO,
       status: status,
-      WorkSheetIds: [item._id],
+      WorkSheetIds: [item?._id],
       isTrainee: false,
       SOURCE :"ADMIN"
     }

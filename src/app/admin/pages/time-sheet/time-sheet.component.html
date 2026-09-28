@@ -4,7 +4,7 @@
       <h2 class="main-content-title tx-24 mb-1">Attendance Management</h2>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a routerLink="dashboard">Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Job Detail Management</li>
+        <li class="breadcrumb-item active" aria-current="page">{{!!isErcTrainee ? 'Time Sheet ERC/Trainee' : 'Time Sheet'}}</li>
       </ol>
     </div>
 
@@ -40,6 +40,16 @@
                 </select>
               </div>
 
+              <div class="col-md-3 mb-2 d-flex flex-column" *ngIf="isErcTrainee">
+                <label class="form-label">Select Status</label>
+                <select class="form-control" [(ngModel)]="selectedStatus">
+                  <option value="">All Status</option>
+                  <option *ngFor="let item of status" [value]="item">
+                    {{ item }}
+                  </option>
+                </select>
+              </div>
+
               <!-- Start Date -->
               <div class="col-md-2 mb-2 d-flex flex-column">
                 <label for="startDate" class="form-label">Start Date</label>
@@ -55,7 +65,7 @@
                 </p-calendar>
               </div>
 
-              <div class="col-md-2 mb-2 m-auto">
+              <div class="col-md-2 mb-2 my-auto">
                 <button type="button" class="btn btn-primary btn-lg w-100" (click)="list_data()">
                   <i class="fas fa-search"></i> Search
                 </button>
@@ -97,21 +107,21 @@
                 <ng-template pTemplate="body" let-item let-i="rowIndex">
                   <tr class="tdrow" *ngIf="!isLoading">
                     <td>{{i+1}}</td>
-                    <td>{{item.JLS_EWD_BRCODE}}</td>
-                    <td>{{item.JLS_EWD_EMPNO}}</td>
-                    <td>{{item.JLS_EWD_JOBNO}}</td>
-                    <td>{{item.JLS_EWD_WKDATE | date:'mediumDate'}}</td>
-                    <td>{{item.JLS_EWD_ACTIVITY}}</td>
-                    <td>{{item.JLS_EWD_WRKHOUR}}</td>
-                    <td>{{item.JLS_EWD_PREPBY}}</td>
-                    <td>{{item.JLS_EWD_CREATEDDATE | date:'medium' }}</td>
-                    <td>{{item.APPROVED_DATE | date:'medium' }}</td>
-                    <td>{{item.JLS_EWD_STATUS}}</td>
+                    <td>{{item?.JLS_EWD_BRCODE}}</td>
+                    <td>{{item?.JLS_EWD_EMPNO}}</td>
+                    <td>{{item?.JLS_EWD_JOBNO}}</td>
+                    <td>{{item?.JLS_EWD_WKDATE | date:'mediumDate'}}</td>
+                    <td>{{item?.JLS_EWD_ACTIVITY}}</td>
+                    <td>{{item?.JLS_EWD_WRKHOUR}}</td>
+                    <td>{{item?.JLS_EWD_PREPBY}}</td>
+                    <td>{{item?.JLS_EWD_CREATEDDATE | date:'medium' }}</td>
+                    <td>{{item?.APPROVED_DATE | date:'medium' }}</td>
+                    <td>{{item?.JLS_EWD_STATUS}}</td>
                     <td class="act text-center" *ngIf="(userType == 'Admin' || userDetails?.isTimesheetApprove)">
                       <!-- <i style="color: #fd2c3a;" class="fa fa-trash" aria-hidden="true" pTooltip="Delete"
                         (click)="deleteConfirm(item._id)"></i> -->
-                        <button *ngIf="item.JLS_EWD_STATUS == 'PENDING'" pButton icon="pi pi-check" class="text-success mr-2" title="Approve" (click)="confirmApprove(item)"></button>
-                        <button *ngIf="item.JLS_EWD_STATUS == 'PENDING'" pButton icon="pi pi-times" class="text-danger" title="Reject" (click)="confirmReject(item)"></button>
+                        <button *ngIf="item?.JLS_EWD_STATUS == 'PENDING'" pButton icon="pi pi-check" class="text-success mr-2" title="Approve" (click)="confirmApprove(item)"></button>
+                        <button *ngIf="item?.JLS_EWD_STATUS == 'PENDING'" pButton icon="pi pi-times" class="text-danger" title="Reject" (click)="confirmReject(item)"></button>
                     </td>
                   </tr>
                 </ng-template>
