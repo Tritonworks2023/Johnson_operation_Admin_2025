@@ -690,4 +690,24 @@ export class ApiService {
   deleteBranch(data:any){
     return this.http.post(this.apiUrl+'iot_branch_code/delete',data);
   }
+
+  listAdhoAccess(page:any, limit:any) {
+    let endPoint = this.apiUrl + 'opr-phase2/adho-access/get_all_adho_access' +'?page='+ page +'&limit='+ limit;
+    return this.http.get(endPoint);
+  }
+  saveAdhoAccess(data:any) {
+    return this.http.post(this.apiUrl+'opr-phase2/adho-access/create_adho_access',data);
+  }
+  updateAdhoAccess(adhoId:any, data:any) {
+    const endPoint = this.apiUrl + 'opr-phase2/adho-access/update_adho_access/' + adhoId;
+    return this.http.put(endPoint,data);
+  }
+  deleteAdhoAccess(id:any) {
+    const endPoint = this.apiUrl + 'opr-phase2/adho-access/delete_adho_access/' + id;
+    return this.http.delete(endPoint); 
+  }
+  getAdhoAccessById(id:any) {
+    let endPoint = this.apiUrl + 'opr-phase2/adho-access/get_adho_access/'+ id;
+    return this.http.get(endPoint);
+  }
 }
