@@ -691,8 +691,11 @@ export class ApiService {
     return this.http.post(this.apiUrl+'iot_branch_code/delete',data);
   }
 
-  listAdhoAccess(page:any, limit:any) {
+  listAdhoAccess(page:any, limit:any, searchQR?: string) {
     let endPoint = this.apiUrl + 'opr-phase2/adho-access/get_all_adho_access' +'?page='+ page +'&limit='+ limit;
+    if(searchQR){
+      endPoint += '&searchKey=' + searchQR;
+    }
     return this.http.get(endPoint);
   }
   saveAdhoAccess(data:any) {

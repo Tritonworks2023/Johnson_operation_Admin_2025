@@ -19,7 +19,7 @@
       <div class="card custom-card">
         <div class="card-header">
           <h5 class="mb-0">
-            {{ isEditing ? 'Update ADHO Access' : 'Create ADHO Access' }}
+            <!-- {{ isEditing ? 'Update ADHO Access' : 'Create ADHO Access' }} -->
           </h5>
         </div>
 
@@ -40,7 +40,7 @@
               <div class="col-md-4 mb-3">
                 <label for="fromDate">From Date <span class="text-danger">*</span></label>
                 <input id="fromDate" type="date" class="form-control" name="fromDate" [(ngModel)]="fromDate"
-                  [max]="toDate || null" required>
+                  [max]="today" [min]="minFromDate" required>
               </div>
 
               <div class="col-md-4 mb-3">
@@ -87,11 +87,14 @@
                   </div>
 
                   <input #searchInput class="form-control" type="text" autocomplete="off"
-                    placeholder="Search branch, creator..." [(ngModel)]="searchQR">
+                    placeholder="Search branch, creator, updater..." [(ngModel)]="searchQR" inputmode="lazy" (input)="onSearch(searchInput.value)" />
                 </div>
               </div>
 
-              <div class="col-md-6 text-right mt-2 mt-md-0">
+              <div class="col-md-6 mt-2 mt-md-0 d-flex justify-content-end">
+                <button [disabled]="rows.length == 0" type="button" class="btn btn-success" (click)="excelDownload()">
+                  <i class="fas fa-file-excel"></i> Excel
+                </button>
                 <button type="button" class="btn btn-secondary" (click)="refersh()" [disabled]="isLoading">
                   <i class="fas fa-sync-alt"></i>
                   Refresh
@@ -100,7 +103,7 @@
             </div>
 
             <div class="table-responsive">
-              <p-table #tt [value]="rows | filter:searchQR" [lazy]="true" (onLazyLoad)="listAdhoAccess($event)"
+              <p-table #tt [value]="rows" [lazy]="true" (onLazyLoad)="listAdhoAccess($event)"
                 [paginator]="true" [first]="(page - 1) * limit" [rows]="limit" [totalRecords]="totalRecords"
                 [rowsPerPageOptions]="rowsPerPageOptions" [rowHover]="true" [loading]="isLoading"
                 [showCurrentPageReport]="true"
@@ -124,7 +127,7 @@
 
                 <ng-template pTemplate="body" let-item let-i="rowIndex">
                   <tr class="tdrow">
-                    <td>{{ (page - 1) * limit + i + 1 }}</td>
+                    <td>{{ ((page - 1) * limit) + i + 1 }}</td>
                     <td>{{ item.branchId || '-' }}</td>
                     <td>{{ item.fromDate | date:'dd-MM-yyyy' }}</td>
                     <td>{{ item.toDate | date:'dd-MM-yyyy' }}</td>

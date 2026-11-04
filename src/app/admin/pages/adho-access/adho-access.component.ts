@@ -5,6 +5,8 @@ import { ToastrManager } from 'ng6-toastr-notifications';
 import { environment } from 'src/environments/environment';
 import { ApiService } from 'src/app/api.service';
 import { SESSION_STORAGE, StorageService } from 'ngx-webstorage-service';
+import { ExcelService } from 'src/app/excel.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-adho-access',
@@ -35,12 +37,20 @@ export class ADHOAccessComponent implements OnInit {
   branchList: any = [];
   userRole: any;
   userDetails: any;
+  today = new Date().toISOString().split('T')[0];
+  minFromDate = (() => {
+    const date = new Date();
+    date.setDate(date.getDate() - 30);
+    return date.toISOString().split('T')[0];
+  })();
 
   constructor(
     private toastr: ToastrManager,
     private api: ApiService,
     private confirmationService: ConfirmationService,
     @Inject(SESSION_STORAGE) private storage: StorageService,
+    private excelService: ExcelService,
+    private datePipe: DatePipe
   ) { }
 
   ngOnInit(): void {
@@ -106,12 +116,12 @@ export class ADHOAccessComponent implements OnInit {
   // LIST API - supports server-side pagination
   listAdhoAccess(event?: any): void {
     if (event) {
-      this.page = Math.floor((event.first || 0) / (event.rows || this.limit));
+      this.page = Math.floor((event.first ?? 0) / (event.rows || this.limit)) + 1;
       this.limit = event.rows || this.limit;
     }
-
+    this.rows = [];
     this.isLoading = true;
-    this.api.listAdhoAccess(this.page, this.limit).pipe(
+    this.api.listAdhoAccess(this.page, this.limit, this.searchQR).pipe(
       finalize(() => {
         this.isLoading = false;
       })
@@ -347,6 +357,29 @@ export class ADHOAccessComponent implements OnInit {
 
   showWarning(message: any): void {
     this.toastr.warningToastr(message);
+  }
+
+  onSearch(value: string): void {
+    this.searchQR = value;
+    this.page = 1;
+    this.listAdhoAccess();
+  }
+
+  excelDownload() {
+    const excelData: any[] = [];
+
+    this.rows.forEach((d: any) => {
+      excelData.push({
+        "Branch": d.branchId || '',
+        "From Date": d.fromDate ? this.datePipe.transform(d.fromDate, 'dd-MM-yyyy') : '',
+        "To Date": d.toDate ? this.datePipe.transform(d.toDate, 'dd-MM-yyyy') : '',
+        "Created By": d.createdBy || '',
+        "Updated By": d.updatedBy || '',
+        "Created At": d.createdAt ? this.datePipe.transform(d.createdAt, 'dd-MM-yyyy HH:mm') : ''
+      });
+    });
+
+    this.excelService.exportAsExcelFile(excelData, "ADHO Access Details");
   }
 }
 
