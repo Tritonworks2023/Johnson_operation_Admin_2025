@@ -317,6 +317,13 @@ button:not(:disabled), [type="button"]:not(:disabled), [type="reset"]:not(:disab
     border-color: #808a92 !important;
 }
 
+.btn-success {
+    height: 30px;
+    min-width: 80px;
+    font-size: 12px;
+    margin-right: 10px;
+}
+
 :host::ng-deep .ui-dropdown {
     width: 100%
 }

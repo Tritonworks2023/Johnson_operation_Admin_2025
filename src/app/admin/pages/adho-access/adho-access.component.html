@@ -1,0 +1,170 @@
+<section>
+  <div class="page-header">
+    <div>
+      <h2 class="main-content-title tx-24 mb-1">ADHO Access</h2>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a routerLink="dashboard">Home</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+          ADHO Access
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Create / Update Form -->
+  <div class="row row-sm">
+    <div class="col-lg-12">
+      <div class="card custom-card">
+        <div class="card-header">
+          <h5 class="mb-0">
+            <!-- {{ isEditing ? 'Update ADHO Access' : 'Create ADHO Access' }} -->
+          </h5>
+        </div>
+
+        <div class="card-body">
+          <form (ngSubmit)="saveAdhoAccess()" #adhoForm="ngForm">
+            <div class="row">
+
+              <div class="col-md-4 mb-3">
+                <label for="branchId">Branch <span class="text-danger">*</span></label>
+                <select id="branchId" name="branchId" class="form-control" [(ngModel)]="branchId">
+                  <option value="" disabled>Select Branch</option>
+                  <option *ngFor="let b of branchList" [value]="b.BRCODE">
+                    {{ b.BRNAME }} ({{ b.BRCODE }})
+                  </option>
+                </select>
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <label for="fromDate">From Date <span class="text-danger">*</span></label>
+                <input id="fromDate" type="date" class="form-control" name="fromDate" [(ngModel)]="fromDate"
+                  [max]="today" [min]="minFromDate" required>
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <label for="toDate">To Date <span class="text-danger">*</span></label>
+                <input id="toDate" type="date" class="form-control" name="toDate" [(ngModel)]="toDate"
+                  [min]="fromDate || null" required>
+              </div>
+
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary mr-2" [disabled]="adhoForm.invalid || isSaving">
+                  <i class="fas fa-save"></i>
+                  {{ isSaving
+                  ? 'Saving...'
+                  : (isEditing ? 'Update' : 'Save') }}
+                </button>
+
+                <button type="button" class="btn btn-secondary" (click)="clearForm()">
+                  <i class="fas fa-times"></i>
+                  Cancel
+                </button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADHO Access List -->
+  <div class="row row-sm">
+    <div class="col-lg-12">
+      <div class="card custom-card">
+        <div class="card-body">
+          <div class="card-item">
+
+            <div class="row align-items-center mb-3">
+              <div class="col-md-6">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <i class="fas fa-search"></i>
+                    </span>
+                  </div>
+
+                  <input #searchInput class="form-control" type="text" autocomplete="off"
+                    placeholder="Search branch, creator, updater..." [(ngModel)]="searchQR" inputmode="lazy" (input)="onSearch(searchInput.value)" />
+                </div>
+              </div>
+
+              <div class="col-md-6 mt-2 mt-md-0 d-flex justify-content-end">
+                <button [disabled]="rows.length == 0" type="button" class="btn btn-success" (click)="excelDownload()">
+                  <i class="fas fa-file-excel"></i> Excel
+                </button>
+                <button type="button" class="btn btn-secondary" (click)="refersh()" [disabled]="isLoading">
+                  <i class="fas fa-sync-alt"></i>
+                  Refresh
+                </button>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <p-table #tt [value]="rows" [lazy]="true" (onLazyLoad)="listAdhoAccess($event)"
+                [paginator]="true" [first]="(page - 1) * limit" [rows]="limit" [totalRecords]="totalRecords"
+                [rowsPerPageOptions]="rowsPerPageOptions" [rowHover]="true" [loading]="isLoading"
+                [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [globalFilterFields]="['branchId', 'createdBy', 'updatedBy']" styleClass="ui-table-customers">
+
+                <ng-template pTemplate="header">
+                  <tr class="thhead">
+                    <th style="width: 75px;">S.No</th>
+                    <th>Branch ID</th>
+                    <th>From Date</th>
+                    <th>To Date</th>
+                    <th>Created By</th>
+                    <th>Updated By</th>
+                    <th>Created At</th>
+                    <th style="width: 130px; text-align: center;">
+                      Action
+                    </th>
+                  </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-item let-i="rowIndex">
+                  <tr class="tdrow">
+                    <td>{{ ((page - 1) * limit) + i + 1 }}</td>
+                    <td>{{ item.branchId || '-' }}</td>
+                    <td>{{ item.fromDate | date:'dd-MM-yyyy' }}</td>
+                    <td>{{ item.toDate | date:'dd-MM-yyyy' }}</td>
+                    <td>{{ item.createdBy || '-' }}</td>
+                    <td>{{ item.updatedBy || '-' }}</td>
+                    <td>
+                      {{ item.createdAt
+                      ? (item.createdAt | date:'dd-MM-yyyy HH:mm')
+                      : '-' }}
+                    </td>
+                    <td class="act text-center">
+                      <i class="fas fa-edit mr-3" style="color: #2196f3; cursor: pointer;" aria-hidden="true"
+                        pTooltip="Edit" (click)="getAdhoAccess(item._id)">
+                      </i>
+
+                      <i class="fa fa-trash" style="color: #fd2c3a; cursor: pointer;" aria-hidden="true"
+                        pTooltip="Delete" (click)="deleteConfirm(item._id)">
+                      </i>
+                    </td>
+                  </tr>
+                </ng-template>
+
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="8" class="text-center">
+                      {{ isLoading ? 'Loading...' : 'No Records Found' }}
+                    </td>
+                  </tr>
+                </ng-template>
+
+              </p-table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<p-confirmDialog></p-confirmDialog>
