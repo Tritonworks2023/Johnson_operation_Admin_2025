@@ -10,7 +10,7 @@ import { SESSION_STORAGE, StorageService } from 'ngx-webstorage-service';
   styleUrls: ['./admin-header.component.css']
 })
 export class AdminHeaderComponent implements OnInit {
-  displayBasic: boolean;
+  displayBasic!: boolean;
   userRole = '';
   constructor(
 
@@ -31,6 +31,7 @@ export class AdminHeaderComponent implements OnInit {
 }
 
 logout(){
+  this.storage.clear();
   this.router.navigateByUrl('');
 }
 }

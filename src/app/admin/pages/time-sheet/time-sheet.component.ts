@@ -145,7 +145,8 @@ export class TimeSheetComponent implements OnInit {
         "Work Hours": d.JLS_EWD_WRKHOUR,
         "Submitted By": d.JLS_EWD_PREPBY,
         "Submitted Date": d.JLS_EWD_CREATEDDATE ? formatDate(d.JLS_EWD_CREATEDDATE, 'medium', 'en-US') : '',
-        "Approved Date": d.APPROVED_DATE ? formatDate(d.APPROVED_DATE, 'medium', 'en-US') : ''
+        "Approved Date": d.APPROVED_DATE ? formatDate(d.APPROVED_DATE, 'medium', 'en-US') : '',
+        "Status": d.JLS_EWD_STATUS,
       });
     });
     this.excelService.exportAsExcelFile(excelData, "User Details");

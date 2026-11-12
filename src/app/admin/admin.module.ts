@@ -97,6 +97,7 @@ import { QrBarcodeComponent } from './pages/qr-barcode/qr-barcode.component';
 import { JobLocationDetailsComponent } from './pages/job-location-details/job-location-details.component';
 import { EmployeeTrackingComponent } from './pages/employee-tracking/employee-tracking.component';
 import { BranchComponent } from './pages/branch/branch.component';
+import { ADHOAccessComponent } from './pages/adho-access/adho-access.component';
 
 
 
@@ -142,7 +143,8 @@ import { BranchComponent } from './pages/branch/branch.component';
     QrBarcodeComponent,
     JobLocationDetailsComponent,
     EmployeeTrackingComponent,
-    BranchComponent
+    BranchComponent,
+    ADHOAccessComponent
 
 
 
