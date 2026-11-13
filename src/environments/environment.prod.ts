@@ -3,8 +3,8 @@ export const environment = {
 
   //Dev URL///
 
-  apiUrl: 'https://smart.johnsonliftsltd.com:3000/api/',
-  imageURL: 'https://smart.johnsonliftsltd.com:3000/upload',
+  // apiUrl: 'https://smart.johnsonliftsltd.com:3000/api/',
+  // imageURL: 'https://smart.johnsonliftsltd.com:3000/upload',
 
   // New URL
   // apiUrl: 'http://192.168.1.148:3000/api/',
@@ -18,6 +18,8 @@ export const environment = {
 
   //  imageURL: 'http://52.25.163.13:3000/api/'
 
+  apiUrl: 'https://devsmart.johnsonliftsltd.com:5000/api/',
+  imageURL: 'https://devsmart.johnsonliftsltd.com:5000/upload'
 
 
 
